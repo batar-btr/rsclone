@@ -19,20 +19,26 @@ export const HeaderMenu = () => {
           </div>
         </div>
         <div className='header-menu-items'>
-          <HeaderMenuItem 
+        <HeaderMenuItem 
             title='Movies' 
             icon={<>
               <path fill="none" d="M0 0h24v24H0V0z"></path><path d="M18 4v1h-2V4c0-.55-.45-1-1-1H9c-.55 0-1 .45-1 1v1H6V4c0-.55-.45-1-1-1s-1 .45-1 1v16c0 .55.45 1 1 1s1-.45 1-1v-1h2v1c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-1h2v1c0 .55.45 1 1 1s1-.45 1-1V4c0-.55-.45-1-1-1s-1 .45-1 1zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"></path>
             </>}
           >
-            <Link to='/' className='header-menu-item-link'>Release Calendar</Link>
+            {/* <Link to='/' className='header-menu-item-link'>Release Calendar</Link>
             <Link to='/' className='header-menu-item-link'>Top 250 Movies</Link>
             <Link to='/' className='header-menu-item-link'>Most Popular Movies</Link>
             <Link to='/' className='header-menu-item-link'>Browse Movies by Genre</Link>
             <Link to='/' className='header-menu-item-link'>Top Box Office</Link>
             <Link to='/' className='header-menu-item-link'>Showtimes & Tickets</Link>
             <Link to='/' className='header-menu-item-link'>Movie News</Link>
-            <Link to='/' className='header-menu-item-link'>India Movie Spotlight</Link>
+            <Link to='/' className='header-menu-item-link'>India Movie Spotlight</Link> */}
+            <Link to="/chart/boxOffice" className='header-menu-item-link' onClick={close}>Box Office</Link>
+            <Link to="/chart/mostPopularMovies" className='header-menu-item-link' onClick={close}>Most Popular Movies</Link>
+            <Link to="/chart/top250" className='header-menu-item-link' onClick={close}>Top 250 Movies</Link>
+            <Link to="/chart/mostPopularTVShows" className='header-menu-item-link' onClick={close}>Most Popular TV Shows</Link>
+            <Link to="/chart/top250TVShows" className='header-menu-item-link' onClick={close}>Top 250 TV Shows</Link>
+            <Link to="/chart/lowestRated" className='header-menu-item-link' onClick={close}>Lowest Rated Movies</Link> 
           </HeaderMenuItem>
           <div className='header-menu-items-wrapper'>
             <HeaderMenuItem 

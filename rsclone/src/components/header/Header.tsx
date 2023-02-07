@@ -1,4 +1,5 @@
 import '../header/header.scss';
+import '../../pages/chart/header/header.scss';
 import { Link } from 'react-router-dom'
 import { HeaderSearch } from './HeaderSearch';
 import { HeaderMenu } from './HeaderMenu';

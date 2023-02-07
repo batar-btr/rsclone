@@ -93,11 +93,17 @@ export interface ITitleSimilar{
   total_pages: number,
   total_results: number
 }
-export interface ITitleReleaseDates{
+export interface IMovieReleaseDates{
   results: {
     iso_3166_1: string
     release_dates: {
       certification: string
-    }
+    }[]
+  }[]
+}
+export interface ITvContentRatings{
+  results: {
+    iso_3166_1: string,
+    rating: string
   }[]
 }

@@ -1,4 +1,4 @@
-import { ITitle, ITitleCast, ITitleId, ITitleImages, ITitleReleaseDates, ITitleReviews, ITitleSimilar, ITitleVideos } from "../models/title"
+import { IMovieReleaseDates, ITitle, ITitleCast, ITitleId, ITitleImages, ITitleReviews, ITitleSimilar, ITitleVideos, ITvContentRatings } from "../models/title"
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 
@@ -14,7 +14,7 @@ export const useTitle = () => {
   const [videos, setVideos] = useState<ITitleVideos>()
   const [reviews, setReviews] = useState<ITitleReviews>()
   const [similar, setSimilar] = useState<ITitleSimilar>()
-  const [certification, setCertification] = useState<ITitleReleaseDates>()
+  const [certification, setCertification] = useState('')
 
   useEffect(() => {
     const titleFetch = async () => {
@@ -62,15 +62,24 @@ export const useTitle = () => {
       ).json()
       setSimilar(similar)
 
-      // const certification: ITitleReleaseDates = await (
-      //   await fetch(`https://api.themoviedb.org/3/${contentType}/
-      //   ${data[resultsContentType][0].id}/release_dates?${_apiKey3}`)
-      // ).json()
-      // setCertification(certification)
+      let certRes = ''
+      if (isMoviesResults) {
+        const certification: IMovieReleaseDates = await (
+          await fetch(`https://api.themoviedb.org/3/${contentType}/
+          ${data[resultsContentType][0].id}/release_dates?${_apiKey3}`)
+        ).json()
+        certRes = certification.results.filter(el => el.iso_3166_1 === 'US')[0].release_dates[0].certification
+      } else {
+        const certification: ITvContentRatings = await (
+          await fetch(`https://api.themoviedb.org/3/${contentType}/
+          ${data[resultsContentType][0].id}/content_ratings?${_apiKey3}&${_apiLang}`)
+        ).json()
+        certRes = certification.results.filter(el => el.iso_3166_1 === 'US')[0].rating
+      }
+      setCertification(certRes)
     };
     titleFetch();
   }, []);
-
 
   return {isTvShow, title, cast, images, videos, reviews, similar, certification}
 }
