@@ -1,0 +1,103 @@
+export interface ITitleId{
+  movie_results: [
+    {
+      id: string
+    }
+  ],
+  tv_results: [
+    {
+      id: string
+    }
+  ]
+}
+export interface ITitle{
+  budget?: number,
+  created_by?: {id: number, name: string}[],
+  first_air_date?: string,
+  genres: {id: number, name: string}[],
+  homepage: string,
+  id: string,
+  in_production?: boolean,
+  languages?: string[],
+  last_air_date?: number,
+  name?: string,
+  networks?: {id: number, name: string}[],
+  number_of_episodes?: number,
+  number_of_seasons?: number,
+  origin_country?: string[],
+  original_language?: string,
+  overview: string,
+  popularity: number,
+  poster_path: string,
+  production_companies: {id: number, name: string, origin_country: string}[],
+  production_countries: {iso_3166_1: string, name: string}[],
+  release_date?: string,
+  revenue?: number,
+  runtime?: number,
+  spoken_languages: {english_name: string, iso_639_1: string, name: string}[],
+  title?: string,
+  vote_average: number,
+  vote_count: number
+}
+export interface ITitleCast{
+  cast: {
+    cast_id: number,
+    character: string,
+    credit_id: string,
+    known_for_department: string,
+    name: string,
+    popularity: number,
+    profile_path: string
+  }[],
+  crew: {
+    credit_id: number,
+    department: string,
+    job: string,
+    name: string,
+    popularity: number,
+    profile_path: string
+  }[]
+}
+export interface ITitleImages{
+  backdrops: {file_path: string}[],
+  logos: {file_path: string}[],
+  posters: {file_path: string}[]
+}
+export interface ITitleVideos{
+  results: {
+    key: string,
+    name: string,
+    type: string
+  }[]
+}
+export interface ITitleReviews{
+  page: number,
+  results: {
+    author: string,
+    content: string,
+    created_at: string,
+    id: string,
+    updated_at: string,
+  }[],
+  total_pages: number,
+  total_results: number
+}
+export interface ITitleSimilar{
+  page: number,
+  results: {
+    id: number,
+    name: string,
+    poster_path: string,
+    vote_average: number,
+  }[]
+  total_pages: number,
+  total_results: number
+}
+export interface ITitleReleaseDates{
+  results: {
+    iso_3166_1: string
+    release_dates: {
+      certification: string
+    }
+  }[]
+}
