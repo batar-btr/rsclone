@@ -5,7 +5,7 @@ import MainChartPage from '../pages/chart/MainChartPage/MainChartPageLayout';
 import {Top250} from '../pages/chart/top250/top250';
 import { Top250TVShows } from '../pages/chart/top250TVShows/top250TVShows';
 import LowestRated from '../pages/chart/lowestRated/lowestRated';
-import { Error404 } from '../pages/errorPage/404';
+import { Error404 } from '../pages/error-page/404';
 import MostPopularTVShows from '../pages/chart/popularTVShows/mostPopularTVShows';
 import { Layout } from '../components/layout/Layout';
 import { TitlePage } from '../pages/title-page/TitlePage';
@@ -22,11 +22,11 @@ function App() {
         <Route path="/" element={<Layout/>}>
           <Route index element={ <HomePage/> }/>
           <Route path="/chart" element={<MainChartPage/>} />
-          <Route path="/chart/boxOffice" element={<MainChartPage/>} />                  
-          <Route path='/chart/mostPopularMovies' element={<MostPopularMovies/>} />
+          <Route path="/chart/boxoffice" element={<MainChartPage/>} />                  
+          <Route path='/chart/popularmovies' element={<MostPopularMovies/>} />
           <Route path='/chart/top250' element={<Top250/>}/>
-          <Route path='/chart/mostPopularTVShows' element={<MostPopularTVShows/>}/>
-          <Route path='/chart/top250TVShows' element={<Top250TVShows/>}/>
+          <Route path='/chart/popularshows' element={<MostPopularTVShows/>}/>
+          <Route path='/chart/top250shows' element={<Top250TVShows/>}/>
           <Route path='/chart/lowestRated' element={<LowestRated/>} /> 
           <Route path="/registration/signin" element={ <SingInPage/> }></Route>
           <Route path="/title/:id" element={ <TitlePage/> }></Route>
