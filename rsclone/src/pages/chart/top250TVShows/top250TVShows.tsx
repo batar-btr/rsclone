@@ -41,7 +41,7 @@ export const Top250TVShows = () => {
           </div>
           <div className="mostPopular__item_title-top">
             <div className="mostPopular__item_title-rate">{id + 1}. </div>
-            <Link to={`/title/${item.id}`} state={{ type: "tv" }}>{item.title} ({item.year.split('-')[0]})</Link>
+            <Link to={`/tv/${item.id}`}>{item.title} ({item.year.split('-')[0]})</Link>
           </div>
           <div className="mostPopular__item_rating">
             <div className="mostPopular__item_rating-star"></div>

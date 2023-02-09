@@ -5,10 +5,10 @@ import { Link, useLocation } from 'react-router-dom';
 
 export const TitlePage = () => {
   const {isTvShow, title, cast, images, videos, reviews, similar, certification} = useTitle()
-  const { state } = useLocation();
+  const type = document.URL.split('/')[3]
   const imgBase = 'https://www.themoviedb.org/t/p/w500/'
 
-  // console.log(title)
+  console.log(title)
   // console.log(cast)
   // console.log(images)
   // console.log(videos)
@@ -25,7 +25,11 @@ export const TitlePage = () => {
     <div className='title-container'>
       <div className='title-main-info'>
         <div className='title-main-info-top'>
-          <Link to={`/title/${title?.id}/fullcredits`} state={{ type: `${state.type}` }}>Cast & Crew</Link>
+          <Link to={`/${type}/${title?.id}/fullcredits`}>Cast & Crew</Link>
+          <img src={imgBase + title?.poster_path} alt='img' width={150}></img>
+          {
+            title?.name && <div>{title.name}</div>
+          }
         </div>
       </div>
     </div>

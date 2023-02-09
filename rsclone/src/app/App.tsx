@@ -28,7 +28,8 @@ function App() {
           <Route path="/registration/signin" element={ <SingInPage/> }></Route>
           <Route path="/movie/:id" element={ <TitlePage/> }></Route>
           <Route path="/tv/:id" element={ <TitlePage/> }></Route>
-          <Route path="/title/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
+          <Route path="/movie/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
+          <Route path="/tv/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
         </Route>        
           <Route path="*" element={<Error404/>}/>
       </Routes>
