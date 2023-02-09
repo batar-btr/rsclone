@@ -1,0 +1,78 @@
+.error {       
+    &_code {
+        color: #BFAD13;
+        font-size: 100px;
+        line-height: 50px;
+        margin-top: 8px;
+        span {
+            font-size: 50px;
+        }
+        &_404 {   
+            height: 100vh;         
+            width: 50%;
+            margin: 0 auto;
+            background-color: white;
+            border-left: 1px solid #999999;
+            border-right: 1px solid #999999;
+            box-shadow: 0 0 5px 5px #c5cacd;
+        }
+    }
+    &_message {
+        color: #999999;
+        font-size: 17.5px;
+        padding: 30px 70px 20px;
+        a {
+            margin-left: 5px;
+            color: #136CB2;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    &_bubble {
+        display: grid;
+        grid-template-columns: 2fr auto;
+        background: none repeat scroll 0% 0% #DECA16;
+        border: 1px solid #DECA16;
+        font-family: Arial, helvetica, sans-serif;
+        font-weight: bold;
+        border-radius: 8px;
+        -moz-border-radius: 8px;
+        margin: 0 70px 0 70px;
+        padding: 50px;  
+             
+    }
+    &_quote {
+        color: #FFFFFF;
+        font-size: 30px;
+        line-height: 1.35em;
+        padding-left: 50px;
+        width: 500px;
+        align-self: center;
+    }
+    &_arrow {
+        border-color: #DECA16 transparent transparent transparent;
+        border-style: solid;
+        border-width: 21px 0px 0px 32px;
+        height: 0;
+        left: 700px;
+        line-height: 0;
+        position: relative;
+        top: -1px;
+        width: 0;
+    }
+    &_attrib {
+        color: #999999;
+        float: right;
+        font-size: 14px;
+        font-style: italic;
+        padding: 10px 70px 36px;
+        a {
+            margin-left: 5px;
+            color: #136CB2;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

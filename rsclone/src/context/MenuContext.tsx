@@ -15,8 +15,14 @@ export const MenuContext = createContext<IMenuContext>({
 export const MenuState = ( { children }: {children: React.ReactNode} ) => {
   const [menu, setMenu] = useState(false)
 
-  const open = () => setMenu(true) 
-  const close = () => setMenu(false) 
+  const open = () => {
+    setMenu(true) 
+    document.body.classList.add('menu-open')
+  }
+  const close = () => {
+    setMenu(false) 
+    document.body.classList.remove('menu-open')
+  }
 
   return (
     <MenuContext.Provider value={{menu, open, close}}>
