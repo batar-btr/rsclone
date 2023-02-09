@@ -1,0 +1,58 @@
+.add-flag-wrap {
+  position: absolute;
+  width: 32px;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  .plus-icon {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  &.unchecked {
+    .plus-icon {
+      background: url('../carousel/cross.svg') no-repeat 50% 30%;
+    }
+  }
+  &.checked {
+    .plus-icon {
+      background: url('./icons/check.svg') no-repeat 50% 30%;
+    }
+    .add-flag {
+      polygon:first-child {
+        fill: #f5c518;
+        opacity: 1;
+      }
+      polygon:nth-child(2) {
+        fill: rgba(0,0,0,.2);
+        opacity: 0;
+      }
+    }
+  }
+  .add-flag {
+    display: block;
+    width: 100%;
+    height: 100%;
+    polygon {
+      transition: all 200ms ease-out;
+    }
+    polygon:first-child {
+      fill: rgba(31,31,31,.75);
+    }
+    polygon:nth-child(2) {
+      fill: hsla(0,0%,100%,.32);
+      opacity: 0;
+    }
+    polygon:last-child {
+      fill: rgba(0,0,0,.32);
+    }
+    &:hover {
+      polygon:nth-child(2) {
+        opacity: 0.5;
+      }
+    }
+  }
+}
