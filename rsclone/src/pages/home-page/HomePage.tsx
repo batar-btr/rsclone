@@ -6,8 +6,8 @@ export const HomePage = () => {
   return (
     <>
       <MainCarousel/>
-      <Link to='/title/tt4154796' className="test-title">Movie</Link>
-      <Link to='/title/tt13443470' className="test-title">Show</Link>
+      <Link to='/movie/299534'>Movie</Link>
+      <Link to='/tv/119051'>Show</Link>
       
     </>
     

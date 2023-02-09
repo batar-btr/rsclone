@@ -9,6 +9,7 @@ import { Spinner } from "../spinner/Spinner";
 import { ITransformMovie } from "../../../models/IMDBModels";
 
 import "./top250.scss";
+import { Link } from "react-router-dom";
 
 export const Top250 = () => {
   const initial = [] as Array<ITransformMovie>;
@@ -41,10 +42,7 @@ export const Top250 = () => {
           </div>
           <div className="mostPopular__item_title-top">
             <div className="mostPopular__item_title-rate">{id + 1}. </div>
-            <a href="#">
-              {" "}
-              {item.title} ({item.year.split("-")[0]})
-            </a>
+            <Link to={`/title/${item.id}`} state={{ type: "movie" }}>{item.title} ({item.year.split('-')[0]})</Link>
           </div>
           <div className="mostPopular__item_rating">
             <div className="mostPopular__item_rating-star"></div>

@@ -7,6 +7,7 @@ import { ITransformMovie } from "../../../models/IMDBModels";
 import { Spinner } from "../spinner/Spinner";
 
 import '../popularMovies/mostPopularMovies.scss';
+import { Link } from "react-router-dom";
 
 const MostPopularTVShows = () => {
   const initial = [] as Array<ITransformMovie>;
@@ -36,7 +37,7 @@ const MostPopularTVShows = () => {
                 <img src={item.thumbnail} alt={item.title}/>
                 </div>
                 <div className="mostPopular__item_title">
-                  <a href="#"> {item.title} ({item.year.split('-')[0]})</a>
+                  <Link to={`/title/${item.id}`} state={{ type: "tv" }}>{item.title} ({item.year.split('-')[0]})</Link>
                   <div className="mostPopular__item_title-rate">{id + 1}</div>
                 </div>
                 <div className="mostPopular__item_rating">
