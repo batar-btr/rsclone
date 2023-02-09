@@ -12,7 +12,7 @@ html{
 }
 
 body{
-  height: 200vh;
+  height: 100%;
   width: 100%;
   font-family: Roboto,Helvetica,Arial,sans-serif;
   &.menu-open{
@@ -24,4 +24,8 @@ body{
 a{
   text-decoration: none;
   color: #ffffff;
+}
+
+.container{
+  background-color: #000000;
 }

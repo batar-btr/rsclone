@@ -69,13 +69,14 @@ const IMDBService = () => {
 
       for (let i = 0; i < requestLength; i++) {
         const res = await request(`${_apiBase}movie/top_rated?${_apiKey3}&language=en-US&page=${i + 1}`) as IMDBPopular;
-        arr.push(...res.results.map(_transformMovie))         
+        arr.push(...res.results.map(_transformMovie))
       } 
+      let newArr = arr.filter((el => f => !el.has(f.id) && el.add(f.id))(new Set()));
 
-      arr.length = 250 
+      newArr.length = 250 
 
-      return arr
-        
+      return newArr
+
     }
 
     const getTop250TVShows = async () => {

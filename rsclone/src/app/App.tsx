@@ -9,11 +9,8 @@ import { Error404 } from '../pages/error-page/404';
 import MostPopularTVShows from '../pages/chart/popularTVShows/mostPopularTVShows';
 import { Layout } from '../components/layout/Layout';
 import { TitlePage } from '../pages/title-page/TitlePage';
-import { SingInPage } from '../pages/sing-in/SingInPage';
-
-
-
-
+import { SingInPage } from '../pages/sign-in/SignInPage';
+import { FullCreditsPage } from '../pages/full-credits-page/FullCreditsPage';
 
 function App() {
   return (
@@ -29,7 +26,10 @@ function App() {
           <Route path='/chart/top250shows' element={<Top250TVShows/>}/>
           <Route path='/chart/lowestRated' element={<LowestRated/>} /> 
           <Route path="/registration/signin" element={ <SingInPage/> }></Route>
-          <Route path="/title/:id" element={ <TitlePage/> }></Route>
+          <Route path="/movie/:id" element={ <TitlePage/> }></Route>
+          <Route path="/tv/:id" element={ <TitlePage/> }></Route>
+          <Route path="/movie/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
+          <Route path="/tv/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
         </Route>        
           <Route path="*" element={<Error404/>}/>
       </Routes>

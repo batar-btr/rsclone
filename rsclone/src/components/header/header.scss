@@ -4,12 +4,14 @@
   background-color: var(--header-bg-color);
   display: flex;
   align-items: center;
+  justify-content: center;
   &-container{
     display: flex;
     height: 36px;
     align-items: center;
     width: 100%;
-    padding: 0px 0.75rem;
+    max-width: 1256px;
+    padding: 0px 16px;
   }
   &-logo-link{
     display: block;
@@ -28,6 +30,7 @@
     height: 36px;
     font-size: 14px;
     font-weight: 600;
+    letter-spacing: .02em;
     cursor: pointer;
     &:hover{
       background: rgba(255, 255, 255, 0.08);
@@ -64,5 +67,10 @@
       display: flex;
       align-items: center;
     }
+  }
+}
+@media screen and (max-width: 1279.5px) {
+  .header .header-container{
+    max-width: 1000px;
   }
 }
