@@ -52,4 +52,14 @@ export type ITransformMovie = {
     thumbnail: string;
     year: string;
     vote: number;
+    genre: number[];
+}
+
+export interface IGenres {
+    "genres": IGenre []
+}
+
+export type IGenre = {
+    "id": number,
+    "name": string
 }

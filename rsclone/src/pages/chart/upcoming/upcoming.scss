@@ -1,0 +1,147 @@
+.releases {
+    display: grid;
+    grid-template-rows: auto;
+    &__content {
+        background-color: #fff;
+        min-height: 800px;
+        width: 100%;   
+        padding-bottom: 1rem;     
+    }
+    &__article {
+        width: 80%;
+        margin: 0 auto;
+    }
+    &__header {
+        margin-bottom: 0px;
+        padding-top: 1rem;       
+        font-family: Roboto,Helvetica,Arial,sans-serif;
+        font-size: 60px;
+        font-weight: normal;
+        line-height: 2.5rem;
+        letter-spacing: .00735em;
+        text-transform: none;
+        -webkit-font-smoothing: auto;
+        
+    }
+    &__wrapper {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0 1rem;
+        padding: 1rem;
+        border: 1px solid rgba(0,0,0,0.12);
+        &_header {
+            font-size: 30px;
+            font-family: inherit;
+            margin: 1rem 0 1rem 1rem;
+            padding: 0 1rem;  
+            padding-left: 0;          
+        }
+        
+    }
+    &__item {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;  
+        justify-content: space-between; 
+        max-height: 74px;
+        &_description {
+            display: flex;
+            justify-content: center;            
+            width: 100%;
+            flex-direction: column;
+            a {
+                display: block;
+                font-size: 20px;
+            }
+            &-list {
+                list-style-type: none;
+                display: flex;
+                flex-direction: row;
+                padding: 0;
+                &-item {
+                    margin-right: 15px;
+                    font-size: 17px;
+                    color: #0000008A;
+                    position: relative;
+                    &::before {
+                        content: '•';
+                        position: absolute;
+                        left: -10px;                        
+                    }
+                    &:first-child {
+                        &::before {
+                            content: '';
+                        }
+                    }
+                }
+            }
+        }
+        &_under {
+            border-bottom: 1px solid rgba(0,0,0,0.12);
+            padding-top: 2px;
+            padding-bottom: 2px;
+            max-height: 74px;
+            &:nth-last-child(1) {
+                border-bottom: none;
+            }
+        }
+        &_img {
+            margin-right: 10px;
+            max-width: 50px;
+            max-height: 74px;
+            min-height: 74px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &_link {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 20px;
+                &:hover {
+                    color: #6d6d6d;
+                }
+        }
+        &_watchList {
+            position: relative;
+            width: 40px;            
+            display: flex;
+            height: 100%;  
+            align-self: center;               
+            cursor: pointer;
+            &-svg {                
+                width: 100%;
+                height: auto;
+                transition: stroke .2s ease-in-out;                           
+                justify-self: center;
+                &-first {
+                    fill: rgba(0,0,0,.08);
+                    stroke: rgba(0,0,0,.08);                                        
+                }
+                &-second {
+                    fill: rgba(0,0,0,.16);                    
+                    opacity: 0;
+                }
+                &-third {
+                    fill: none;
+                }                
+            }
+            &-svgPlus {
+                position: absolute;
+                top: 0.5em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 1em;                
+                &-first {
+                    
+                    height: 1.5em;                    
+                    width: 1.5em;
+                }
+            }
+        }
+    }
+}
