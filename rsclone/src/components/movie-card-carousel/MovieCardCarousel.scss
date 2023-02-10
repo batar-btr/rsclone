@@ -19,7 +19,6 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 24px;
-
     .img-wrap {
       aspect-ratio: 1/1.5;
       position: relative;
@@ -27,6 +26,9 @@
       overflow: hidden;
       margin-bottom: 0.5rem;
       display: flex;
+      &:hover .movie-card-poster-overlay{
+        opacity: .08;
+      }
       img {
         transition: all 200ms ease-out;
         height: 100%;
@@ -71,7 +73,7 @@
 .movie-card {
   background-color: #1a1a1a;
   border-radius: 0 0 5px 5px;
-
+  position: relative;
   &__title {
     font-size: 16px;
     font-weight: normal;
@@ -88,6 +90,15 @@
     &:hover{
       text-decoration: underline;
     }
+  }
+  &-poster-overlay{
+    position: absolute;
+    background-color: #000000;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    opacity: 0;
+    transition: opacity .15s;
   }
 
   .info-block {

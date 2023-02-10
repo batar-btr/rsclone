@@ -85,12 +85,12 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
 
     return (
       <div className='movie-card'>
-        <div className="img-wrap">
         <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
-        <Link to={`/${type}/${id}`}>
-          <img src={imgPath} alt="poster" />
-        </Link>
-          
+        <div className="img-wrap">
+          <Link to={`/${type}/${id}`}>
+            <img src={imgPath} alt="poster" />
+            <div className='movie-card-poster-overlay'></div>
+          </Link>
         </div>
         <div className="info-block">
           <div>

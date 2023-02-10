@@ -2,11 +2,14 @@ import '../title-page/titlePage.scss';
 import { useState, useEffect } from "react"
 import { useTitleInfoService } from '../../hooks/titleInfoService';
 import { Link } from 'react-router-dom';
+import Modal from '../../components/modal/Modal';
+import { RateBox } from '../../components/rate-box/rate-box';
+import useModal from '../../hooks/useModal';
 
 export const TitlePage = () => {
   const {isTvShow, title, cast, images, videos, reviews, similar, 
     certification, _imgBase, type} = useTitleInfoService()
- 
+    const {isShowing, toggle} = useModal();
   
 
   // console.log(title)
@@ -96,11 +99,14 @@ export const TitlePage = () => {
                   </div>
                   <div className='title-main-info-rating-item'>
                     <div className='title-main-info-rating-title'>YOUR RATING</div> 
-                    <div className='title-main-info-your-rating'>
+                    <div className='title-main-info-your-rating' onClick={toggle}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-your-rating-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M19.65 9.04l-4.84-.42-1.89-4.45c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.73 3.67-3.18c.67-.58.32-1.68-.56-1.75zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"></path></svg>
                       <div className="title-main-info-your-rating-text">Rate</div>
                     </div>    
                   </div>
+                  <Modal isShowing={isShowing} hide={toggle}>
+                    <RateBox title={`${title?.title || title?.name}`} hide={toggle}></RateBox>
+                  </Modal>
                   <div className='title-main-info-rating-item'>
                     <div className='title-main-info-rating-title'>POPULARITY</div> 
                       <Link to={isTvShow ? '/chart/popularshows' : '/chart/popularmovies'} 
