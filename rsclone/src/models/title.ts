@@ -7,7 +7,7 @@ export interface ITitle{
   id: string,
   in_production?: boolean,
   languages?: string[],
-  last_air_date?: number,
+  last_air_date?: string,
   name?: string,
   networks?: {id: number, name: string}[],
   number_of_episodes?: number,

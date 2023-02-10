@@ -3,7 +3,7 @@ import './carousel.scss';
 import { IMovie } from '../../types';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
-import { fetchUpcomingMovies } from '../../api';
+import { fetchUpcomingMovies } from '../../API/api';
 import { CarouselItem } from './CarouselItem/CarouselItem';
 import { UpNext } from './UpNext/UpNext';
 

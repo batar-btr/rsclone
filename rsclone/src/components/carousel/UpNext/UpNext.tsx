@@ -9,6 +9,9 @@ type UpNextItemProps = {
 const UpNextItem = (props: UpNextItemProps) => {
   const { title, poster } = props;
   const posterPath = `https://image.tmdb.org/t/p/w300${poster}`;
+
+  const trimTitle = title.length > 30 ? `${title.slice(0,30)}...` : title;
+
   return (
     <div className='upnext-item'>
       <div className='upnext-img-wrap'>
@@ -19,7 +22,7 @@ const UpNextItem = (props: UpNextItemProps) => {
           <div>
             <button className='upnext-play-btn'></button>
           </div>
-          <h4>{title}</h4>
+          <h4>{trimTitle}</h4>
           <p>Watch trailer</p>
         </div>
       </Link>
