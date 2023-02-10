@@ -9,6 +9,7 @@ import { ReactComponent as PlayIcon } from './icons/play.svg';
 import { ReactComponent as Arrow } from './icons/right-arrow.svg';
 import { RotatingLines } from 'react-loader-spinner';
 import { fetchCarouselData } from './fetchCarouselData';
+import { RateBox } from '../rate-box/rate-box';
 
 import useModal from '../../hooks/useModal';
 import Modal from '../modal/Modal';
@@ -97,7 +98,9 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
                 <span>{rate.toFixed(1)}</span>
               </div>
               <button className='rate-btn' onClick={toggle}><StrokeStar fill='#fff' width='14' height='14'></StrokeStar></button>
-              <Modal isShowing={isShowing} hide={toggle}></Modal>
+              <Modal isShowing={isShowing} hide={toggle}>
+                <RateBox title={title} hide={toggle}></RateBox>
+              </Modal>
             </div>
             <h3 className='movie-card__title'>{trimTitle}</h3>
           </div>
