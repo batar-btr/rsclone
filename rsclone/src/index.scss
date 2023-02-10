@@ -19,6 +19,13 @@ body{
     position: fixed;
     
   }
+  &.hide-scroll {
+    overflow: hidden;
+    background-color: #000000;
+    #root {
+      padding-right: 17px;
+    }
+  }
 }
 
 a{
