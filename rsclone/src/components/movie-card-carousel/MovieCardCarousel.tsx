@@ -10,6 +10,9 @@ import { ReactComponent as Arrow } from './icons/right-arrow.svg';
 import { RotatingLines } from 'react-loader-spinner';
 import { fetchCarouselData } from './fetchCarouselData';
 
+import useModal from '../../hooks/useModal';
+import Modal from '../modal/Modal';
+
 
 interface MovieCardCarouselProps {
   topTitle?: string;
@@ -60,6 +63,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
     const { title, img, rate, type } = props.item;
     const [select, setSelect] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const {isShowing, toggle} = useModal();
     const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
 
     const addMovieHandler = () => {
@@ -74,7 +78,10 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
     }
     const trimTitle = title.length > 22 ? `${title.slice(0, 22)}...` : title;
 
-    const testHandler = () => console.log(type);
+    const testHandler = () => {
+      toggle();
+      console.log(isShowing)
+    };
 
     return (
       <div className='movie-card'>
@@ -89,7 +96,8 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
                 <Star fill='#f5c518' width='13' height='13'></Star>
                 <span>{rate.toFixed(1)}</span>
               </div>
-              <button className='rate-btn'><StrokeStar fill='#fff' width='14' height='14'></StrokeStar></button>
+              <button className='rate-btn' onClick={toggle}><StrokeStar fill='#fff' width='14' height='14'></StrokeStar></button>
+              <Modal isShowing={isShowing} hide={toggle}></Modal>
             </div>
             <h3 className='movie-card__title'>{trimTitle}</h3>
           </div>
