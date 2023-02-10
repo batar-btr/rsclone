@@ -1,15 +1,3 @@
-export interface ITitleId{
-  movie_results: [
-    {
-      id: string
-    }
-  ],
-  tv_results: [
-    {
-      id: string
-    }
-  ]
-}
 export interface ITitle{
   budget?: number,
   created_by?: {id: number, name: string}[],
