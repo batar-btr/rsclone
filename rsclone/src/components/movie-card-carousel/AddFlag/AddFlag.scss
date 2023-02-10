@@ -5,8 +5,12 @@
   left: 0;
   cursor: pointer;
   .plus-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     pointer-events: none;
     position: absolute;
+    padding-bottom: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -14,12 +18,12 @@
   }
   &.unchecked {
     .plus-icon {
-      background: url('../carousel/cross.svg') no-repeat 50% 30%;
+      background: url('../../carousel/cross.svg') no-repeat 50% 30%;
     }
   }
   &.checked {
     .plus-icon {
-      background: url('./icons/check.svg') no-repeat 50% 30%;
+      background: url('../icons/check.svg') no-repeat 50% 30%;
     }
     .add-flag {
       polygon:first-child {

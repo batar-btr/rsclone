@@ -1,57 +1,38 @@
 import { FC, useState, useEffect } from 'react';
-import fetchTrending from '../../API/fetchTrending';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import './MovieCardCarousel.scss';
-import AddFlag from './AddFlag';
+import AddFlag from './AddFlag/AddFlag';
 import { ReactComponent as Star } from './icons/star.svg';
 import { ReactComponent as StrokeStar } from './icons/stroke-star.svg';
 import { ReactComponent as PlayIcon } from './icons/play.svg';
+import { ReactComponent as Arrow } from './icons/right-arrow.svg';
+import { RotatingLines } from 'react-loader-spinner';
+import { fetchCarouselData } from './fetchCarouselData';
 
 
 interface MovieCardCarouselProps {
   topTitle?: string;
-  type: 'favorites' | 'top';
+  subTitle?: string[];
+  type: 'favorites' | 'top' | 'top-tv';
 }
 
-interface CarouselCardItem {
+ export interface CarouselCardItem {
   id: number;
   title: string;
   img: string | null;
   rate: number;
+  type?: 'tv' | 'movie';
 }
 
-const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, type }) => {
+const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, type }) => {
 
   const [items, setItems] = useState<CarouselCardItem[][]>([]);
 
-
   useEffect(() => {
     (async () => {
-      let result: CarouselCardItem[] = [];
-      switch (type) {
-        case 'favorites':
-          let movies = await fetchTrending('movie', 'week');
-          let tvs = await fetchTrending('tv', 'week');
-          result = [...movies, ...tvs].map(item => ({
-            id: item.id,
-            title: item['title'] || item['name'] || '',
-            img: item.poster_path,
-            rate: item.vote_average
-          })).slice(0, 24).sort((a, b) => (0.5 - Math.random()));
-          break;
-      }
-
-      function spliceIntoChunks<T>(arr: T[], chunkSize: number) {
-        const res = [];
-        while (arr.length > 0) {
-          const chunk = arr.splice(0, chunkSize);
-          res.push(chunk);
-        }
-        return res;
-      }
-
-      setItems(spliceIntoChunks(result.slice(0, 24), 6));
+      const data = await fetchCarouselData(type);
+      setItems(data);
     })()
   }, [type])
 
@@ -76,40 +57,55 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, type }) => {
   }
 
   const MovieCard = (props: MovieCardProps) => {
+    const { title, img, rate, type } = props.item;
     const [select, setSelect] = useState<boolean>(false);
-    const imgPath = `https://image.tmdb.org/t/p/w500${props.item.img}`;
+    const [loading, setLoading] = useState<boolean>(false);
+    const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
 
     const addMovieHandler = () => {
+      setLoading(prev => !prev);
       setTimeout(() => {
         return setSelect(prev => {
-          console.log(prev);
+          setLoading(prev => !prev);
           return !prev;
         })
       }, 1000);
 
     }
+    const trimTitle = title.length > 22 ? `${title.slice(0, 22)}...` : title;
+
+    const testHandler = () => console.log(type);
 
     return (
       <div className='movie-card'>
         <div className="img-wrap">
           <img src={imgPath} alt="" />
-          <AddFlag checked={select} onClick={addMovieHandler}></AddFlag>
+          <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
         </div>
         <div className="info-block">
           <div>
             <div className='movie-card__rating'>
               <div>
                 <Star fill='#f5c518' width='13' height='13'></Star>
-                <span>{props.item.rate.toFixed(1)}</span>
+                <span>{rate.toFixed(1)}</span>
               </div>
               <button className='rate-btn'><StrokeStar fill='#fff' width='14' height='14'></StrokeStar></button>
             </div>
-            <h3 className='movie-card__title'>{`${props.item.title.slice(0, 35)}...`}</h3>
+            <h3 className='movie-card__title'>{trimTitle}</h3>
           </div>
           <div className='info-block__bottom'>
-            <button className='watch-list-btn' onClick={addMovieHandler}><span>{`${select ? '✓ ' : '+ '}`}</span>Watchlist</button>
+            <button className='watch-list-btn' onClick={addMovieHandler}>
+              {!loading && <><span>{`${select ? '✓ ' : '+ '}`}</span><>Watchlist</></>}
+              {loading && <RotatingLines
+                strokeColor="#5799ef"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="20"
+                visible={true}
+              />}
+            </button>
             <div>
-              <button className='trailer-btn'>
+              <button className='trailer-btn' onClick={testHandler}>
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
               </button>
@@ -125,7 +121,15 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, type }) => {
 
   return (
     <div className='movie-card-carousel'>
-      {topTitle && <h2>{topTitle}</h2>}
+      {topTitle && <h3 className='top-title'>{topTitle}</h3>}
+      <div className='sub-title-wrap'>
+        <div className='sub-title-wrap__marker'></div>
+        <div>{subTitle?.[0]}</div>
+        <div className='arrow-icon'>
+          <Arrow />
+        </div>
+      </div>
+      <h4>{subTitle?.[1]}</h4>
       <Carousel showThumbs={false} showStatus={false} showIndicators={false}>
         {items.map((item, index) => <MovieCardBlock items={item} key={index}></MovieCardBlock>)}
       </Carousel>

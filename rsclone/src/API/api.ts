@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IMovie } from './types';
+import { IMovie } from '../types';
 
 const API_KEY = 'de39c600e446784b868125d50f325ca6';
 const BASE_URL = 'https://api.themoviedb.org/3';
