@@ -109,6 +109,7 @@
     &__bottom div {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 8px;
     }
   }
@@ -191,6 +192,7 @@
     cursor: pointer;
     border-radius: 4px;
     padding: 5px 10px 5px 0;
+    height: 36px;
     transition: all 200ms ease-out;
     &:hover {
       background-color: #2c2c2c;

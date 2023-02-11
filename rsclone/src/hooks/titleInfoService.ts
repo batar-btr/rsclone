@@ -62,7 +62,9 @@ export const useTitleInfoService = () => {
         const certification: ITvContentRatings = await (
           await fetch(`${_apiBase}/${type}/${params.id}/content_ratings?${_apiKey3}&${_apiLang}`)
         ).json()
-        certRes = certification.results.filter(el => el.iso_3166_1 === 'US')[0].rating
+        const filtered = certification.results.filter(el => el.iso_3166_1 === 'US')[0]
+        certRes = filtered ? filtered.rating : ''
+        
       }
       setCertification(certRes ? certRes : 'empty')
     };

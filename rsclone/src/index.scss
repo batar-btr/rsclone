@@ -12,14 +12,18 @@ html{
 }
 
 body{
-  height: 200vh;
+  height: 100%;
   width: 100%;
   font-family: Roboto,Helvetica,Arial,sans-serif;
   background-color: #1f1f1f;
   &.scroll-disabled{
     overflow: hidden;
-    width: calc(100% - 17px);
     background-color: #000000;
+  }
+}
+@media (any-pointer: fine) {
+  body.scroll-disabled{
+    width: calc(100% - 17px);
   }
 }
 
