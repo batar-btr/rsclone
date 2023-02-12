@@ -63,3 +63,8 @@ export type IGenre = {
     "id": number,
     "name": string
 }
+
+export type MostPopularSortState = {
+    item: ITransformMovie[],
+    func: (propsArray: Array<ITransformMovie>) => void    
+}

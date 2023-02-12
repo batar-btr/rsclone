@@ -31,19 +31,21 @@ export const UpcomingMovie = () => {
       .then(() => setMovieLoading(false));  
       
        
-  };
+  };  
 
+  
   const renderGenres = (arr: number[]) => {
 
-    let key = uuidv4();
+    
     const items = arr.map(item => { 
       
-      let arrayGenre: JSX.Element[] = []
-      let genreName = [...genres].filter(it => it.id === item ? arrayGenre.push(<>{it.name}</>) : null);
-      let key = uuidv4();
+      let arrayGenre: string[] = []
+      let genreName = [...genres].filter(it => it.id === item ? arrayGenre.push(it.name) : null);
+      
 
       return (
-        <li key={key}
+        <li 
+        key={uuidv4()}
         className="releases__item_description-list-item">
           {arrayGenre}
         </li>
@@ -56,7 +58,7 @@ export const UpcomingMovie = () => {
       <ul className="releases__item_description-list">
         {arr.length === 0 ?
          <li 
-         key={key}
+         key={uuidv4()}
          className="releases__item_description-list-item">Genre</li> 
          : items}
       </ul>
@@ -116,7 +118,7 @@ export const UpcomingMovie = () => {
     });    
 
     const listItem = (arr: ITransformMovie[]) => {
-      let key = uuidv4();
+      
       const items = arr.map((item) => {
         let poster =
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnko_ynQmPm0MSyZfvo45vvAuyEGW94FR9Cg&usqp=CAU";
@@ -125,7 +127,7 @@ export const UpcomingMovie = () => {
 
         return (
           <li
-            key={item.id}
+            key={uuidv4()}
             className={
               length === 1
                 ? "releases__item"
@@ -142,6 +144,7 @@ export const UpcomingMovie = () => {
                 alt=""
               />
             </div>
+
 
             <div className="releases__item_description">
               <a href="#" className="releases__item_link">
@@ -192,7 +195,7 @@ export const UpcomingMovie = () => {
       });
 
       return (
-        <React.Fragment key={key}>
+        <React.Fragment key={uuidv4()} >
           <h3 className="releases__wrapper_header">
             {transformDate(arr[0].year)}
           </h3>
@@ -211,7 +214,7 @@ export const UpcomingMovie = () => {
         array.push(listItem(arrD));
       }
 
-      return <div className="releases">{array}</div>;
+      return <div  className="releases">{array}</div>;
     }
   };
 
