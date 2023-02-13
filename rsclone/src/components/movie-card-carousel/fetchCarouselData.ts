@@ -33,12 +33,14 @@ const fetchCarouselData = async (type: 'favorites' | 'top' | 'top-tv') => {
     }
   }
 
+  type MediaType = 'tv' | 'movie'
+
   result = [...addType(movies, 'movie'), ...addType(tvs, 'tv')].map(item => ({
     id: item.id,
     title: item?.['title'] || item?.['name'] || '',
     img: item.poster_path,
     rate: item.vote_average,
-    type: item.type
+    type: item.type as MediaType
   })).slice(0, 24).sort(() => (0.5 - Math.random()));
 
   function spliceIntoChunks<T>(arr: T[], chunkSize: number) {

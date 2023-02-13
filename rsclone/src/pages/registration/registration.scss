@@ -1,0 +1,131 @@
+.registration-wrap {
+  background: -webkit-linear-gradient(top, #b3b3b0 0%, #e3e2dd 500px);
+  min-height: 500px;
+  color: #333333;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  &>div {
+    max-width: 1008px;
+    min-height: 500px;
+    background-color: #fff;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+
+  .login-block {
+    height: 500px;
+    width: 242px;
+    margin: 25px auto;
+    text-align: center;
+
+    h3 {
+      font-size: 21px;
+      margin: 15px 0;
+    }
+
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .social-login-btn {
+      width: 100%;
+      padding: 0;
+      background-color: #fff;
+      border: 1px solid #dddddd;
+      border-radius: 4px;
+      &:disabled {
+        opacity: 0.6;
+      }
+      a {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        color: #555555;
+        font-size: 14px;
+        width: 100%;
+        height: 32px;
+        box-sizing: border-box;
+
+        .social-icon {
+          margin: 0 10px;
+          display: inline-block;
+          width: 32px;
+          height: 24px;
+          background: url('./socials.png') no-repeat;
+          background-size: 32px, 96px;
+          &.imdb {
+            background-position: 0 2px;
+          }
+          &.amazon {
+            background-position: 0 -24px;
+          }
+          &.google {
+            background-position: 0 -75px;
+          }
+          &.apple {
+            background-position: 0 -101px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.devider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  margin: 20px 0;
+  span {
+    font-size: 13px;
+  }
+  div {
+    height: 1px;
+    flex: 1;
+    background-color: #000;
+  }
+}
+
+.info-block {
+  .benefits {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px 25px;
+    border-left: 1px solid #dddddd;
+  }
+
+  h5,
+  p {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 21px;
+  }
+
+  h5 {
+    font-weight: bold;
+  }
+}
+
+.new-aacount-btn {
+  color: #000;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  font-size: 14px;
+  background: #E4B721;
+  border-radius: 4px;
+}
+

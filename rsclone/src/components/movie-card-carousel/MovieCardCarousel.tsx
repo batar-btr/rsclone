@@ -26,7 +26,7 @@ interface MovieCardCarouselProps {
   title: string;
   img: string | null;
   rate: number;
-  type?: 'tv' | 'movie';
+  type: 'tv' | 'movie';
 }
 
 const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, type }) => {
@@ -61,7 +61,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
   }
 
   const MovieCard = (props: MovieCardProps) => {
-    const { title, img, rate, type } = props.item;
+    const { title, img, rate, type, id } = props.item;
     const [select, setSelect] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const {isShowing, toggle} = useModal();
@@ -99,7 +99,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               </div>
               <button className='rate-btn' onClick={toggle}><StrokeStar fill='#fff' width='14' height='14'></StrokeStar></button>
               <Modal isShowing={isShowing} hide={toggle}>
-                <RateBox title={title} hide={toggle}></RateBox>
+                <RateBox title={title} hide={toggle} id={id} type={type}></RateBox>
               </Modal>
             </div>
             <h3 className='movie-card__title'>{trimTitle}</h3>

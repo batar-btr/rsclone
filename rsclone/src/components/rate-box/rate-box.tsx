@@ -3,20 +3,30 @@ import './rate-box.scss';
 import { ReactComponent as Star } from './star.svg'
 import { ReactComponent as StrokeStar } from '../movie-card-carousel/icons/stroke-star.svg'
 import { ReactComponent as CloseIcon } from './close-icon.svg'
+import { UserAuth } from '../../context/AuthContext';
+import { updateRate } from '../../User/updata-rate';
 
 interface RateBoxProps {
+  id: number
+  type: 'tv' | 'movie'
   title: string;
   hide: () => void;
   currentCount?: number;
   rate?: number | null;
 }
 
-const RateBox = ({ title, hide }: RateBoxProps) => {
+const RateBox = ({ title, hide, id, type }: RateBoxProps) => {
+
+  const {user} = UserAuth()
 
   const [selectStar, setSelectStar] = useState<number>(0);
   const [rate, setRate] = useState<number | null>(null);
 
   const clickHandler = (e: React.MouseEvent) => {
+    if(user) {
+      console.log(id, type,  selectStar, user.uid);
+      updateRate(user.uid, type, id, selectStar);
+    }
     setRate(selectStar);
   }
 

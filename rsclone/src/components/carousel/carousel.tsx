@@ -17,6 +17,7 @@ const MainCarousel = () => {
       const data = await fetchUpcomingMovies()
       const moviesWithImg = data.filter(({ backdrop_path, poster_path }) => backdrop_path && poster_path);
       setData(moviesWithImg);
+      console.log(moviesWithImg)
       setUpNext(moviesWithImg.slice(1, 4));
     })();
   }, []);

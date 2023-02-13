@@ -5,9 +5,13 @@ import { HeaderSearch } from './HeaderSearch';
 import { HeaderMenu } from './HeaderMenu';
 import { useContext} from "react"
 import { MenuContext } from '../../context/MenuContext';
+import { UserAuth } from '../../context/AuthContext';
+import { LoginButton } from '../login-button/login-button';
 
 export const Header = () => {
   const {open} = useContext(MenuContext)
+
+  const {user} = UserAuth();
 
   return (
     <nav className="header">
@@ -29,8 +33,10 @@ export const Header = () => {
           <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="header-watchlist-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M17 3c1.05 0 1.918.82 1.994 1.851L19 5v16l-7-3-7 3V5c0-1.05.82-1.918 1.851-1.994L7 3h10zm-4 4h-2v3H8v2h3v3h2v-3h3v-2h-3V7z" fill="currentColor"></path></svg>      
           <div className="header-watchlist-text">Watchlist</div>
         </Link>
-        <Link to='/registration/signin' className='header-btn header-sing-in'>
-          <div className="header-watchlist-text">Sign In</div>
+        <Link to={!user ? '/registration' : '#'} className='header-btn header-sing-in'>
+          <div className="header-watchlist-text">
+              <LoginButton user={user}></LoginButton>
+          </div>
         </Link>
         <div className='header-btn header-lang'>
           <div className="header-lang-text">EN<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="header-lang-icon"viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M8.71 11.71l2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"></path></svg></div>    
