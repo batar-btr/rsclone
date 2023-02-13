@@ -17,11 +17,11 @@ export const MenuState = ( { children }: {children: React.ReactNode} ) => {
 
   const open = () => {
     setMenu(true) 
-    document.body.classList.add('menu-open')
+    document.body.classList.add('scroll-disabled')
   }
   const close = () => {
     setMenu(false) 
-    document.body.classList.remove('menu-open')
+    document.body.classList.remove('scroll-disabled')
   }
 
   return (

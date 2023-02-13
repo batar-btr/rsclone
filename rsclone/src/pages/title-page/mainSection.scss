@@ -1,0 +1,181 @@
+.title-main{
+  display: grid;
+  grid-template-columns: calc(33.3333333333% - ((2 / 3) * 1.5rem) + 2rem) calc(33.3333333333% - ((2 / 3) * 1.5rem) + 0.5rem) calc(33.3333333333% - ((2 / 3) * 1.5rem) + 0.5rem);
+  &-container{
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+    width: 100%;
+  }
+  &-sidebar{
+    padding-left: 0.75rem;
+  }
+  &-wrapper{
+    width: 100%;
+    grid-column: span 2;
+  }
+  &-videos{
+    width: 100%;
+    padding: 3.5rem 0 1.5rem 0;
+    margin-bottom: .5rem;
+  }
+  &-title{
+    color: rgb(0, 0, 0, .87);
+    padding: 0 1.5rem;
+    margin-bottom: 1.5rem;
+    &-text{
+      display: flex;
+      align-items: center;
+      max-height: 2.4em;
+      overflow: hidden;
+      border: none;
+      padding-left: 0.75rem;
+      position: relative;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 2.5rem;
+      letter-spacing: .00735em;
+      &::before{
+        background: var(--main-yellow);
+        border-radius: 4px;
+        content: "";
+        margin-left: -0.75rem;
+        align-self: flex-start;
+        position: absolute;
+        height: 100%;
+        width: 4px;
+      }
+      &> span{
+        color: rgb(0, 0, 0, .54);
+        font-size: .875rem;
+        font-weight: 400;
+        letter-spacing: .01786em;
+        padding-left: 0.75rem;
+        padding-right: 0.125rem;
+      }
+    }
+    &-icon{
+      height: 1em;
+      width: 1em;
+      font-size: .8em;
+    }
+  }
+  &-slider-video{
+    &-items{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+    }
+    &-item{
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      padding-right: 1.5rem;
+      &:hover .title-main-overlay{
+        opacity: .08;
+      }
+      &:hover &-play-icon{
+        color: var(--main-yellow);
+      }
+      & a{
+        position: relative;
+      }
+      &-name{
+        padding-top: 0.75rem;
+        width: 100%;
+        text-align: start;
+        color: #000000;
+        letter-spacing: .03125em;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+      &-preview-wrapper{
+        aspect-ratio: 16/9;
+      }
+      &-preview{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+      &-play{
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        z-index: 5;
+        &-icon{
+          min-width: 2rem;
+          min-height: 2rem;
+          margin-right: 0.5rem;
+        }
+        &-text{
+          font-size: .875rem;
+          font-weight: 400;
+          line-height: 1.25rem;
+          letter-spacing: .01786em;
+        }
+      }
+    }
+    
+  }
+  &-photos{
+    width: 100%;
+    padding: 1.5rem 0;
+    margin-bottom: .5rem;
+  }
+  & .carousel-root{
+    .slider-wrapper.axis-horizontal{
+      padding-left: 1.5rem;
+    }
+    .carousel .slide {
+      padding-bottom: 11px;
+    }
+    .slider.animated{
+      transition-duration: 500ms !important;
+    }
+    .carousel.carousel-slider .control-arrow {
+      background: rgba(18, 18, 18, .45);
+      border: 1px solid hsla(0, 0%, 100%, .7);
+      bottom: auto;
+      top: 27%;
+      padding: 20px 12px;
+      opacity: 0.9;
+      border-radius: 4px;
+      width: 50px;
+      height: 66px;
+      
+    }
+    .carousel.carousel-slider .control-arrow:hover {
+      background: rgba(18, 18, 18, .55);
+    }
+    .carousel.carousel-slider .control-next.control-arrow:hover::before, 
+    .carousel.carousel-slider .control-prev.control-arrow:hover::before{
+      background-color: var(--main-yellow);
+    }
+    
+    .carousel .control-next.control-arrow:before {
+      border: none;
+      margin: 0px;
+      background-color: #fff;
+      mask-image: url('../../components/carousel/next.svg');
+      width: 24px;
+      height: 24px;
+      background-repeat: no-repeat;
+      transition: background-color .15s ease-out;
+    }
+    .carousel .control-prev.control-arrow:before {
+      border: none;
+      margin: 0px;
+      background-color: #fff;
+      mask-image: url('../../components/carousel/prev.svg');
+      width: 24px;
+      height: 24px;
+      background-repeat: no-repeat;
+      margin-right: 5px;
+      transition: background-color .15s ease-out;
+    }
+  }
+}

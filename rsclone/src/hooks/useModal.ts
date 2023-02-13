@@ -7,8 +7,10 @@ const useModal = () => {
     setIsShowing(!isShowing);
     if(!isShowing) {
       document.body.classList.add('hide-scroll');
+      document.body.classList.add('scroll-disabled');
     } else {
       document.body.classList.remove('hide-scroll');
+      document.body.classList.remove('scroll-disabled');
     }
   }
 

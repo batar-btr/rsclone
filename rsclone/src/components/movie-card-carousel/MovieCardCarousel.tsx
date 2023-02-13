@@ -10,9 +10,10 @@ import { ReactComponent as Arrow } from './icons/right-arrow.svg';
 import { RotatingLines } from 'react-loader-spinner';
 import { fetchCarouselData } from './fetchCarouselData';
 import { RateBox } from '../rate-box/rate-box';
-
 import useModal from '../../hooks/useModal';
 import Modal from '../modal/Modal';
+import { Link } from 'react-router-dom';
+import { ITitleVideos } from '../../models/title';
 
 
 interface MovieCardCarouselProps {
@@ -61,12 +62,27 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
   }
 
   const MovieCard = (props: MovieCardProps) => {
-    const { title, img, rate, type } = props.item;
+    const { title, img, rate, type, id } = props.item;
+    
     const [select, setSelect] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const {isShowing, toggle} = useModal();
     const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
+    
+    const [mainTrailer, setMainTrailer] = useState('')
+   
 
+    useEffect(() => {
+      const getVideos = async () => {
+        const videos: ITitleVideos = await (
+          await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=62050b72659b37dc215bf1de992857d4&language=en-US`)
+        ).json()
+        const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
+        setMainTrailer(mainTr ? mainTr.key : '')
+      }
+      getVideos()
+    }, [])
+    
     const addMovieHandler = () => {
       setLoading(prev => !prev);
       setTimeout(() => {
@@ -75,20 +91,16 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
           return !prev;
         })
       }, 1000);
-
     }
-    const trimTitle = title.length > 22 ? `${title.slice(0, 22)}...` : title;
-
-    const testHandler = () => {
-      toggle();
-      console.log(isShowing)
-    };
 
     return (
       <div className='movie-card'>
+        <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
         <div className="img-wrap">
-          <img src={imgPath} alt="" />
-          <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
+          <Link to={`/${type}/${id}`}>
+            <img src={imgPath} alt="poster" />
+            <div className='movie-card-poster-overlay'></div>
+          </Link>
         </div>
         <div className="info-block">
           <div>
@@ -102,7 +114,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
                 <RateBox title={title} hide={toggle}></RateBox>
               </Modal>
             </div>
-            <h3 className='movie-card__title'>{trimTitle}</h3>
+            <Link to={`/${type}/${id}`} className='movie-card__title'>{title}</Link>
           </div>
           <div className='info-block__bottom'>
             <button className='watch-list-btn' onClick={addMovieHandler}>
@@ -116,10 +128,10 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               />}
             </button>
             <div>
-              <button className='trailer-btn' onClick={testHandler}>
+              <Link to={`/${type}/${id}/video/${mainTrailer}`} className='trailer-btn'>
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
-              </button>
+              </Link>
               <button className='movie-info-button'>
                 <span>i</span>
               </button>
@@ -141,7 +153,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
         </div>
       </div>
       <h4>{subTitle?.[1]}</h4>
-      <Carousel showThumbs={false} showStatus={false} showIndicators={false}>
+      <Carousel showThumbs={false} showStatus={false} showIndicators={false} autoPlay={false}>
         {items.map((item, index) => <MovieCardBlock items={item} key={index}></MovieCardBlock>)}
       </Carousel>
     </div>
