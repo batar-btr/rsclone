@@ -29,7 +29,7 @@ export interface ITitle{
 }
 export interface ITitleCast{
   cast: {
-    cast_id: number,
+    id: number,
     character: string,
     credit_id: string,
     known_for_department: string,
@@ -38,9 +38,10 @@ export interface ITitleCast{
     profile_path: string
   }[],
   crew: {
-    credit_id: number,
+    id: number,
     department: string,
     job: string,
+    known_for_department: string,
     name: string,
     popularity: number,
     profile_path: string

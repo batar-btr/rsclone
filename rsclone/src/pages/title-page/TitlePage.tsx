@@ -13,11 +13,11 @@ export const TitlePage = () => {
   const {isShowing, toggle} = useModal();
   
 
-  console.log(title)
+  // console.log(title)
   // console.log(cast)
   // console.log(images)
   // console.log(videos)
-  console.log(reviews)
+  // console.log(reviews)
   // console.log(similar)
   // console.log(certification)
 

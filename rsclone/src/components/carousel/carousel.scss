@@ -1,10 +1,24 @@
 .carousel-container {
   max-width: 1280px;
+  height: 567.14px;
   margin: 0px auto;
   padding: 8px 0px;
   display: grid;
   grid-template-columns: 2fr 1fr;
   z-index: -1;
+}
+
+.carousel-root{
+  position: relative;
+}
+.carousel-root .carousel.carousel-slider{
+  position: static;
+}
+.movie-card-carousel .carousel.carousel-slider .control-next.control-arrow {
+  right: -24px;
+}
+.movie-card-carousel .carousel.carousel-slider .control-prev.control-arrow {
+  left: -24px;
 }
 
 .carousel .slide {
@@ -114,6 +128,10 @@
   }
 }
 
+.control-arrow-icon{
+  fill: #fff;
+}
+
 .carousel-main {
   margin: 0px 8px;
   .carousel.carousel-slider .control-arrow {
@@ -121,23 +139,41 @@
     border: 1px solid hsla(0, 0%, 100%, .7);
     bottom: auto;
     top: 30%;
-    padding: 10px;
+    padding: 20px 12px;
     opacity: 0.9;
     border-radius: 4px;
+    width: 50px;
+    height: 66px;
   }
-
   .carousel.carousel-slider .control-arrow:hover {
     background: rgba(18, 18, 18, .55);
-
-    &.control-next::before {
-      border-left: 8px solid #e6bc2a;
-    }
-
-    &.control-prev::before {
-      border-right: 8px solid #e6bc2a;
-    }
   }
-
+  .carousel.carousel-slider .control-next.control-arrow:hover::before, 
+  .carousel.carousel-slider .control-prev.control-arrow:hover::before{
+    background-color: var(--main-yellow);
+  }
+  
+  .carousel .control-next.control-arrow:before {
+    border: none;
+    margin: 0px;
+    background-color: #fff;
+    mask-image: url('./next.svg');
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    transition: background-color .15s ease-out;
+  }
+  .carousel .control-prev.control-arrow:before {
+    border: none;
+    margin: 0px;
+    background-color: #fff;
+    mask-image: url('./prev.svg');
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    margin-right: 5px;
+    transition: background-color .15s ease-out;
+  }
 }
 
 .carousel-sidebar {

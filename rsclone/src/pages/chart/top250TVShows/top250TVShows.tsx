@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import IMDBService from "../../../services/IMDBService";
 import { Spinner } from "../spinner/Spinner";
 import { ITransformMovie } from "../../../models/IMDBModels";
+import { SortTop250 } from "../top250/top250Sort";
 
 import "../top250/top250.scss";
 import { Link } from "react-router-dom";
@@ -72,8 +73,13 @@ export const Top250TVShows = () => {
     );
   };
 
+  const sortedStateArray = (propsArray: Array<ITransformMovie>) => {    
+    setMovieList(propsArray)   
+  }
+
   const items = renderItems(movieList);
   const spinner = movieLoading ? <Spinner /> : null;
+  const sort = movieLoading ? null : <SortTop250 item={movieList} func={sortedStateArray}/>;
 
   return (
     <>
@@ -81,6 +87,7 @@ export const Top250TVShows = () => {
         <div className="wideContent">
           <div className="article">
             <Top250Header />
+            {sort}
             {items}
             {spinner}
           </div>

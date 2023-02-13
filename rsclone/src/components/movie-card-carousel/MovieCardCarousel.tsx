@@ -154,7 +154,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
         </div>
       </div>
       <h4>{subTitle?.[1]}</h4>
-      <Carousel showThumbs={false} showStatus={false} showIndicators={false}>
+      <Carousel showThumbs={false} showStatus={false} showIndicators={false} autoPlay={false}>
         {items.map((item, index) => <MovieCardBlock items={item} key={index}></MovieCardBlock>)}
       </Carousel>
     </div>
