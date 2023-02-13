@@ -55,6 +55,9 @@
     }
   }
 
+  .slider.animated{
+    transition-duration: 500ms !important;
+  }
   .carousel.carousel-slider .control-arrow {
     background: rgba(18, 18, 18, .45);
     border: 1px solid hsla(0, 0%, 100%, .7);

@@ -13,7 +13,6 @@ import { RateBox } from '../rate-box/rate-box';
 import useModal from '../../hooks/useModal';
 import Modal from '../modal/Modal';
 import { Link } from 'react-router-dom';
-import { useTitleInfoService } from '../../hooks/titleInfoService';
 import { ITitleVideos } from '../../models/title';
 
 

@@ -6,6 +6,7 @@ import Modal from '../../components/modal/Modal';
 import { RateBox } from '../../components/rate-box/rate-box';
 import useModal from '../../hooks/useModal';
 import { MainInfoSection } from './MainInfoSection';
+import { MainSection } from './MainSection';
 
 export const TitlePage = () => {
   const {isTvShow, title, cast, images, videos, reviews, similar, 
@@ -30,7 +31,7 @@ export const TitlePage = () => {
   return (
     <div className='title-container'>
       <MainInfoSection/>
-      
+      <MainSection/>
     </div>
   )
 }
