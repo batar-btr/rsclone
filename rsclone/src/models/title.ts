@@ -31,7 +31,6 @@ export interface ITitleCast{
   cast: {
     id: number,
     character: string,
-    credit_id: string,
     known_for_department: string,
     name: string,
     popularity: number,
@@ -75,7 +74,8 @@ export interface ITitleSimilar{
   page: number,
   results: {
     id: number,
-    name: string,
+    title?: string,
+    name?: string,
     poster_path: string,
     vote_average: number,
   }[]

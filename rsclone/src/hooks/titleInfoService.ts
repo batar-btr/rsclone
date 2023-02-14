@@ -48,7 +48,7 @@ export const useTitleInfoService = () => {
       setReviews(reviews)
 
       const similar: ITitleSimilar = await (
-        await fetch(`${_apiBase}/${type}/${params.id}/similar?${_apiKey3}&${_apiLang}&page=1`)
+        await fetch(`${_apiBase}/${type}/${params.id}/recommendations?${_apiKey3}&${_apiLang}&page=1`)
       ).json()
       setSimilar(similar)
 

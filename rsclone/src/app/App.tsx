@@ -31,7 +31,7 @@ function App() {
           <Route path='/chart/lowestRated' element={<LowestRated/>} /> 
           <Route path='/chart/upcoming' element={<UpcomingMovie/>} /> 
           <Route path="/registration/signin" element={ <SingInPage/> }></Route>
-          <Route path="/movie/:id" element={ <TitlePage/> }></Route>
+          <Route path="/movie/:id" element={ <TitlePage/>}></Route>
           <Route path="/tv/:id" element={ <TitlePage/> }></Route>
           <Route path="/movie/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
           <Route path="/tv/:id/fullcredits" element={ <FullCreditsPage/> }></Route>

@@ -45,7 +45,10 @@ export const MainInfoSection = () => {
       })
     }, 1000);
   }
-  setTimeout(() => setLoading(false), 1000)
+  window.addEventListener('load', () => {
+    setTimeout(() => setLoading(false), 1000)
+  })
+  
  
   return (
     <section className='title-main-info-container'>
@@ -165,7 +168,7 @@ export const MainInfoSection = () => {
               </div> 
               <div className='title-main-info-madia-gallery-links'>
                 {
-                  title && cast && videos && <>
+                  videos && <>
                     <div className='title-main-info-madia-gallery'>
                       <div className="title-main-info-madia-gallery-info">
                         <svg xmlns="http://www.w3.org/2000/svg" className='title-main-info-madia-gallery-icon' width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1zm17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l5.47 4.1c.27.2.27.6 0 .8L12 14.5z"></path></svg>
@@ -202,8 +205,8 @@ export const MainInfoSection = () => {
                     <p className='title-main-info-details-item-title'>Directors</p>
                     <div className='title-main-info-details-item-values'>
                       {
-                        directors.map(el => <div className='title-main-info-details-item-val' key={el.id}>
-                          <Link to={`/name/${el.id}`} key={el.id}>{el.name}</Link>
+                        directors.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
+                          <Link to={`/name/${el.id}`}>{el.name}</Link>
                         </div>)
                       }
                     </div>
@@ -216,9 +219,10 @@ export const MainInfoSection = () => {
                   <p className='title-main-info-details-item-title'>{isTvShow ? writers.length === 0 ? 'Creator' : 'Creators' : 'Writers'}</p>
                   <div className='title-main-info-details-item-values'>
                     {
-                      writers.map(el => <div className='title-main-info-details-item-val' key={el.id}>
-                        <Link to={`/name/${el.id}`} key={el.id}>{el.name}</Link>
+                      writers.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
+                        <Link to={`/name/${el.id}`}>{el.name}</Link>
                         {
+                          !isTvShow &&
                           <span>({el.job.toLocaleLowerCase()} by)</span>
                         }
                       </div>)
@@ -232,8 +236,8 @@ export const MainInfoSection = () => {
                   <p className='title-main-info-details-item-title'>Stars</p>
                   <div className='title-main-info-details-item-values'>
                     {
-                      topCast.map(el => <div className='title-main-info-details-item-val' key={el.id}>
-                        <Link to={`/name/${el.id}`} key={el.id}>{el.name}</Link>
+                      topCast.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
+                        <Link to={`/name/${el.id}`}>{el.name}</Link>
                       </div>)
                     }
                   </div>

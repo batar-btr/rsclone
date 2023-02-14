@@ -30,8 +30,15 @@ export const TitlePage = () => {
 
   return (
     <div className='title-container'>
-      <MainInfoSection/>
-      <MainSection/>
+      {/* { title && cast && images && videos && reviews && similar && 
+    certification && */}
+        <>
+        <MainInfoSection/>
+        <MainSection/>
+      </>
+      {/* } */}
+      
+      
     </div>
   )
 }

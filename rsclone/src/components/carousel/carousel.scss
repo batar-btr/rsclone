@@ -14,12 +14,6 @@
 .carousel-root .carousel.carousel-slider{
   position: static;
 }
-.movie-card-carousel .carousel.carousel-slider .control-next.control-arrow {
-  right: -24px;
-}
-.movie-card-carousel .carousel.carousel-slider .control-prev.control-arrow {
-  left: -24px;
-}
 
 .carousel .slide {
   padding-bottom: 80px;
@@ -64,27 +58,9 @@
       max-width: 100%;
     }
 
-    .flag-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .add-flag-wrap{
+      height: 53.33px;
       width: 40px;
-      height: 60px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: url('./flag.svg') no-repeat left top / 40px;
-      opacity: 0.4;
-      transition: all 200ms ease-out;
-
-      &:hover {
-        opacity: 0.7;
-      }
-
-      &>img {
-        margin-bottom: 10px;
-        width: 33px;
-      }
     }
   }
 
