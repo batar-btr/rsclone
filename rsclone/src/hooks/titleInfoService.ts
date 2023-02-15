@@ -2,11 +2,12 @@ import { IMovieReleaseDates, ITitle, ITitleCast, ITitleImages, ITitleReviews, IT
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 
-export const useTitle = () => {
+export const useTitleInfoService = () => {
   const params = useParams()
   const _apiBase = 'https://api.themoviedb.org/3';
   const _apiKey3 = "api_key=62050b72659b37dc215bf1de992857d4";
   const _apiLang = 'language=en-US'
+  const _imgBase = 'https://www.themoviedb.org/t/p/w500/'
   const [isTvShow, setIsTvShow] = useState(false)
   const [title, setTitle] = useState<ITitle>();
   const [cast, setCast] = useState<ITitleCast>()
@@ -15,9 +16,9 @@ export const useTitle = () => {
   const [reviews, setReviews] = useState<ITitleReviews>()
   const [similar, setSimilar] = useState<ITitleSimilar>()
   const [certification, setCertification] = useState('')
+  const type = document.URL.split('/')[3]
 
   useEffect(() => {
-    const type = document.URL.split('/')[3]
     type === 'movie' ? setIsTvShow(false) : setIsTvShow(true)
 
     const titleFetch = async () => {
@@ -61,12 +62,14 @@ export const useTitle = () => {
         const certification: ITvContentRatings = await (
           await fetch(`${_apiBase}/${type}/${params.id}/content_ratings?${_apiKey3}&${_apiLang}`)
         ).json()
-        certRes = certification.results.filter(el => el.iso_3166_1 === 'US')[0].rating
+        const filtered = certification.results.filter(el => el.iso_3166_1 === 'US')[0]
+        certRes = filtered ? filtered.rating : ''
+        
       }
-      setCertification(certRes)
+      setCertification(certRes ? certRes : 'empty')
     };
     titleFetch();
   }, []);
 
-  return {isTvShow, title, cast, images, videos, reviews, similar, certification}
+  return {isTvShow, title, cast, images, videos, reviews, similar, certification, _imgBase, type}
 }

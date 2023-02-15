@@ -5,6 +5,7 @@ import { Recently } from "../recently/recentley";
 import AsideChart from "../aside/aside";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { Spinner } from "../spinner/Spinner";
+import { MostPopularSort } from "../popularMovies/mostPopularSort";
 
 import '../popularMovies/mostPopularMovies.scss';
 import { Link } from "react-router-dom";
@@ -69,9 +70,13 @@ const MostPopularTVShows = () => {
     
   };
 
+  const sortedStateArray = (propsArray: Array<ITransformMovie>) => {    
+    setMovieList(propsArray)   
+  }
+
   const items = renderItems(movieList);
   const spinner = movieLoading ? <Spinner/> : null;
-  
+  const sort = movieLoading ? null : <MostPopularSort item={movieList} func={sortedStateArray}/>
 
   return (
     <>      
@@ -79,6 +84,7 @@ const MostPopularTVShows = () => {
         <div className="wideContent">
           <div className="article">
             <MostPopularHeader />
+            {sort}
             {items}
             {spinner}
           </div>

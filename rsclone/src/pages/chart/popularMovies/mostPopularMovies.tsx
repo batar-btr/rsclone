@@ -5,6 +5,7 @@ import { Recently } from "../recently/recentley";
 import AsideChart from "../aside/aside";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { Spinner } from "../spinner/Spinner";
+import { MostPopularSort } from "./mostPopularSort";
 
 import './mostPopularMovies.scss';
 import { Link } from "react-router-dom";
@@ -36,9 +37,8 @@ const MostPopularMovies = () => {
                 <img src={item.thumbnail} alt={item.title}/>
                 </div>
                 <div className="mostPopular__item_title">
-                  <Link to={`/movie/${item.id}`}>{item.title} ({item.year.split('-')[0]})</Link>
+                  <Link to={`/movie/${item.id}`}>{item.title} ({item.year.split('-')[0]})</Link>                 
                   
-                  <div className="mostPopular__item_title-rate">{id + 1}</div>
                 </div>
                 <div className="mostPopular__item_rating">
                   <div className="mostPopular__item_rating-star"></div>
@@ -65,14 +65,17 @@ const MostPopularMovies = () => {
             </li>   
           {items}
       </ul>
-  )
-    
+  )   
     
   };
 
+  const sortedStateArray = (propsArray: Array<ITransformMovie>) => {    
+    setMovieList(propsArray)   
+  }
+
   const items = renderItems(movieList);
   const spinner = movieLoading ? <Spinner/> : null;
-  
+  const sort = movieLoading ? null : <MostPopularSort item={movieList} func={sortedStateArray}/>
 
   return (
     <>        
@@ -80,6 +83,7 @@ const MostPopularMovies = () => {
         <div className="wideContent">
           <div className="article">
             <MostPopularHeader />
+            {sort}
             {items}
             {spinner}
           </div>

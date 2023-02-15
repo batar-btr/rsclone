@@ -10,12 +10,16 @@ import { ReactComponent as Arrow } from './icons/right-arrow.svg';
 import { RotatingLines } from 'react-loader-spinner';
 import { fetchCarouselData } from './fetchCarouselData';
 import { RateBox } from '../rate-box/rate-box';
+
 import { UserAuth } from '../../context/AuthContext';
 import useModal from '../../hooks/useModal';
 import Modal from '../modal/Modal';
 import { addFavorite } from '../../User/add-favorite';
 import { deleteFavorite } from '../../User/delete-favorite';
 import { useNavigate } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
+import { ITitleVideos } from '../../models/title';
 
 
 interface MovieCardCarouselProps {
@@ -72,16 +76,18 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
     const { isShowing, toggle } = useModal();
     const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
 
+    const [mainTrailer, setMainTrailer] = useState('')
+
     const { user, userData } = UserAuth()
 
-    const isAdded = userData?.['favorite'][type].some((item:number) => item === id) as boolean;
+    const isAdded = userData?.['favorite'][type].some((item: number) => item === id) as boolean;
     const rating = userData?.rate[type][id];
 
     const addMovieHandler = async () => {
-      if(user) {
+      if (user) {
         setLoading(prev => !prev);
         setTimeout(async () => {
-          if(isAdded) {
+          if (isAdded) {
             await deleteFavorite(user.uid, type, id)
           } else {
             await addFavorite(user.uid, type, id);
@@ -90,13 +96,24 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
         }, 1000);
       }
     }
-    
+
     const trimTitle = title.length > 22 ? `${title.slice(0, 22)}...` : title;
 
     const testHandler = () => {
       toggle();
       console.log(isShowing)
     };
+
+    useEffect(() => {
+      const getVideos = async () => {
+        const videos: ITitleVideos = await (
+          await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=62050b72659b37dc215bf1de992857d4&language=en-US`)
+        ).json()
+        const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
+        setMainTrailer(mainTr ? mainTr.key : '')
+      }
+      getVideos()
+    }, [])
 
     return (
       <div className='movie-card'>
@@ -112,14 +129,14 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
                 <span>{rate.toFixed(1)}</span>
               </div>
               <button className='rate-btn' onClick={toggle}>
-                {rating ? <Star fill='#5799ef' width='14' height='14'/> : <StrokeStar fill='#fff' width='14' height='14'/>}
-                { rating && ` ${rating}` }
+                {rating ? <Star fill='#5799ef' width='14' height='14' /> : <StrokeStar fill='#fff' width='14' height='14' />}
+                {rating && ` ${rating}`}
               </button>
               <Modal isShowing={isShowing} hide={toggle}>
                 <RateBox title={title} hide={toggle} id={id} type={type}></RateBox>
               </Modal>
             </div>
-            <h3 className='movie-card__title'>{trimTitle}</h3>
+            <Link to={`/${type}/${id}`} className='movie-card__title'>{title}</Link>
           </div>
           <div className='info-block__bottom'>
             <button className='watch-list-btn' onClick={addMovieHandler}>
@@ -133,7 +150,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               />}
             </button>
             <div>
-              <button className='trailer-btn' onClick={()=>navigate(`${type}/${id}`)}>
+              <button className='trailer-btn' onClick={() => navigate(`${type}/${id}/video/${mainTrailer}`)}>
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
               </button>
@@ -158,7 +175,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
         </div>
       </div>
       <h4>{subTitle?.[1]}</h4>
-      <Carousel showThumbs={false} showStatus={false} showIndicators={false}>
+      <Carousel showThumbs={false} showStatus={false} showIndicators={false} autoPlay={false}>
         {items.map((item, index) => <MovieCardBlock items={item} key={index}></MovieCardBlock>)}
       </Carousel>
     </div>

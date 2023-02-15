@@ -1,25 +1,26 @@
 export interface ITitle{
   budget?: number,
   created_by?: {id: number, name: string}[],
-  first_air_date?: string,
+  first_air_date: string,
   genres: {id: number, name: string}[],
   homepage: string,
   id: string,
   in_production?: boolean,
   languages?: string[],
-  last_air_date?: number,
+  last_air_date?: string,
   name?: string,
   networks?: {id: number, name: string}[],
   number_of_episodes?: number,
   number_of_seasons?: number,
   origin_country?: string[],
   original_language?: string,
+  original_title: string;
   overview: string,
   popularity: number,
   poster_path: string,
   production_companies: {id: number, name: string, origin_country: string}[],
   production_countries: {iso_3166_1: string, name: string}[],
-  release_date?: string,
+  release_date: string,
   revenue?: number,
   runtime?: number,
   spoken_languages: {english_name: string, iso_639_1: string, name: string}[],
@@ -27,24 +28,29 @@ export interface ITitle{
   vote_average: number,
   vote_count: number
 }
-export interface ITitleCast{
-  cast: {
-    cast_id: number,
+
+export type Cast = {
+    id: number,
     character: string,
     credit_id: string,
     known_for_department: string,
     name: string,
     popularity: number,
     profile_path: string
-  }[],
-  crew: {
-    credit_id: number,
-    department: string,
-    job: string,
-    name: string,
-    popularity: number,
-    profile_path: string
-  }[]
+}
+
+export type Crew = {
+  id: number,
+  department: string,
+  job: string,
+  known_for_department: string,
+  name: string,
+  popularity: number,
+  profile_path: string
+}
+export interface ITitleCast{
+  cast: Cast[],
+  crew: Crew[]
 }
 export interface ITitleImages{
   backdrops: {file_path: string}[],

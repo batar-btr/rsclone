@@ -15,11 +15,17 @@ body{
   height: 100%;
   width: 100%;
   font-family: Roboto,Helvetica,Arial,sans-serif;
-  &.menu-open{
-    position: fixed;
-    
+  background-color: #1f1f1f;
+  &.scroll-disabled{
+    overflow: hidden;
+    background-color: #000000;
   }
-  &.hide-scroll {
+}
+@media (any-pointer: fine) {
+  body.scroll-disabled{
+    width: calc(100% - 17px);
+  }
+  .hide-scroll {
     overflow: hidden;
     background-color: #000000;
     #root {
@@ -32,7 +38,12 @@ a{
   text-decoration: none;
   color: #ffffff;
 }
-
+p{
+  margin: 0;
+}
+h3{
+  margin: 0;
+}
 .container{
   background-color: #000000;
 }

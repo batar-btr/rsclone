@@ -1,8 +1,9 @@
 .mostPopular {
     &__wrapper {
         list-style-type: none;
-        margin-top: 20px;
+        margin-top: 10px;
         font-family: Verdana, Arial, sans-serif;
+        padding-left: 0;
     }
     &__item {
         display: grid;
@@ -14,8 +15,10 @@
         vertical-align: bottom;
         font-weight: normal;
         align-items: center;
+        min-height: 67px;
         &:nth-child(1) {
             font-weight: bold;
+            min-height: auto;
         }
         &_img {
             max-width: 45px;
@@ -86,6 +89,19 @@
                     background-position: -30px -30px;
                 }
             }
+        }
+    }
+    &__sort {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        &_wrapper {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            align-items: center;
         }
     }
     

@@ -12,9 +12,12 @@ import { TitlePage } from '../pages/title-page/TitlePage';
 import { SingInPage } from '../pages/sign-in/SignInPage';
 import { SingUpPage } from '../pages/sign-up/SignUpPage';
 import { FullCreditsPage } from '../pages/full-credits-page/FullCreditsPage';
+import { ReviewsPage } from '../pages/reviews-page/ReviewsPage';
 import { UpcomingMovie } from '../pages/chart/upcoming/upcoming';
 import { AuthProvider } from '../context/AuthContext';
 import RegistrationPage from '../pages/registration/registration';
+import { VideoPage } from '../pages/video-page/VideoPage';
+import { NamePage } from '../pages/name-page/NamePage';
 
 function App() {
   return (
@@ -38,6 +41,11 @@ function App() {
             <Route path="/tv/:id" element={<TitlePage />}></Route>
             <Route path="/movie/:id/fullcredits" element={<FullCreditsPage />}></Route>
             <Route path="/tv/:id/fullcredits" element={<FullCreditsPage />}></Route>
+            <Route path="/movie/:id/reviews" element={<ReviewsPage />}></Route>
+            <Route path="/tv/:id/reviews" element={<ReviewsPage />}></Route>
+            <Route path="/movie/:id/video/:key" element={<VideoPage />}></Route>
+            <Route path="/tv/:id/video/:key" element={<VideoPage />}></Route>
+            <Route path="/name/:id" element={<NamePage />}></Route>
           </Route>
           <Route path="*" element={<Error404 />} />
         </Routes>

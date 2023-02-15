@@ -1,14 +1,20 @@
 import '../title-page/titlePage.scss';
 import { useState, useEffect } from "react"
-import { useTitle } from '../../hooks/titleData';
-import { Link, useLocation } from 'react-router-dom';
+import { useTitleInfoService } from '../../hooks/titleInfoService';
+import { Link } from 'react-router-dom';
+import Modal from '../../components/modal/Modal';
+import { RateBox } from '../../components/rate-box/rate-box';
+import useModal from '../../hooks/useModal';
+import { MainInfoSection } from './MainInfoSection';
+import { MainSection } from './MainSection';
 
 export const TitlePage = () => {
-  const {isTvShow, title, cast, images, videos, reviews, similar, certification} = useTitle()
-  const type = document.URL.split('/')[3]
-  const imgBase = 'https://www.themoviedb.org/t/p/w500/'
+  const {isTvShow, title, cast, images, videos, reviews, similar, 
+    certification, _imgBase, type} = useTitleInfoService()
+  const {isShowing, toggle} = useModal();
+  
 
-  console.log(title)
+  // console.log(title)
   // console.log(cast)
   // console.log(images)
   // console.log(videos)
@@ -19,19 +25,13 @@ export const TitlePage = () => {
  
   
   // const mainTariler = videos!.results.filter(el => el.type === 'Trailer')
- 
+  
+  window.scrollTo(0, 0)
 
   return (
     <div className='title-container'>
-      <div className='title-main-info'>
-        <div className='title-main-info-top'>
-          <Link to={`/${type}/${title?.id}/fullcredits`}>Cast & Crew</Link>
-          <img src={imgBase + title?.poster_path} alt='img' width={150}></img>
-          {
-            title?.name && <div>{title.name}</div>
-          }
-        </div>
-      </div>
+      <MainInfoSection/>
+      <MainSection/>
     </div>
   )
 }
