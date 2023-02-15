@@ -6,9 +6,9 @@ import { db } from "../firebase";
 //   capital: true
 // });
 
-type Rate = 'tv' | 'movie';
+export type Rate = 'tv' | 'movie' | undefined;
 
-export const updateRate = async (uid: string, type:Rate, id: number,  rateCount: number) => {
+export const updateRate = async (uid: string, type:Rate, id: number | undefined,  rateCount: number) => {
   const userRef = doc(db, 'users', uid );
   const stringPath = `rate.${type}.${id}`;
   await updateDoc(userRef, {

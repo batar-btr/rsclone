@@ -36,8 +36,13 @@
       background-color: #fff;
       border: 1px solid #dddddd;
       border-radius: 4px;
+      cursor: pointer;
       &:disabled {
         opacity: 0.6;
+        cursor: default;
+        a {
+          cursor: default;
+        }
       }
       a {
         display: flex;

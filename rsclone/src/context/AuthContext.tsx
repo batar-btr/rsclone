@@ -9,14 +9,17 @@ import {
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, DocumentData, getDoc, onSnapshot, Unsubscribe } from "firebase/firestore";
+import { db } from "../firebase";
+import UserData, { userConverter } from "../User/UserData";
 
 interface AuthContextModel {
   auth: Auth
   user: User | null
+  userData: UserData | null
   signIn: (email: string, password: string) => Promise<UserCredential>
   signUp: (email: string, password: string) => Promise<UserCredential>
   logOut: () => Promise<void>
-  // sendPasswordResetEmail?: (email: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextModel>({} as AuthContextModel);
@@ -29,6 +32,7 @@ interface ProviderProps {
 export const AuthProvider = ({ children }: ProviderProps): React.ReactElement => {
 
   const [user, setUser] = useState<User | null>(null)
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   function signUp(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -43,10 +47,7 @@ export const AuthProvider = ({ children }: ProviderProps): React.ReactElement =>
   }
 
   useEffect(() => {
-    // console.log('USE-EFFECT');
-
-    const unsubsribe = onAuthStateChanged(auth, (user) => {
-      console.log('SET USER');
+    const unsubsribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
     })
     return () => {
@@ -54,12 +55,32 @@ export const AuthProvider = ({ children }: ProviderProps): React.ReactElement =>
     }
   }, [])
 
+  useEffect(() => {
+    let unsub: Unsubscribe;
+    if( user) {
+      unsub = onSnapshot(doc(db, "users", user.uid).withConverter(userConverter), (doc) => {
+        const data = doc.data();
+        if(data) {
+          setUserData(data);
+        }
+      })
+    }
+    return () => {
+      if(typeof unsub === 'function') {
+        unsub();
+        setUserData(null);
+      }
+    }
+  }, [user]);
+
+
   const values = {
     signUp,
     signIn,
     logOut,
     auth,
-    user
+    user,
+    userData
   }
 
   return (

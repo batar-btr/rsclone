@@ -55,6 +55,17 @@
           background: linear-gradient(to bottom,#f7dfa5,#d3b058);
         }
       }
+      &[type=password] {
+        font-size: 12px;
+      }
+      &:focus {
+        border-color: #e77600;
+        box-shadow: 0 0 3px 2px rgba(228,121,17,.5);
+      }
+      &:invalid {
+        border-color: #ff0a16;
+        box-shadow: 0 0 3px 2px rgba(148, 36, 22, 0.5);
+      }
     }
 
     .create-account-btn {
@@ -81,4 +92,14 @@
       }
     }
   }
+}
+
+.error-box {
+  padding: 15px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: rgb(255, 56, 56);
+  color: white;
+  text-align: center;
+  border-radius: 4px;
 }
