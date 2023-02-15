@@ -9,6 +9,7 @@ import useModal from '../../hooks/useModal';
 import { RotatingLines } from 'react-loader-spinner';
 import Modal from '../../components/modal/Modal';
 import { RateBox } from '../../components/rate-box/rate-box';
+import { convertNumToShort } from './MainInfoSection';
 
 interface TitleVideoProps {
   item: TitleVideo[]
@@ -40,8 +41,7 @@ type TitleSimilar = {
 
 export const MainSection = () => {
   const {isTvShow, title, cast, images, videos, reviews, similar, 
-    certification, _imgBase, type} = useTitleInfoService()
-  
+    _imgBase, type} = useTitleInfoService()
 
   const directors = cast ? cast.crew.filter(el => el.job === 'Director') : []
   const writers = cast ? cast.crew.filter(el => isTvShow ? el.known_for_department === 'Writing' : el.department === 'Writing').slice(0, 3) : []
@@ -60,14 +60,14 @@ export const MainSection = () => {
   const imagesChunksArr = images ? spliceIntoChunks(allImages.slice(0, 12), 4) : []
   const similarChunksArr = similar ? spliceIntoChunks([...similar.results].slice(0, 12), 4) : []
 
-  
+  const reviewsWithRating = reviews ? reviews?.results.filter(el => el.author_details.rating !== null) : []
 
   const TitleSliderVideosBlock = (props: TitleVideoProps) => {
     return (
       <div className='title-main-slider-video-items'>
         {props.item.map((el, i) => 
         <div className='title-main-slider-video-item' key={i}>
-          <Link to={`/${type}/${title?.id}/video/${el.key}`} className='title-main-slider-video-item-link'>
+          <Link to={`/${type}/${title?.id}/video/${el.key}`} className='title-main-slider-video-item-link' reloadDocument>
             <div className='title-main-slider-video-item-preview-wrapper'>
               <img src={`http://img.youtube.com/vi/${el.key}/maxresdefault.jpg`}
                 alt="trailer-preview" className='title-main-slider-video-item-preview'>
@@ -79,7 +79,7 @@ export const MainSection = () => {
             </div>
             <div className='title-main-overlay'></div>
           </Link>
-          <Link to={`/${type}/${title?.id}/video/${el.key}`} className='title-main-slider-video-item-name'>
+          <Link to={`/${type}/${title?.id}/video/${el.key}`} className='title-main-slider-video-item-name' reloadDocument>
             Watch {el.name}</Link>
         </div>
         )}
@@ -91,7 +91,7 @@ export const MainSection = () => {
       <div className='title-main-slider-photo-items'>
         {props.item.map((el, i) => 
         <div className='title-main-slider-photo-item' key={i}>
-          <Link to={`/`}>
+          <Link to={`/`} reloadDocument>
             <div className='title-main-slider-photo-item-preview-wrapper'>
               <img src={_imgBase + el.file_path} 
                 alt="trailer-preview" className='title-main-slider-photo-item-preview'>
@@ -119,17 +119,17 @@ export const MainSection = () => {
         })
       }, 1000);
     }
-    window.addEventListener('load', () => {
-      setTimeout(() => setLoadingSimilar(false), 1000)
-    })
+    // window.addEventListener('load', () => {
+    //   setTimeout(() => setLoadingSimilar(false), 1000)
+    // })
 
     return (
       <div className='movie-card'>
         <AddFlag checked={selectSimilar} loading={loadingSimilar} onClick={addSimilarMovieHandler}></AddFlag>
         <div className="img-wrap">
-          <Link to={`/${type}/${props.item.id}`}>
+          <Link to={`/${type}/${props.item.id}`} reloadDocument>
             <img src={_imgBase + props.item.poster_path} alt="poster" />
-            <div className='movie-card-poster-overlay'></div>
+            <div className='title-main-overlay'></div>
           </Link>
         </div>
         <div className="info-block">
@@ -146,11 +146,11 @@ export const MainSection = () => {
                 <RateBox title={isTvShow ? props.item.name as string : props.item.title as string} hide={toggle}></RateBox>
               </Modal>
             </div>
-            <Link to={`/${type}/${props.item.id}`} className='movie-card__title'>{isTvShow ? props.item.name : props.item.title}</Link>
+            <Link to={`/${type}/${props.item.id}`} className='movie-card__title' reloadDocument>{isTvShow ? props.item.name : props.item.title}</Link>
           </div>
           <div className='info-block__bottom'>
             <button className='watch-list-btn' onClick={addSimilarMovieHandler}>
-              {!loadingSimilar && <><span>{selectSimilar ? '✓ ' : 
+              {!loadingSimilar && <><span>{selectSimilar ? <svg xmlns="http://www.w3.org/2000/svg" className="watch-list-btn-added" width="24" height="24" viewBox="0 0 24 24" role="presentation"><path d="M9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0 .984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4.984.984 0 0 0-1.4 0L9 16.2z"></path></svg> : 
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="watch-list-btn-add" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>}
                 </span><>Watchlist</></>}
               {loadingSimilar && <RotatingLines
@@ -188,7 +188,7 @@ export const MainSection = () => {
         <div className='title-main-wrapper'>
           <section className='title-main-videos-container'>
             {
-              videos && videosChunkArr.length !== 0 && 
+              videos && videos.results.length !== 0 && 
               <div className='title-main-videos'>
                 <div className='title-main-title'>
                   <div className='title-main-title-wrapper'>
@@ -241,13 +241,13 @@ export const MainSection = () => {
                           <div className='title-main-cast-item-image-wrapper'>
                               <img src={_imgBase + el.profile_path} alt="cast-pic" className='title-main-cast-item-image'/>
                           </div>
-                          <Link to={`/name/${el.id}`} className='title-main-cast-item-image-link'>
+                          <Link to={`/name/${el.id}`} className='title-main-cast-item-image-link' reloadDocument>
                             <div className='title-main-overlay'></div>
                           </Link>
                         </div>
                       </div>
                       <div className='title-main-cast-item-info'>
-                        <Link to={`/name/${el.id}`} className='title-main-cast-item-name'>{el.name}</Link>
+                        <Link to={`/name/${el.id}`} className='title-main-cast-item-name' reloadDocument>{el.name}</Link>
                         <div className='title-main-cast-item-character'>
                           <span className='title-main-cast-item-character-text'>{el.character.split('/')[0]}</span>
                           <span className='title-main-cast-item-character-dots'>{el.character.split('/')[1] ? '…' : ''}</span>
@@ -264,21 +264,21 @@ export const MainSection = () => {
                       <div className='title-main-info-details-item-values'>
                         {
                           directors.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
-                            <Link to={`/name/${el.id}`}>{el.name}</Link>
+                            <Link to={`/name/${el.id}`} reloadDocument>{el.name}</Link>
                           </div>)
                         }
                       </div>
                     </div>
                   }
                   <div className='title-main-info-details-writers title-main-info-details-item'>
-                    <Link to={`/${type}/${title?.id}/fullcredits`}>
+                    <Link to={`/${type}/${title?.id}/fullcredits`} reloadDocument>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-details-item-link-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M9.29 6.71a.996.996 0 0 0 0 1.41L13.17 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z"></path></svg>
                     </Link>
                     <p className='title-main-info-details-item-title'>{isTvShow ? writers.length === 0 ? 'Creator' : 'Creators' : 'Writers'}</p>
                     <div className='title-main-info-details-item-values'>
                       {
                         writers.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
-                          <Link to={`/name/${el.id}`}>{el.name}</Link>
+                          <Link to={`/name/${el.id}`} reloadDocument>{el.name}</Link>
                           {
                             !isTvShow &&
                             <span>({el.job.toLocaleLowerCase()} by)</span>
@@ -288,7 +288,7 @@ export const MainSection = () => {
                     </div>
                   </div>
                   <div className='title-main-info-details-top-cast title-main-info-details-item'>
-                    <Link to={`/${type}/${title?.id}/fullcredits`}>
+                    <Link to={`/${type}/${title?.id}/fullcredits`} reloadDocument>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-details-item-link-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M9.29 6.71a.996.996 0 0 0 0 1.41L13.17 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z"></path></svg>
                     </Link>
                     <p className='title-main-info-details-item-title'>All cast & crew</p>
@@ -304,7 +304,7 @@ export const MainSection = () => {
             }
           </section>
           <section className='title-main-similar-container'>
-            { similar &&
+            { similar && similar.results.length !== 0 &&
               <div className='title-main-similar'>
                 <div className='title-main-title'>
                   <div className='title-main-title-wrapper'>
@@ -314,6 +314,45 @@ export const MainSection = () => {
                 <Carousel showThumbs={false} showStatus={false} showIndicators={false} autoPlay={false}>
                   {similarChunksArr.map((el, i) => <TitleSliderSimilarBlock item={el} key={i}></TitleSliderSimilarBlock>)}
                 </Carousel>
+              </div>
+            }
+          </section>
+          <section className='title-main-reviews-container'>
+            {
+              reviews && reviewsWithRating.length !== 0 && 
+              <div className='title-main-reviews'>
+                <div className='title-main-title'>
+                  <div className='title-main-title-wrapper'>
+                    <Link to={`/${type}/${title?.id}/reviews`} className='title-main-title-link' reloadDocument>
+                      <h3 className='title-main-title-text'>User reviews
+                        <span>{convertNumToShort(reviews.total_results)}</span>
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-title-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
+                      </h3>
+                    </Link>
+                    <div className='title-main-reviews-add-review'>
+                      <Link to='/registration/signin' reloadDocument></Link>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className='title-main-reviews-add-review-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>
+                      <div className="title-main-reviews-add-review-text">Review</div>
+                    </div>
+                  </div>
+                </div>
+                <div className='title-main-review-container'>
+                  <div className='title-main-review'>
+                    <div className='title-main-review-header'>
+                      <div className='title-main-review-featured'>
+                        <div className='title-main-review-featured-text'>Featured review</div>
+                      </div>
+                      <span className='title-main-review-featured-rating'>
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className='title-main-review-featured-rating-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"></path></svg>
+                        { reviews &&
+                          reviewsWithRating[0].author_details.rating}
+                      </span>
+                    </div>
+                  </div>
+                  <div className='title-main-review-user-date'>
+
+                  </div>
+                </div>
               </div>
             }
           </section>

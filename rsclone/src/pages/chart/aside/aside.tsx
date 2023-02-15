@@ -9,22 +9,22 @@ const AsideChart = () => {
 
       <ul className="chartLinks__list">
         <li className="chartLinks__list_item">
-          <NavLink to="/chart/boxoffice">Box Office</NavLink>
+          <NavLink to="/chart/boxoffice" reloadDocument>Box Office</NavLink>
         </li>
         <li className="chartLinks__list_item">
-          <NavLink to="/chart/popularmovies">Most Popular Movies</NavLink>
+          <NavLink to="/chart/popularmovies" reloadDocument>Most Popular Movies</NavLink>
         </li>
         <li className="chartLinks__list_item">
-          <NavLink to="/chart/top250">Top 250 Movies</NavLink>
+          <NavLink to="/chart/top250" reloadDocument>Top 250 Movies</NavLink>
         </li>
         <li className="chartLinks__list_item">
-          <NavLink to="/chart/popularshows">Most Popular TV Shows</NavLink>
+          <NavLink to="/chart/popularshows" reloadDocument>Most Popular TV Shows</NavLink>
         </li>
         <li className="chartLinks__list_item">
-          <NavLink to="/chart/top250shows">Top 250 TV Shows</NavLink>
+          <NavLink to="/chart/top250shows" reloadDocument>Top 250 TV Shows</NavLink>
         </li>
         <li className="chartLinks__list_item">
-          <NavLink to="/chart/lowestRated">Lowest Rated Movies</NavLink>
+          <NavLink to="/chart/lowestRated" reloadDocument>Lowest Rated Movies</NavLink>
         </li>
       </ul>
     </div>

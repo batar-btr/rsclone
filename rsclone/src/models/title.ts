@@ -62,6 +62,10 @@ export interface ITitleReviews{
   page: number,
   results: {
     author: string,
+    author_details: {
+      rating: number,
+      username: string
+    }
     content: string,
     created_at: string,
     id: string,

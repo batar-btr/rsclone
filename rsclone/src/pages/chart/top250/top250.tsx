@@ -43,7 +43,7 @@ export const Top250 = () => {
           </div>
           <div className="mostPopular__item_title-top">
             <div className="mostPopular__item_title-rate">{id + 1}. </div>
-            <Link to={`/movie/${item.id}`}>{item.title} ({item.year.split('-')[0]})</Link>
+            <Link to={`/movie/${item.id}`} reloadDocument>{item.title} ({item.year.split('-')[0]})</Link>
           </div>
           <div className="mostPopular__item_rating">
             <div className="mostPopular__item_rating-star"></div>

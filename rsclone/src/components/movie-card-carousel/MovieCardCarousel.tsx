@@ -97,7 +97,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
       <div className='movie-card'>
         <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
         <div className="img-wrap">
-          <Link to={`/${type}/${id}`}>
+          <Link to={`/${type}/${id}`} reloadDocument>
             <img src={imgPath} alt="poster" />
             <div className='movie-card-poster-overlay'></div>
           </Link>
@@ -114,11 +114,12 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
                 <RateBox title={title} hide={toggle}></RateBox>
               </Modal>
             </div>
-            <Link to={`/${type}/${id}`} className='movie-card__title'>{title}</Link>
+            <Link to={`/${type}/${id}`} className='movie-card__title' reloadDocument>{title}</Link>
           </div>
           <div className='info-block__bottom'>
             <button className='watch-list-btn' onClick={addMovieHandler}>
-            {!loading && <><span>{select ? '✓ ' : 
+            {!loading && <><span>{select ? 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="watch-list-btn-added" viewBox="0 0 24 24" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0 .984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4.984.984 0 0 0-1.4 0L9 16.2z"></path></svg> : 
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="watch-list-btn-add" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>}
                 </span><>Watchlist</></>}
               {loading && <RotatingLines
@@ -130,7 +131,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               />}
             </button>
             <div>
-              <Link to={`/${type}/${id}/video/${mainTrailer}`} className='trailer-btn'>
+              <Link to={`/${type}/${id}/video/${mainTrailer}`} className='trailer-btn' reloadDocument>
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
               </Link>

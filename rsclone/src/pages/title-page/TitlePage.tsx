@@ -13,19 +13,6 @@ export const TitlePage = () => {
     certification, _imgBase, type} = useTitleInfoService()
   const {isShowing, toggle} = useModal();
   
-
-  // console.log(title)
-  // console.log(cast)
-  // console.log(images)
-  // console.log(videos)
-  // console.log(reviews)
-  // console.log(similar)
-  // console.log(certification)
-
- 
-  
-  // const mainTariler = videos!.results.filter(el => el.type === 'Trailer')
-  
   window.scrollTo(0, 0)
 
   return (

@@ -8,6 +8,10 @@ import AddFlag from '../../components/movie-card-carousel/AddFlag/AddFlag';
 import { useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 
+export const convertNumToShort = (num: number) => {
+    const formatter = Intl.NumberFormat('en', { notation: 'compact' });
+    return num ? formatter.format(num) : ''
+  }
 
 export const MainInfoSection = () => {
   const {isTvShow, title, cast, videos, 
@@ -15,7 +19,7 @@ export const MainInfoSection = () => {
 
   const {isShowing, toggle} = useModal();
   const [select, setSelect] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const trailers = videos ? videos!.results.filter(el => el.type === 'Trailer') : []
   const mainTrailer = trailers.length !== 0 ? trailers[0].key : ''
@@ -31,10 +35,7 @@ export const MainInfoSection = () => {
     const m = date.slice(17, 19)
     return `${+h !== 0 ? `${+h}h ` : ''}${+m}m`
   }
-  const convertNumToShort = (num: number) => {
-    const formatter = Intl.NumberFormat('en', { notation: 'compact' });
-    return num ? formatter.format(num) : ''
-  }
+  
 
   const addMovieHandler = () => {
     setLoading(prev => !prev);
@@ -45,19 +46,22 @@ export const MainInfoSection = () => {
       })
     }, 1000);
   }
-  window.addEventListener('load', () => {
-    setTimeout(() => setLoading(false), 1000)
-  })
+
+  
+    // title && setTimeout(() => setLoading(false), 1000)
+  
+    
+  
   
  
   return (
     <section className='title-main-info-container'>
       <div className='title-main-info title-section'>
         <div className='title-main-info-top'>
-          <Link to={`/${type}/${title?.id}/fullcredits`} className='title-main-info-top-link'>Cast & Crew</Link>
-          <Link to={`/${type}/${title?.id}/reviews`} className='title-main-info-top-link'>User reviews</Link>
+          <Link to={`/${type}/${title?.id}/fullcredits`} className='title-main-info-top-link' reloadDocument>Cast & Crew</Link>
+          <Link to={`/${type}/${title?.id}/reviews`} className='title-main-info-top-link' reloadDocument>User reviews</Link>
           <div className='title-main-info-top-link'>
-            <Link to={`/`} >IMDB Pro</Link>
+            <a href='https://pro.imdb.com/'>IMDB Pro</a>
           </div>
           <div className='title-main-info-top-share'>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-top-link-share-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
@@ -123,7 +127,7 @@ export const MainInfoSection = () => {
                 <div className='title-main-info-rating-item'>
                   <div className='title-main-info-rating-title'>POPULARITY</div> 
                     <Link to={isTvShow ? '/chart/popularshows' : '/chart/popularmovies'} 
-                      className='title-main-info-popularity'>
+                      className='title-main-info-popularity' reloadDocument>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-popularity-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-2.6 0-5-1.3-6.4-3.3l2.8-3.4 1.3 1.5c.4.4 1 .4 1.3 0l2.9-3.2 1.3 1.4c.3.3.8.1.8-.3V8.5c0-.3-.2-.5-.5-.5h-4c-.4 0-.6.5-.3.8l1.3 1.4-2.2 2.5L9 11.3c-.4-.4-1-.4-1.3 0L4.6 15c-.4-.9-.6-1.9-.6-3 0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"></path></svg>
                       <div className="title-main-info-your-rating-text">{title?.popularity.toFixed()} </div>
                     </Link>
@@ -140,7 +144,7 @@ export const MainInfoSection = () => {
                 <div className='title-main-info-madia-poster'>
                   <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
                   <div className="title-main-info-madia-poster-img">
-                    <Link to={`/`}>
+                    <Link to={`/`} reloadDocument>
                       <img src={_imgBase + title?.poster_path} alt="poster"/>
                       <div className='title-main-overlay'></div>
                     </Link>
@@ -150,7 +154,7 @@ export const MainInfoSection = () => {
               <div className='title-main-info-madia-trailer'>
                 {
                   videos &&
-                  <Link to={`/${type}/${title?.id}/video/${mainTrailer}`}>
+                  <Link to={`/${type}/${title?.id}/video/${mainTrailer}`} reloadDocument>
                     <img 
                       src={`http://img.youtube.com/vi/${mainTrailer}/maxresdefault.jpg`} 
                       alt="trailer-preview" 
@@ -206,21 +210,21 @@ export const MainInfoSection = () => {
                     <div className='title-main-info-details-item-values'>
                       {
                         directors.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
-                          <Link to={`/name/${el.id}`}>{el.name}</Link>
+                          <Link to={`/name/${el.id}`} reloadDocument>{el.name}</Link>
                         </div>)
                       }
                     </div>
                   </div>
                 }
                 <div className='title-main-info-details-writers title-main-info-details-item'>
-                  <Link to={`/${type}/${title?.id}/fullcredits`}>
+                  <Link to={`/${type}/${title?.id}/fullcredits`} reloadDocument>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-details-item-link-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M9.29 6.71a.996.996 0 0 0 0 1.41L13.17 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z"></path></svg>
                   </Link>
                   <p className='title-main-info-details-item-title'>{isTvShow ? writers.length === 0 ? 'Creator' : 'Creators' : 'Writers'}</p>
                   <div className='title-main-info-details-item-values'>
                     {
                       writers.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
-                        <Link to={`/name/${el.id}`}>{el.name}</Link>
+                        <Link to={`/name/${el.id}`} reloadDocument>{el.name}</Link>
                         {
                           !isTvShow &&
                           <span>({el.job.toLocaleLowerCase()} by)</span>
@@ -230,14 +234,14 @@ export const MainInfoSection = () => {
                   </div>
                 </div>
                 <div className='title-main-info-details-top-cast title-main-info-details-item'>
-                  <Link to={`/${type}/${title?.id}/fullcredits`}>
+                  <Link to={`/${type}/${title?.id}/fullcredits`} reloadDocument>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-details-item-link-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M9.29 6.71a.996.996 0 0 0 0 1.41L13.17 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z"></path></svg>
                   </Link>
                   <p className='title-main-info-details-item-title'>Stars</p>
                   <div className='title-main-info-details-item-values'>
                     {
                       topCast.map((el, i) => <div className='title-main-info-details-item-val' key={i}>
-                        <Link to={`/name/${el.id}`}>{el.name}</Link>
+                        <Link to={`/name/${el.id}`} reloadDocument>{el.name}</Link>
                       </div>)
                     }
                   </div>

@@ -33,7 +33,7 @@ const UpNextItem = (props: UpNextItemProps) => {
       <div className='upnext-img-wrap'>
         <img src={posterPath} alt={title} />
       </div>
-      <Link to={`/movie/${id}/video/${mainTrailer}`}>
+      <Link to={`/movie/${id}/video/${mainTrailer}`} reloadDocument>
         <div className="upnext-item-info">
           <div>
             <button className='upnext-play-btn'></button>
@@ -57,7 +57,7 @@ const UpNext = (props: UpNextProps) => {
       <h3 className='upnext-title'>Up next</h3>
       <div className="upnext-items">
         {movies.map(item => <UpNextItem title={item.title} poster={item.poster_path} id={item.id} key={item.id}></UpNextItem>)}
-        <Link className="browse-link" to='/'>{`Browse trailers >`}</Link>
+        <Link className="browse-link" to='/' reloadDocument>{`Browse trailers >`}</Link>
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ const MostPopularTVShows = () => {
                 <img src={item.thumbnail} alt={item.title}/>
                 </div>
                 <div className="mostPopular__item_title">
-                  <Link to={`/tv/${item.id}`}>{item.title} ({item.year.split('-')[0]})</Link>
+                  <Link to={`/tv/${item.id}`} reloadDocument>{item.title} ({item.year.split('-')[0]})</Link>
                   <div className="mostPopular__item_title-rate">{id + 1}</div>
                 </div>
                 <div className="mostPopular__item_rating">
