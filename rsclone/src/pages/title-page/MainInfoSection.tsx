@@ -1,12 +1,13 @@
-import { Link } from 'react-router-dom';
-import { useTitleInfoService } from '../../hooks/titleInfoService';
+import { Link, useParams } from 'react-router-dom';
 import useModal from '../../hooks/useModal';
 import '../title-page/mainInfoSection.scss';
 import Modal from '../../components/modal/Modal';
 import { RateBox } from '../../components/rate-box/rate-box';
 import AddFlag from '../../components/movie-card-carousel/AddFlag/AddFlag';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
+import IMDBService from '../../services/IMDBService';
+import { IMovieReleaseDates, ITitle, ITitleCast, ITitleVideos, ITvContentRatings } from '../../models/title';
 
 export const convertNumToShort = (num: number) => {
     const formatter = Intl.NumberFormat('en', { notation: 'compact' });
@@ -14,8 +15,35 @@ export const convertNumToShort = (num: number) => {
   }
 
 export const MainInfoSection = () => {
-  const {isTvShow, title, cast, videos, 
-    certification, _imgBase, type} = useTitleInfoService()
+  const params = useParams().id
+  const isTvShow = IMDBService().isTvShow() 
+  const _imgBase = IMDBService()._image 
+  const type = IMDBService().type 
+  const [title, setTitle] = useState<ITitle>()
+  const [cast, setCast] = useState<ITitleCast>()
+  const [videos, setVideos] = useState<ITitleVideos>()
+  const [certification, setCertification] = useState('')
+  
+  useEffect(() => {
+    onRequest();
+  }, []);
+  
+  const onRequest = async () => {
+    setTitle(await IMDBService().getTitle(+params!))
+    setCast(await IMDBService().getTitleCast(+params!))
+    setVideos(await IMDBService().getTitleVideos(+params!))
+    const certifications = await IMDBService().getTitleCertification(+params!)
+    let certification = ''
+    if (!isTvShow) {
+      const data = certifications as IMovieReleaseDates
+      certification = data.results.filter(el => el.iso_3166_1 === 'US')[0].release_dates[0].certification
+    } else {
+      const data = certifications as ITvContentRatings
+      const filtered = data.results.filter(el => el.iso_3166_1 === 'US')[0]
+      certification = filtered ? filtered.rating : ''
+    }
+    setCertification(certification ? certification : 'empty')
+  };
 
   const {isShowing, toggle} = useModal();
   const [select, setSelect] = useState<boolean>(false);
@@ -35,7 +63,6 @@ export const MainInfoSection = () => {
     const m = date.slice(17, 19)
     return `${+h !== 0 ? `${+h}h ` : ''}${+m}m`
   }
-  
 
   const addMovieHandler = () => {
     setLoading(prev => !prev);
@@ -47,13 +74,8 @@ export const MainInfoSection = () => {
     }, 1000);
   }
 
-  
-    // title && setTimeout(() => setLoading(false), 1000)
-  
-    
-  
-  
- 
+  // title && setTimeout(() => setLoading(false), 1000)
+
   return (
     <section className='title-main-info-container'>
       <div className='title-main-info title-section'>

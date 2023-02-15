@@ -426,6 +426,22 @@
         height: 100%;
       }
     }
+    &-featured{
+      margin: 0px 0px 1.5rem;
+      box-shadow: 0 0 1px rgb(0 0 0 / 12%);
+      padding: 1rem;
+      filter: drop-shadow(0 2px 1px rgba(0,0,0,.3));
+      position: relative;
+      background: #ffffff;
+      border-radius: 4px;
+      &-container{
+        margin: 0 1.5rem;
+      }
+      &-header{
+        display: flex;
+        justify-content: space-between;
+      }
+    }
   }
   & .carousel-root{
     .slider-wrapper.axis-horizontal{

@@ -1,15 +1,16 @@
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useTitleInfoService } from '../../hooks/titleInfoService';
 import '../title-page/mainSection.scss';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import AddFlag from '../../components/movie-card-carousel/AddFlag/AddFlag';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useModal from '../../hooks/useModal';
 import { RotatingLines } from 'react-loader-spinner';
 import Modal from '../../components/modal/Modal';
 import { RateBox } from '../../components/rate-box/rate-box';
 import { convertNumToShort } from './MainInfoSection';
+import IMDBService from '../../services/IMDBService';
+import { ITitle, ITitleCast, ITitleImages, ITitleReviews, ITitleSimilar, ITitleVideos } from '../../models/title';
 
 interface TitleVideoProps {
   item: TitleVideo[]
@@ -40,8 +41,29 @@ type TitleSimilar = {
 }
 
 export const MainSection = () => {
-  const {isTvShow, title, cast, images, videos, reviews, similar, 
-    _imgBase, type} = useTitleInfoService()
+  const params = useParams().id
+  const isTvShow = IMDBService().isTvShow() 
+  const _imgBase = IMDBService()._image 
+  const type = IMDBService().type 
+  const [title, setTitle] = useState<ITitle>()
+  const [cast, setCast] = useState<ITitleCast>()
+  const [images, setImages] = useState<ITitleImages>()
+  const [videos, setVideos] = useState<ITitleVideos>()
+  const [similar, setSimilar] = useState<ITitleSimilar>()
+  const [reviews, setReviews] = useState<ITitleReviews>()
+  
+  useEffect(() => {
+    onRequest();
+  }, []);
+  
+  const onRequest = async () => {
+    setTitle(await IMDBService().getTitle(+params!))
+    setCast(await IMDBService().getTitleCast(+params!))
+    setImages(await IMDBService().getTitleImages(+params!))
+    setVideos(await IMDBService().getTitleVideos(+params!))
+    setSimilar(await IMDBService().getTitleSimilar(+params!))
+    setReviews(await IMDBService().getTitleReviews(+params!))
+  };
 
   const directors = cast ? cast.crew.filter(el => el.job === 'Director') : []
   const writers = cast ? cast.crew.filter(el => isTvShow ? el.known_for_department === 'Writing' : el.department === 'Writing').slice(0, 3) : []
@@ -336,21 +358,19 @@ export const MainSection = () => {
                     </div>
                   </div>
                 </div>
-                <div className='title-main-review-container'>
-                  <div className='title-main-review'>
-                    <div className='title-main-review-header'>
-                      <div className='title-main-review-featured'>
-                        <div className='title-main-review-featured-text'>Featured review</div>
-                      </div>
-                      <span className='title-main-review-featured-rating'>
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className='title-main-review-featured-rating-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"></path></svg>
-                        { reviews &&
-                          reviewsWithRating[0].author_details.rating}
+                <div className='title-main-reviews-featured-container'>
+                  <div className='title-main-reviews-featured'>
+                    <div className='title-main-reviews-featured-header'>
+                      <div className='title-main-reviews-featured-header-text'>Featured review</div>
+                      <span className='title-main-reviews-featured-header-rating'>
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className='title-main-reviews-featured-header-rating-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"></path></svg>
+                        
+                          {reviewsWithRating[0].author_details.rating}
                       </span>
                     </div>
                   </div>
                   <div className='title-main-review-user-date'>
-
+                    
                   </div>
                 </div>
               </div>
