@@ -25,7 +25,7 @@ body{
   body.scroll-disabled{
     width: calc(100% - 17px);
   }
-  &.hide-scroll {
+  .hide-scroll {
     overflow: hidden;
     background-color: #000000;
     #root {
