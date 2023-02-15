@@ -115,7 +115,7 @@ export const MainInfoSection = () => {
                   </div>    
                 </div>
                 <Modal isShowing={isShowing} hide={toggle}>
-                  <RateBox title={`${title?.title || title?.name}`} hide={toggle}></RateBox>
+                  <RateBox title={`${title?.title || title?.name}`} hide={toggle} id={123123} type={'movie'}></RateBox>
                 </Modal>
                 <div className='title-main-info-rating-item'>
                   <div className='title-main-info-rating-title'>POPULARITY</div> 

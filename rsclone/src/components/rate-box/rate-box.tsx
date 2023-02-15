@@ -1,23 +1,57 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './rate-box.scss';
 import { ReactComponent as Star } from './star.svg'
 import { ReactComponent as StrokeStar } from '../movie-card-carousel/icons/stroke-star.svg'
 import { ReactComponent as CloseIcon } from './close-icon.svg'
+import { UserAuth } from '../../context/AuthContext';
+import { updateRate } from '../../User/updata-rate';
+import { deleteRate } from '../../User/delete-rate';
 
 interface RateBoxProps {
+  id: number
+  type: 'tv' | 'movie'
   title: string;
   hide: () => void;
   currentCount?: number;
   rate?: number | null;
 }
 
-const RateBox = ({ title, hide }: RateBoxProps) => {
+const RateBox = ({ title, hide, id, type }: RateBoxProps) => {
+
+  const {user, userData} = UserAuth()
+
+  const rating = userData?.rate[type][id];
 
   const [selectStar, setSelectStar] = useState<number>(0);
   const [rate, setRate] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const clickHandler = (e: React.MouseEvent) => {
+  useEffect(()=>{
+    if(rating) {
+      setRate(rating);
+      setSelectStar(rating);
+    }
+  },[])
+
+  const clickHandler = async (e: React.MouseEvent) => {
+    console.log(user)
     setRate(selectStar);
+  }
+
+  const setRateHandler = async () => {
+    if(user) {
+      // console.log(id, type,  selectStar, user.uid);
+      hide();
+      await updateRate(user.uid, type, id, selectStar);
+    }
+  }
+
+  const removeRateHandler = async () => {
+    if(user) {
+      await deleteRate(user.uid, type, id);
+      setRate(null);
+      setSelectStar(0);
+    }
   }
 
   const mouseEnter = (idx: number) => {
@@ -45,7 +79,8 @@ const RateBox = ({ title, hide }: RateBoxProps) => {
           </div>;
         })}
       </div>
-      <button className='rate-btn' disabled={!rate}>Rate</button>
+      <button className='rate-btn' disabled={!rate || !user || rating === rate} onClick={setRateHandler}>Rate</button>
+      {rating && <button className='remove-rate-btn' onClick={removeRateHandler}>Remove rating</button>}
     </div>
   );
 }
