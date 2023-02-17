@@ -20,7 +20,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
 import { ITitleVideos } from '../../models/title';
-
+import { InfoBox } from '../info-box/info-box';
+import { User } from 'firebase/auth';
 
 interface MovieCardCarouselProps {
   topTitle?: string;
@@ -74,6 +75,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
     const [select, setSelect] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const { isShowing, toggle } = useModal();
+    const {isShowing: isInfoShowing, toggle: toggleInfo} = useModal();
     const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
 
     const [mainTrailer, setMainTrailer] = useState('')
@@ -83,7 +85,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
     const isAdded = userData?.['favorite'][type].some((item: number) => item === id) as boolean;
     const rating = userData?.rate[type][id];
 
-    const addMovieHandler = async () => {
+    const addMovieHandler = async (user: User | null, type: 'tv' | 'movie', id: number) => {
       if (user) {
         setLoading(prev => !prev);
         setTimeout(async () => {
@@ -119,7 +121,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
       <div className='movie-card'>
         <div className="img-wrap">
           <img src={imgPath} alt="" />
-          <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
+          <AddFlag checked={isAdded} loading={loading} onClick={()=>addMovieHandler(user, type, id)}></AddFlag>
         </div>
         <div className="info-block">
           <div>
@@ -139,7 +141,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
             <Link to={`/${type}/${id}`} className='movie-card__title'>{title}</Link>
           </div>
           <div className='info-block__bottom'>
-            <button className='watch-list-btn' onClick={addMovieHandler}>
+            <button className='watch-list-btn' onClick={()=>addMovieHandler(user, type, id)}>
               {!loading && <><span>{`${isAdded ? '✓ ' : '+ '}`}</span><>Watchlist</></>}
               {loading && <RotatingLines
                 strokeColor="#5799ef"
@@ -154,9 +156,12 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
               </button>
-              <button className='movie-info-button'>
+              <button className='movie-info-button' onClick={toggleInfo}>
                 <span>i</span>
               </button>
+              <Modal isShowing={isInfoShowing} hide={toggleInfo}>
+                <InfoBox openRate={toggle} info={props.item} hide={toggleInfo} toWatchlist={()=>addMovieHandler(user, type, id)} loading={loading}/>
+              </Modal>
             </div>
           </div>
         </div>
