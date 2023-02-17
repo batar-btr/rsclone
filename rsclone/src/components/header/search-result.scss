@@ -1,0 +1,44 @@
+.search-result-wrap {
+  position: absolute;
+  top: 36px;
+  width: 100%;
+  background-color: rgb(94, 94, 94);
+  border-radius: 4px;
+  z-index: 1;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.result-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  transition: all 200ms ease-out;
+  background-color: #1f1f1f;
+  cursor: pointer;
+  &:hover {
+    background-color: #2e2e2e;
+    // color: rgb(245, 197, 24);
+  }
+
+  h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  .img-wrap {
+    width: 40px;
+    min-width: 40px;
+    height: 60px;
+    background-color: yellow ;
+    overflow: hidden;
+    img {
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}

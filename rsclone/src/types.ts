@@ -1,3 +1,6 @@
+import { MediaType } from "./components/header/search-result";
+
+
 export interface IMovie {
   adult: boolean;
   backdrop_path: string;
@@ -16,6 +19,7 @@ export interface IMovie {
   vote_count: number;
   type?: 'movie';
   name?: 'string';
+  media_type?: MediaType;
   genres: {name: string, id: number}[]
 }
 
@@ -37,4 +41,14 @@ export interface ITV {
   type?: 'tv';
   title?: string;
   genres: {name: string, id: number}[];
+  media_type?: MediaType;
+}
+
+export interface IPersonSearch {
+  profile_path: string | null;
+  id: number;
+  name: string;
+  title?: string;
+  media_type?: MediaType;
+  poster_path?: string;
 }
