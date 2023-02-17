@@ -28,18 +28,18 @@ const LoginButton = ({ user }: LoginButtonProps) => {
   const withUser = (user: User) => <>
     <UserIcon />
     {user.email?.split('@')[0]}
-    <ArrowIcon className={isOpen ? 'open' : ''} />
-    {isOpen && <ul className='sub-menu' onMouseLeave={closeSubMenu}>
+    <ArrowIcon className={`login-btn-icon ${isOpen ? 'active' : ''}`} />
+    <ul className={`sub-menu ${isOpen ? 'open' : ''}`} onMouseLeave={closeSubMenu}>
       <li>Your Watchlist</li>
       <li>Your Ratings</li>
       <li>Account settings</li>
       <li onClick={() => logOut()}>Sign Out</li>
-    </ul>}
+    </ul>
   </>;
 
 
   return (
-    <div className='login-btn' onClick={clickHandler}>
+    <div className={`login-btn ${isOpen ? 'active' : ''}`} onClick={clickHandler}>
       {user ? withUser(user) : 'Sign In'}
     </div>
   );

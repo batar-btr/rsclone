@@ -28,15 +28,14 @@ export interface ITitle{
   vote_average: number,
   vote_count: number
 }
-
 export type Cast = {
-    id: number,
-    character: string,
-    credit_id: string,
-    known_for_department: string,
-    name: string,
-    popularity: number,
-    profile_path: string
+  id: number,
+  character: string,
+  credit_id: string,
+  known_for_department: string,
+  name: string,
+  popularity: number,
+  profile_path: string
 }
 
 export type Crew = {
@@ -66,21 +65,27 @@ export interface ITitleVideos{
 }
 export interface ITitleReviews{
   page: number,
-  results: {
-    author: string,
-    content: string,
-    created_at: string,
-    id: string,
-    updated_at: string,
-  }[],
+  results: ITitleReview[],
   total_pages: number,
   total_results: number
+}
+export interface ITitleReview{
+  author: string,
+  author_details: {
+    rating: number,
+    username: string,
+  }
+  content: string,
+  created_at: string,
+  id: string,
+  updated_at: string
 }
 export interface ITitleSimilar{
   page: number,
   results: {
     id: number,
-    name: string,
+    title?: string,
+    name?: string,
     poster_path: string,
     vote_average: number,
   }[]

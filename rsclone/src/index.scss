@@ -16,6 +16,7 @@ body{
   width: 100%;
   font-family: Roboto,Helvetica,Arial,sans-serif;
   background-color: #1f1f1f;
+  overflow-y: scroll;
   &.scroll-disabled{
     overflow: hidden;
     background-color: #000000;
@@ -28,9 +29,6 @@ body{
   .hide-scroll {
     overflow: hidden;
     background-color: #000000;
-    #root {
-      padding-right: 17px;
-    }
   }
 }
 

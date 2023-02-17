@@ -9,6 +9,8 @@ import IMDBService from "../../services/IMDBService";
 import "./fullCreditsPage.scss";
 
 export const FullCreditsPage = () => {
+  window.scrollTo(0, 0)
+  
   const [releaseDate, setReleaseDate] = useState<string>();
   const [title, setTitle] = useState<string>();
   const [poster, setPoster] = useState<string>();

@@ -34,7 +34,6 @@ const RateBox = ({ title, hide, id, type }: RateBoxProps) => {
   },[])
 
   const clickHandler = async (e: React.MouseEvent) => {
-    console.log(user)
     setRate(selectStar);
   }
 

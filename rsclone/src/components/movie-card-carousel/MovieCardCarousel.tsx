@@ -72,10 +72,11 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
 
   const MovieCard = (props: MovieCardProps) => {
     const { title, img, rate, type, id } = props.item;
+
     const [select, setSelect] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const { isShowing, toggle } = useModal();
-    const {isShowing: isInfoShowing, toggle: toggleInfo} = useModal();
+    const { isShowing: isInfoShowing, toggle: toggleInfo } = useModal();
     const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
 
     const [mainTrailer, setMainTrailer] = useState('')
@@ -85,7 +86,20 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
     const isAdded = userData?.['favorite'][type].some((item: number) => item === id) as boolean;
     const rating = userData?.rate[type][id];
 
+
+    useEffect(() => {
+      const getVideos = async () => {
+        const videos: ITitleVideos = await (
+          await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=62050b72659b37dc215bf1de992857d4&language=en-US`)
+        ).json()
+        const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
+        setMainTrailer(mainTr ? mainTr.key : '')
+      }
+      getVideos()
+    }, [])
+
     const addMovieHandler = async (user: User | null, type: 'tv' | 'movie', id: number) => {
+
       if (user) {
         setLoading(prev => !prev);
         setTimeout(async () => {
@@ -99,29 +113,15 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
       }
     }
 
-    const trimTitle = title.length > 22 ? `${title.slice(0, 22)}...` : title;
-
-    const testHandler = () => {
-      toggle();
-      console.log(isShowing)
-    };
-
-    useEffect(() => {
-      const getVideos = async () => {
-        const videos: ITitleVideos = await (
-          await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=62050b72659b37dc215bf1de992857d4&language=en-US`)
-        ).json()
-        const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
-        setMainTrailer(mainTr ? mainTr.key : '')
-      }
-      getVideos()
-    }, [])
 
     return (
       <div className='movie-card'>
         <div className="img-wrap">
-          <img src={imgPath} alt="" />
-          <AddFlag checked={isAdded} loading={loading} onClick={()=>addMovieHandler(user, type, id)}></AddFlag>
+          <AddFlag checked={isAdded} loading={loading} onClick={() => addMovieHandler(user, type, id)}></AddFlag>
+          <Link to={`/${type}/${id}`}>
+            <img src={imgPath} alt="poster" />
+            <div className='movie-card-poster-overlay'></div>
+          </Link>
         </div>
         <div className="info-block">
           <div>
@@ -141,7 +141,8 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
             <Link to={`/${type}/${id}`} className='movie-card__title'>{title}</Link>
           </div>
           <div className='info-block__bottom'>
-            <button className='watch-list-btn' onClick={()=>addMovieHandler(user, type, id)}>
+
+            <button className='watch-list-btn' onClick={() => addMovieHandler(user, type, id)}>
               {!loading && <><span>{`${isAdded ? '✓ ' : '+ '}`}</span><>Watchlist</></>}
               {loading && <RotatingLines
                 strokeColor="#5799ef"
@@ -152,15 +153,15 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               />}
             </button>
             <div>
-              <button className='trailer-btn' onClick={() => navigate(`${type}/${id}/video/${mainTrailer}`)}>
+              <Link to={`/${type}/${id}/video/${mainTrailer}`} className='trailer-btn'>
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
-              </button>
+              </Link>
               <button className='movie-info-button' onClick={toggleInfo}>
                 <span>i</span>
               </button>
               <Modal isShowing={isInfoShowing} hide={toggleInfo}>
-                <InfoBox openRate={toggle} info={props.item} hide={toggleInfo} toWatchlist={()=>addMovieHandler(user, type, id)} loading={loading}/>
+                <InfoBox openRate={toggle} info={props.item} hide={toggleInfo} toWatchlist={() => addMovieHandler(user, type, id)} loading={loading} />
               </Modal>
             </div>
           </div>

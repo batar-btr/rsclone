@@ -1,9 +1,10 @@
+import { useNavigate } from 'react-router-dom';
+import { ITitleVideos } from '../../../models/title';
 import { IMovie } from '../../../types';
-import { UserAuth } from '../../../context/AuthContext';
-import { useState } from 'react'
+import cross from '../cross.svg';
+import { useState, useEffect } from "react"
 import AddFlag from '../../movie-card-carousel/AddFlag/AddFlag';
-import { addFavorite } from '../../../User/add-favorite';
-import { deleteFavorite } from '../../../User/delete-favorite';
+
 type CarouselItemProps = {
   movie: IMovie
 }
@@ -13,35 +14,48 @@ const CarouselItem = ({ movie }: CarouselItemProps) => {
   const bgPath = `https://image.tmdb.org/t/p/original${bg}`;
   const posterPath = `https://image.tmdb.org/t/p/w300${poster}`;
 
-  const [loading, setLoading] = useState<boolean>(false)
+  const [select, setSelect] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const { user, userData } = UserAuth()
-  const isAdded = userData?.['favorite']['movie'].some((item: number) => item === id) as boolean;
+  const [mainTrailer, setMainTrailer] = useState('')
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    const getVideos = async () => {
+      const videos: ITitleVideos = await (
+        await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=62050b72659b37dc215bf1de992857d4&language=en-US`)
+      ).json()
+      const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
+      setMainTrailer(mainTr ? mainTr.key : '')
+    }
+    getVideos()
+  }, [])
 
   const addMovieHandler = () => {
-    if(user) {
-      setLoading(prev => !prev);
-      setTimeout(async () => {
-        if(isAdded) {
-          await deleteFavorite(user.uid, 'movie', id)
-        } else {
-          await addFavorite(user.uid, 'movie', id);
-        }
+    setLoading(prev => !prev);
+    setTimeout(() => {
+      return setSelect(prev => {
         setLoading(prev => !prev);
-      }, 1000);
-    }
+        return !prev;
+      })
+    }, 1000);
   }
 
   return (
-    <div className='slide-wrap'>
+    <div className='slide-wrap' onClick={(e) => {
+      e.stopPropagation()
+      navigate(`/movie/${id}/video/${mainTrailer}`)
+    }}>
       <img src={bgPath} alt={title} />
       <div className="legend custom">
-        <div className="poster-wrap">
+        <div className="poster-wrap" onClick={(e) => {
+          e.stopPropagation()
+          navigate(`/movie/${id}`)
+        }}>
           <img src={posterPath} alt="poster" />
-          <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
-          {/* <div className="flag-icon" onClick={addMovieHandler}>
-            <img src={cross} alt="cross-icon" />
-          </div> */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
+          </div>
         </div>
         <div className="slide-info">
           <button className='play-btn'></button>
