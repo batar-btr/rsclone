@@ -9,6 +9,9 @@ import { RotatingLines } from 'react-loader-spinner';
 import IMDBService from '../../services/IMDBService';
 import { IMovieReleaseDates, ITitle, ITitleCast, ITitleVideos, ITvContentRatings } from '../../models/title';
 import { DotSpinner } from '../../components/dots-spinner/DotSpinner';
+import { UserAuth } from '../../context/AuthContext';
+import { deleteFavorite } from '../../User/delete-favorite';
+import { addFavorite } from '../../User/add-favorite';
 
 export const convertNumToShort = (num: number) => {
     const formatter = Intl.NumberFormat('en', { notation: 'compact' });
@@ -16,7 +19,7 @@ export const convertNumToShort = (num: number) => {
   }
 
 export const MainInfoSection = () => {
-  setTimeout(() => window.scrollTo(0, 0), 100)
+  
   
   const params = useParams().id
   const isTvShow = IMDBService().isTvShow() 
@@ -32,6 +35,7 @@ export const MainInfoSection = () => {
   const [titleCastLoading, setTitleCastLoading] = useState(true)
   
   useEffect(() => {
+    setTimeout(() => window.scrollTo(0, 0))
     onRequest();
     setCertLoading(true)
     setTitleLoading(true)
@@ -98,14 +102,23 @@ export const MainInfoSection = () => {
     return `${+h !== 0 ? `${+h}h ` : ''}${+m}m`
   }
 
-  const addMovieHandler = () => {
-    setLoading(prev => !prev);
-    setTimeout(() => {
-      return setSelect(prev => {
+  const { user, userData } = UserAuth()
+
+  const isAdded = userData?.['favorite'][type as 'movie' | 'tv'].some((item: number) => item === +params!) as boolean;
+  const rating = userData?.rate[type as 'movie' | 'tv'][+params!];
+  
+  const addMovieHandler = async () => {
+    if (user) {
+      setLoading(prev => !prev);
+      setTimeout(async () => {
+        if (isAdded) {
+          await deleteFavorite(user.uid, type as 'tv' | 'movie', +params!)
+        } else {
+          await addFavorite(user.uid, type as 'tv' | 'movie', +params!);
+        }
         setLoading(prev => !prev);
-        return !prev;
-      })
-    }, 1000);
+      }, 1000);
+    }
   }
 
   // title && setTimeout(() => setLoading(false), 1000)
@@ -151,8 +164,6 @@ export const MainInfoSection = () => {
                     {certification}
                   </div>
                 }
-                
-                
                 {
                   !isTvShow && <p className='title-main-info-basic-data-item'>
                     {convertTime(+title?.runtime!)}
@@ -181,12 +192,26 @@ export const MainInfoSection = () => {
               <div className='title-main-info-rating-item'>
                 <div className='title-main-info-rating-title'>YOUR RATING</div> 
                 <div className='title-main-info-your-rating' onClick={toggle}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-your-rating-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M19.65 9.04l-4.84-.42-1.89-4.45c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.73 3.67-3.18c.67-.58.32-1.68-.56-1.75zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"></path></svg>
-                  <div className="title-main-info-your-rating-text">Rate</div>
+                  {
+                    !rating && <>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-your-rating-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M19.65 9.04l-4.84-.42-1.89-4.45c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.73 3.67-3.18c.67-.58.32-1.68-.56-1.75zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"></path></svg>
+                      <div className="title-main-info-your-rating-text">Rate</div>
+                    </> 
+                  }
+                  {
+                    rating && <div className='title-main-info-your-rating-wrapper'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-your-rating-filled-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"></path></svg>
+                      <div className='title-main-info-your-rating-value'>
+                        <span>{rating}</span>
+                        /10
+                      </div>
+                    </div>
+                  }
+                  
                 </div>    
               </div>
               <Modal isShowing={isShowing} hide={toggle}>
-                <RateBox title={`${title?.title || title?.name}`} hide={toggle} id={123123} type={type as 'tv' | 'movie'}></RateBox>
+                <RateBox title={`${title?.title || title?.name}`} hide={toggle} id={+params!} type={type as 'tv' | 'movie'}></RateBox>
               </Modal>
               <div className='title-main-info-rating-item'>
                 <div className='title-main-info-rating-title'>POPULARITY</div> 
@@ -207,7 +232,7 @@ export const MainInfoSection = () => {
                 titleLoading && <DotSpinner theme='dark' size='big'/>
               }
               { !titleLoading && <>
-                <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
+                <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
                 <div className="title-main-info-madia-poster-img">
                   <Link to={`/`}>
                     <img src={_imgBase + title?.poster_path} alt="poster"/>
@@ -332,11 +357,21 @@ export const MainInfoSection = () => {
           
           <div className='title-main-info-add-to-watchlist'>
             {
-              <button className='title-main-info-add-to-watchlist-btn'>
+              <button className='title-main-info-add-to-watchlist-btn' onClick={addMovieHandler}>
               {
                 !loading && <>
+                {
+                  isAdded && <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className='title-main-info-add-to-watchlist-btn-icon' width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0 .984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4.984.984 0 0 0-1.4 0L9 16.2z"></path></svg>
+                  <span>Added to Watchlist</span>
+                  </>
+                }
+                {
+                  !isAdded && <>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className='title-main-info-add-to-watchlist-btn-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>
                   <span>Add to Watchlist</span>
+                  </>
+                }
                 </>
               }
               {

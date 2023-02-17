@@ -350,12 +350,29 @@
         &> svg{
           fill: #000000;
         }
+        & .rate-btn-value{
+          &> svg{
+            fill: #0e63be;
+          }
+        }
       }
       &:active{
         background-color: rgba(0, 0, 0, 0.24);
         &> svg{
           fill: #0b4c91;
         }
+      }
+      &-value{
+        margin-right: 0.5rem;
+        color: rgb(0, 0, 0, .54);
+        line-height: 1.5rem;
+        letter-spacing: .03125em;
+      }
+      &-fill-icon{
+        height: 0.8em;
+        width: 1em;
+        margin-right: 0.15em;
+        color: #0e63be;
       }
     }
     & .movie-card__title{

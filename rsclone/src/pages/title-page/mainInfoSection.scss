@@ -205,6 +205,30 @@
       padding-right: 0.25rem;
     }
   }
+  &-your-rating{
+    &-wrapper{
+      display: flex;
+    }
+    &-filled-icon{
+      height: 2rem;
+      width: 2rem;
+      margin-right: 0.25rem;
+    }
+    &-value{
+      display: flex;
+      align-items: center;
+      color: rgb(255, 255, 255, 0.7);
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.0125em;
+      & span{
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.25rem;
+        padding-right: 0.125rem;
+      }
+    }
+  }
   &-popularity{
     display: flex;
     justify-content: center;

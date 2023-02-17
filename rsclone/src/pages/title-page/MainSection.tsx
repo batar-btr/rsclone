@@ -12,6 +12,9 @@ import { convertNumToShort } from './MainInfoSection';
 import IMDBService from '../../services/IMDBService';
 import { ITitle, ITitleCast, ITitleImages, ITitleReview, ITitleReviews, ITitleSimilar, ITitleVideos } from '../../models/title';
 import { DotSpinner } from '../../components/dots-spinner/DotSpinner';
+import { UserAuth } from '../../context/AuthContext';
+import { deleteFavorite } from '../../User/delete-favorite';
+import { addFavorite } from '../../User/add-favorite';
 
 interface TitleVideoProps {
   item: TitleVideo[]
@@ -71,8 +74,6 @@ export const MainSection = () => {
     setTitleReviewsLoading(true)
   }, [params]);
 
- 
-  
   const onRequest = async () => {
     setTitle(await IMDBService().getTitle(+params!))
 
@@ -105,14 +106,11 @@ export const MainSection = () => {
     const random = filtered[randNum(0, filtered.length)]
     setReviews(filtered)
     setRandReview(random)
-    console.log(random)
     if (filtered) {
       setTitleReviewsLoading(false)
     }
   };
-
   
-
   const directors = cast ? cast.crew.filter(el => el.job === 'Director') : []
   const writers = cast ? cast.crew.filter(el => isTvShow ? el.known_for_department === 'Writing' : el.department === 'Writing').slice(0, 3) : []
   
@@ -174,26 +172,32 @@ export const MainSection = () => {
   }
 
   const TitleSliderSimilarBlockItem = (props: TitleSimilarItemProps) => {
-    const [selectSimilar, setSelectSimilar] = useState<boolean>(false);
     const [loadingSimilar, setLoadingSimilar] = useState<boolean>(false);
     const {isShowing, toggle} = useModal();
 
-    const addSimilarMovieHandler = () => {
-      setLoadingSimilar(prev => !prev);
-      setTimeout(() => {
-        return setSelectSimilar(prev => {
+
+    const { user, userData } = UserAuth()
+
+    const isAdded = userData?.['favorite'][type as 'movie' | 'tv'].some((item: number) => item === props.item.id) as boolean;
+    const rating = userData?.rate[type as 'movie' | 'tv'][props.item.id];
+    
+    const addMovieHandler = async () => {
+      if (user) {
+        setLoadingSimilar(prev => !prev);
+        setTimeout(async () => {
+          if (isAdded) {
+            await deleteFavorite(user.uid, type as 'tv' | 'movie', props.item.id)
+          } else {
+            await addFavorite(user.uid, type as 'tv' | 'movie', props.item.id);
+          }
           setLoadingSimilar(prev => !prev);
-          return !prev;
-        })
-      }, 1000);
+        }, 1000);
+      }
     }
-    // window.addEventListener('load', () => {
-    //   setTimeout(() => setLoadingSimilar(false), 1000)
-    // })
 
     return (
       <div className='movie-card'>
-        <AddFlag checked={selectSimilar} loading={loadingSimilar} onClick={addSimilarMovieHandler}></AddFlag>
+        <AddFlag checked={isAdded} loading={loadingSimilar} onClick={addMovieHandler}></AddFlag>
         <div className="img-wrap">
           <Link to={`/${type}/${props.item.id}`}>
             <img src={_imgBase + props.item.poster_path} alt="poster" />
@@ -208,17 +212,27 @@ export const MainSection = () => {
                 <span>{props.item.vote_average.toFixed(1)}</span>
               </div>
               <button className='rate-btn' onClick={toggle}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" className="rate-btn-stroke-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M22.724 8.217l-6.786-.587-2.65-6.22c-.477-1.133-2.103-1.133-2.58 0l-2.65 6.234-6.772.573c-1.234.098-1.739 1.636-.8 2.446l5.146 4.446-1.542 6.598c-.28 1.202 1.023 2.153 2.09 1.51l5.818-3.495 5.819 3.509c1.065.643 2.37-.308 2.089-1.51l-1.542-6.612 5.145-4.446c.94-.81.45-2.348-.785-2.446zm-10.726 8.89l-5.272 3.174 1.402-5.983-4.655-4.026 6.141-.531 2.384-5.634 2.398 5.648 6.14.531-4.654 4.026 1.402 5.983-5.286-3.187z"></path></svg>
+                {
+                  !rating && <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" className="rate-btn-stroke-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M22.724 8.217l-6.786-.587-2.65-6.22c-.477-1.133-2.103-1.133-2.58 0l-2.65 6.234-6.772.573c-1.234.098-1.739 1.636-.8 2.446l5.146 4.446-1.542 6.598c-.28 1.202 1.023 2.153 2.09 1.51l5.818-3.495 5.819 3.509c1.065.643 2.37-.308 2.089-1.51l-1.542-6.612 5.145-4.446c.94-.81.45-2.348-.785-2.446zm-10.726 8.89l-5.272 3.174 1.402-5.983-4.655-4.026 6.141-.531 2.384-5.634 2.398 5.648 6.14.531-4.654 4.026 1.402 5.983-5.286-3.187z"></path></svg>
+                }
+                {
+                  rating && <div className='rate-btn-value'>
+                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="rate-btn-fill-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"></path></svg>
+                    <span>{rating}</span>
+                  </div>
+                }
+                
               </button>
               <Modal isShowing={isShowing} hide={toggle}>
-                <RateBox title={isTvShow ? props.item.name as string : props.item.title as string} hide={toggle} id={123123} type={type as 'tv' | 'movie'}></RateBox>
+                <RateBox title={isTvShow ? props.item.name as string : props.item.title as string} hide={toggle} id={props.item.id} type={type as 'tv' | 'movie'}></RateBox>
               </Modal>
             </div>
             <Link to={`/${type}/${props.item.id}`} className='movie-card__title'>{isTvShow ? props.item.name : props.item.title}</Link>
           </div>
           <div className='info-block__bottom'>
-            <button className='watch-list-btn' onClick={addSimilarMovieHandler}>
-              {!loadingSimilar && <><span>{selectSimilar ? <svg xmlns="http://www.w3.org/2000/svg" className="watch-list-btn-added" width="24" height="24" viewBox="0 0 24 24" role="presentation"><path d="M9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0 .984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4.984.984 0 0 0-1.4 0L9 16.2z"></path></svg> : 
+            <button className='watch-list-btn' onClick={addMovieHandler}>
+              {!loadingSimilar && <>
+              <span>{isAdded ? <svg xmlns="http://www.w3.org/2000/svg" className="watch-list-btn-added" width="24" height="24" viewBox="0 0 24 24" role="presentation"><path d="M9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0 .984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4.984.984 0 0 0-1.4 0L9 16.2z"></path></svg> : 
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="watch-list-btn-add" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>}
                 </span><>Watchlist</></>}
               {loadingSimilar && <RotatingLines
