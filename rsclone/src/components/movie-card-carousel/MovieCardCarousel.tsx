@@ -10,8 +10,14 @@ import { ReactComponent as Arrow } from './icons/right-arrow.svg';
 import { RotatingLines } from 'react-loader-spinner';
 import { fetchCarouselData } from './fetchCarouselData';
 import { RateBox } from '../rate-box/rate-box';
+
+import { UserAuth } from '../../context/AuthContext';
 import useModal from '../../hooks/useModal';
 import Modal from '../modal/Modal';
+import { addFavorite } from '../../User/add-favorite';
+import { deleteFavorite } from '../../User/delete-favorite';
+import { useNavigate } from 'react-router-dom';
+
 import { Link } from 'react-router-dom';
 import { ITitleVideos } from '../../models/title';
 
@@ -27,12 +33,14 @@ interface MovieCardCarouselProps {
   title: string;
   img: string | null;
   rate: number;
-  type?: 'tv' | 'movie';
+  type: 'tv' | 'movie';
 }
 
 const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, type }) => {
 
   const [items, setItems] = useState<CarouselCardItem[][]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -70,6 +78,11 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
     const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
     
     const [mainTrailer, setMainTrailer] = useState('')
+
+    const { user, userData } = UserAuth()
+
+    const isAdded = userData?.['favorite'][type].some((item: number) => item === id) as boolean;
+    const rating = userData?.rate[type][id];
    
 
     useEffect(() => {
@@ -83,21 +96,26 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
       getVideos()
     }, [])
     
-    const addMovieHandler = () => {
-      setLoading(prev => !prev);
-      setTimeout(() => {
-        return setSelect(prev => {
+    const addMovieHandler = async () => {
+      if (user) {
+        setLoading(prev => !prev);
+        setTimeout(async () => {
+          if (isAdded) {
+            await deleteFavorite(user.uid, type, id)
+          } else {
+            await addFavorite(user.uid, type, id);
+          }
           setLoading(prev => !prev);
-          return !prev;
-        })
-      }, 1000);
+        }, 1000);
+      }
     }
+
 
     return (
       <div className='movie-card'>
         <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
         <div className="img-wrap">
-          <Link to={`/${type}/${id}`} reloadDocument>
+          <Link to={`/${type}/${id}`}>
             <img src={imgPath} alt="poster" />
             <div className='movie-card-poster-overlay'></div>
           </Link>
@@ -111,10 +129,10 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               </div>
               <button className='rate-btn' onClick={toggle}><StrokeStar fill='#fff' width='14' height='14'></StrokeStar></button>
               <Modal isShowing={isShowing} hide={toggle}>
-                <RateBox title={title} hide={toggle}></RateBox>
+                <RateBox title={title} hide={toggle} id={id} type={type}></RateBox>
               </Modal>
             </div>
-            <Link to={`/${type}/${id}`} className='movie-card__title' reloadDocument>{title}</Link>
+            <Link to={`/${type}/${id}`} className='movie-card__title'>{title}</Link>
           </div>
           <div className='info-block__bottom'>
             <button className='watch-list-btn' onClick={addMovieHandler}>
@@ -131,7 +149,7 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               />}
             </button>
             <div>
-              <Link to={`/${type}/${id}/video/${mainTrailer}`} className='trailer-btn' reloadDocument>
+              <Link to={`/${type}/${id}/video/${mainTrailer}`} className='trailer-btn'>
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
               </Link>

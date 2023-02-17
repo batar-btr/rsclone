@@ -12,10 +12,10 @@ export const HomePage = () => {
       <MovieCardCarousel subTitle={['Top Picks', 'TV shows and movies just for you']} type='top'/>
       <MovieCardCarousel topTitle='Explore what’s streaming' subTitle={['Prime video', 'Included with Prime']} type='top-tv'/>
       
-      <Link to='/movie/299534' reloadDocument>Movie</Link>
-      <Link to='/tv/194766' reloadDocument>Show</Link>
-      <Link to='/tv/119051' reloadDocument>In Production Show</Link>
-      <Link to='/tv/1396' reloadDocument>Ended Show</Link>
+      <Link to='/movie/299534'>Movie</Link>
+      <Link to='/tv/194766'>Show</Link>
+      <Link to='/tv/119051'>In Production Show</Link>
+      <Link to='/tv/1396'>Ended Show</Link>
       
     </>
     

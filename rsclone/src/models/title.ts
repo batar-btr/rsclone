@@ -1,7 +1,7 @@
 export interface ITitle{
   budget?: number,
   created_by?: {id: number, name: string}[],
-  first_air_date?: string,
+  first_air_date: string,
   genres: {id: number, name: string}[],
   homepage: string,
   id: string,
@@ -14,12 +14,13 @@ export interface ITitle{
   number_of_seasons?: number,
   origin_country?: string[],
   original_language?: string,
+  original_title: string;
   overview: string,
   popularity: number,
   poster_path: string,
   production_companies: {id: number, name: string, origin_country: string}[],
   production_countries: {iso_3166_1: string, name: string}[],
-  release_date?: string,
+  release_date: string,
   revenue?: number,
   runtime?: number,
   spoken_languages: {english_name: string, iso_639_1: string, name: string}[],
@@ -27,24 +28,28 @@ export interface ITitle{
   vote_average: number,
   vote_count: number
 }
+export type Cast = {
+  id: number,
+  character: string,
+  credit_id: string,
+  known_for_department: string,
+  name: string,
+  popularity: number,
+  profile_path: string
+}
+
+export type Crew = {
+  id: number,
+  department: string,
+  job: string,
+  known_for_department: string,
+  name: string,
+  popularity: number,
+  profile_path: string
+}
 export interface ITitleCast{
-  cast: {
-    id: number,
-    character: string,
-    known_for_department: string,
-    name: string,
-    popularity: number,
-    profile_path: string
-  }[],
-  crew: {
-    id: number,
-    department: string,
-    job: string,
-    known_for_department: string,
-    name: string,
-    popularity: number,
-    profile_path: string
-  }[]
+  cast: Cast[],
+  crew: Crew[]
 }
 export interface ITitleImages{
   backdrops: {file_path: string}[],
@@ -60,19 +65,20 @@ export interface ITitleVideos{
 }
 export interface ITitleReviews{
   page: number,
-  results: {
-    author: string,
-    author_details: {
-      rating: number,
-      username: string
-    }
-    content: string,
-    created_at: string,
-    id: string,
-    updated_at: string,
-  }[],
+  results: ITitleReview[],
   total_pages: number,
   total_results: number
+}
+export interface ITitleReview{
+  author: string,
+  author_details: {
+    rating: number,
+    username: string,
+  }
+  content: string,
+  created_at: string,
+  id: string,
+  updated_at: string
 }
 export interface ITitleSimilar{
   page: number,

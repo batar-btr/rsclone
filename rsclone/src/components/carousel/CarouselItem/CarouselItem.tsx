@@ -45,14 +45,12 @@ const CarouselItem = ({ movie }: CarouselItemProps) => {
     <div className='slide-wrap' onClick={(e) => {
       e.stopPropagation()
       navigate(`/movie/${id}/video/${mainTrailer}`)
-      window.location.reload()
     }}>
       <img src={bgPath} alt={title} />
       <div className="legend custom">
         <div className="poster-wrap" onClick={(e) => {
           e.stopPropagation()
           navigate(`/movie/${id}`)
-          window.location.reload()
         }}>
           <img src={posterPath} alt="poster" />
           <div onClick={(e) => e.stopPropagation()}>

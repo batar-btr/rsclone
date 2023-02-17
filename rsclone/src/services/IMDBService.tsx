@@ -158,6 +158,37 @@ const IMDBService = () => {
     return res.genres;
   };
 
+  const getTitleMovie = async (type: string, id: string) => {
+    
+    const res = (await request(
+      `${_apiBase}${type}/${id}?${_apiKey3}&language=en-US`
+    )) as ITitle;    
+    
+    return _transformTitle(res);    
+    
+  };
+
+  const getTitleTV = async (type: string, id: string) => {
+    
+    const res = (await request(
+      `${_apiBase}${type}/${id}?${_apiKey3}&language=en-US`
+    )) as ITitle;  
+    
+    console.log(res);
+    
+    
+    return _transformTitleTV(res);    
+    
+  };
+
+  const getCredits = async (type: string, id: string) => {
+    const res = (await request(
+      `${_apiBase}${type}/${id}/credits?${_apiKey3}&language=en-US`      
+    )) as ITitleCast;    
+    
+    return res;
+  };
+
   const _transformMovie = (movie: IPopular) => {
     return {
       id: movie.id,
@@ -179,6 +210,24 @@ const IMDBService = () => {
       year: movie.first_air_date,
       vote: movie.vote_average,
       genre: movie.genre_ids,
+    };
+  };
+
+  const _transformTitle = (movie: ITitle) => {
+    return {
+      id: movie.id,
+      title: movie.original_title,      
+      thumbnail: _image + movie.poster_path,
+      year: movie.release_date.split('-')[0] 
+    };
+  };
+
+  const _transformTitleTV = (movie: ITitle) => {
+    return {
+      id: movie.id,
+      title: movie.name,      
+      thumbnail: _image + movie.poster_path,
+      year: movie.first_air_date.split('-')[0] 
     };
   };
 
@@ -237,6 +286,9 @@ const IMDBService = () => {
     getTitleReviews,
     getTitleSimilar,
     getTitleCertification,
+    getTitleMovie,
+    getCredits,
+    getTitleTV,
     type,
     _image
   };

@@ -15,34 +15,41 @@ import { ReviewsPage } from '../pages/reviews-page/ReviewsPage';
 import { UpcomingMovie } from '../pages/chart/upcoming/upcoming';
 import { VideoPage } from '../pages/video-page/VideoPage';
 import { NamePage } from '../pages/name-page/NamePage';
+import { SingUpPage } from '../pages/sign-up/SignUpPage';
+import RegistrationPage from '../pages/registration/registration';
+import { AuthProvider } from '../context/AuthContext';
 
 function App() {
   return (
-    <>      
-      <Routes>      
-        <Route path="/" element={<Layout/>}>
-          <Route index element={ <HomePage/> }/>
-          <Route path="/chart" element={<MainChartPage/>} />
-          <Route path="/chart/boxoffice" element={<MainChartPage/>} />                  
-          <Route path='/chart/popularmovies' element={<MostPopularMovies/>} />
-          <Route path='/chart/top250' element={<Top250/>}/>
-          <Route path='/chart/popularshows' element={<MostPopularTVShows/>}/>
-          <Route path='/chart/top250shows' element={<Top250TVShows/>}/>
-          <Route path='/chart/lowestRated' element={<LowestRated/>} /> 
-          <Route path='/chart/upcoming' element={<UpcomingMovie/>} /> 
-          <Route path="/registration/signin" element={ <SingInPage/> }></Route>
-          <Route path="/movie/:id" element={ <TitlePage/>}></Route>
-          <Route path="/tv/:id" element={ <TitlePage/> }></Route>
-          <Route path="/movie/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
-          <Route path="/tv/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
-          <Route path="/movie/:id/reviews" element={ <ReviewsPage/> }></Route>
-          <Route path="/tv/:id/reviews" element={ <ReviewsPage/> }></Route>
-          <Route path="/movie/:id/video/:key" element={ <VideoPage/> }></Route>
-          <Route path="/tv/:id/video/:key" element={ <VideoPage/> }></Route>
-          <Route path="/name/:id" element={ <NamePage/> }></Route>
-        </Route>        
-          <Route path="*" element={<Error404/>}/>
-      </Routes>
+    <> 
+      <AuthProvider>   
+        <Routes>      
+          <Route path="/" element={<Layout/>}>
+            <Route index element={ <HomePage/> }/>
+            <Route path="/chart" element={<MainChartPage/>} />
+            <Route path="/chart/boxoffice" element={<MainChartPage/>} />                  
+            <Route path='/chart/popularmovies' element={<MostPopularMovies/>} />
+            <Route path='/chart/top250' element={<Top250/>}/>
+            <Route path='/chart/popularshows' element={<MostPopularTVShows/>}/>
+            <Route path='/chart/top250shows' element={<Top250TVShows/>}/>
+            <Route path='/chart/lowestRated' element={<LowestRated/>} /> 
+            <Route path='/chart/upcoming' element={<UpcomingMovie/>} /> 
+            <Route path="/registration" element={<RegistrationPage />}></Route>
+            <Route path="/registration/signin" element={<SingInPage />}></Route>
+            <Route path="/registration/signup" element={<SingUpPage />}></Route>
+            <Route path="/movie/:id" element={ <TitlePage/>}></Route>
+            <Route path="/tv/:id" element={ <TitlePage/> }></Route>
+            <Route path="/movie/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
+            <Route path="/tv/:id/fullcredits" element={ <FullCreditsPage/> }></Route>
+            <Route path="/movie/:id/reviews" element={ <ReviewsPage/> }></Route>
+            <Route path="/tv/:id/reviews" element={ <ReviewsPage/> }></Route>
+            <Route path="/movie/:id/video/:key" element={ <VideoPage/> }></Route>
+            <Route path="/tv/:id/video/:key" element={ <VideoPage/> }></Route>
+            <Route path="/name/:id" element={ <NamePage/> }></Route>
+          </Route>        
+            <Route path="*" element={<Error404/>}/>
+        </Routes>
+      </AuthProvider>  
     </>
   )
 }

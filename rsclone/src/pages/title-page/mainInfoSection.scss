@@ -74,6 +74,7 @@
     color: #ffffff;
     padding: 0 1.5rem;
     display: flex;
+    min-height: 96px;
   }
   &-name{
     margin-bottom: 1rem;
@@ -105,6 +106,13 @@
           vertical-align: middle;
           background-color: currentColor;
         }
+      }
+    }
+    &-certification{
+      display: -webkit-inline-box;
+      width: fit-content;
+      & .dots-spinner-wrapper{
+        width: auto;
       }
     }
   }
@@ -218,7 +226,7 @@
     }
     &-wrapper{
       margin-bottom: 0.5rem;
-      height: 420.96px;
+      aspect-ratio: 64/21.048;
     }
     &-poster{
       display: flex;
@@ -331,9 +339,12 @@
   }
   &-details{
     color: #ffffff;
-    width: 59%;
+    
     display: flex;
     flex-direction: column;
+    &-container{
+      width: 59%;
+    }
     &-wrapper{
       display: flex;
       padding: 0 1.5rem 0.5rem 1.5rem;
