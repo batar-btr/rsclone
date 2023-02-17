@@ -6,18 +6,26 @@ import {
   IPopularTVShow,
   IMDBPopularTVShow,
   IGenres,
-  
 } from "../models/IMDBModels";
-
- import { ITitle, ITitleCast } from "../models/title";
+import { 
+  IMovieReleaseDates, 
+  ITitle, 
+  ITitleCast, 
+  ITitleImages, 
+  ITitleReviews, 
+  ITitleSimilar, 
+  ITitleVideos, 
+  ITvContentRatings 
+} from "../models/title"
 
 const IMDBService = () => {
   const { request } = useHttp();
   const _apiBase = "https://api.themoviedb.org/3/";
-
+  const _apiLang = 'language=en-US'
   const _apiKey3 = "api_key=62050b72659b37dc215bf1de992857d4";
   // const _apiKey4 = "api_key=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MjA1MGI3MjY1OWIzN2RjMjE1YmYxZGU5OTI4NTdkNCIsInN1YiI6IjYzZGNmM2IxY2QyMDQ2MDA3OTcwMzRiNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XKKVY-ZqJB4run5AUDdIemKdlPeKhKRZIFU-aGOSzRk";
   const _image = "https://image.tmdb.org/t/p/w500";
+  const type = document.URL.split('/')[3]
 
   const getPopular = async () => {
     const requestLength = 5;
@@ -173,7 +181,6 @@ const IMDBService = () => {
     
   };
 
-
   const getCredits = async (type: string, id: string) => {
     const res = (await request(
       `${_apiBase}${type}/${id}/credits?${_apiKey3}&language=en-US`      
@@ -224,6 +231,45 @@ const IMDBService = () => {
     };
   };
 
+  // title requests
+  const isTvShow = () => type === 'movie' ? false :  true
+
+  const getTitle = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}?${_apiKey3}&${_apiLang}`
+  )) as ITitle;
+
+  const getTitleCast = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}/credits?${_apiKey3}&${_apiLang}`
+  )) as ITitleCast;
+
+  const getTitleImages = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}/images?${_apiKey3}`
+  )) as ITitleImages;
+
+  const getTitleVideos = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}/videos?${_apiKey3}&${_apiLang}`
+  )) as ITitleVideos;
+
+  const getTitleReviews = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}/reviews?${_apiKey3}&${_apiLang}&page=1`
+  )) as ITitleReviews
+
+  const getTitleSimilar = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}/recommendations?${_apiKey3}&${_apiLang}&page=1`
+  )) as ITitleSimilar;
+
+  const getTitleCertification = async (id: number) => {
+    if (type === 'movie') {
+      return (await (
+        request(`${_apiBase}/${type}/${id}/release_dates?${_apiKey3}`)
+      )) as IMovieReleaseDates
+    } else {
+      return (await (
+        request(`${_apiBase}/${type}/${id}/content_ratings?${_apiKey3}&${_apiLang}`)
+      )) as ITvContentRatings
+    }
+  }
+
   return {
     getPopular,
     getTop250,
@@ -232,9 +278,19 @@ const IMDBService = () => {
     getTop250TVShows,
     getUpcoming,
     getGenres,
+    isTvShow,
+    getTitle,
+    getTitleCast,
+    getTitleImages,
+    getTitleVideos,
+    getTitleReviews,
+    getTitleSimilar,
+    getTitleCertification,
     getTitleMovie,
     getCredits,
     getTitleTV,
+    type,
+    _image
   };
 };
 

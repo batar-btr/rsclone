@@ -19,7 +19,7 @@ export const Error404 = () => {
       <div className="error_arrow"></div>
       <div className="error_attrib">
         <span>Spoon Boy, </span>
-        <Link to="/title/tt0411008/"> The Matrix (1999)</Link>
+        <Link to="/movie/603/"> The Matrix (1999)</Link>
       </div>
     </div>
   );

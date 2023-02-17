@@ -28,7 +28,7 @@ interface MovieCardCarouselProps {
   type: 'favorites' | 'top' | 'top-tv';
 }
 
-export interface CarouselCardItem {
+ export interface CarouselCardItem {
   id: number;
   title: string;
   img: string | null;
@@ -71,18 +71,31 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
 
   const MovieCard = (props: MovieCardProps) => {
     const { title, img, rate, type, id } = props.item;
+    
     const [select, setSelect] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
-    const { isShowing, toggle } = useModal();
+    const {isShowing, toggle} = useModal();
     const imgPath = `https://image.tmdb.org/t/p/w500${img}`;
-
+    
     const [mainTrailer, setMainTrailer] = useState('')
 
     const { user, userData } = UserAuth()
 
     const isAdded = userData?.['favorite'][type].some((item: number) => item === id) as boolean;
     const rating = userData?.rate[type][id];
+   
 
+    useEffect(() => {
+      const getVideos = async () => {
+        const videos: ITitleVideos = await (
+          await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=62050b72659b37dc215bf1de992857d4&language=en-US`)
+        ).json()
+        const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
+        setMainTrailer(mainTr ? mainTr.key : '')
+      }
+      getVideos()
+    }, [])
+    
     const addMovieHandler = async () => {
       if (user) {
         setLoading(prev => !prev);
@@ -97,29 +110,15 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
       }
     }
 
-    const trimTitle = title.length > 22 ? `${title.slice(0, 22)}...` : title;
-
-    const testHandler = () => {
-      toggle();
-      console.log(isShowing)
-    };
-
-    useEffect(() => {
-      const getVideos = async () => {
-        const videos: ITitleVideos = await (
-          await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=62050b72659b37dc215bf1de992857d4&language=en-US`)
-        ).json()
-        const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
-        setMainTrailer(mainTr ? mainTr.key : '')
-      }
-      getVideos()
-    }, [])
 
     return (
       <div className='movie-card'>
+        <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
         <div className="img-wrap">
-          <img src={imgPath} alt="" />
-          <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
+          <Link to={`/${type}/${id}`}>
+            <img src={imgPath} alt="poster" />
+            <div className='movie-card-poster-overlay'></div>
+          </Link>
         </div>
         <div className="info-block">
           <div>
@@ -140,7 +139,10 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
           </div>
           <div className='info-block__bottom'>
             <button className='watch-list-btn' onClick={addMovieHandler}>
-              {!loading && <><span>{`${isAdded ? '✓ ' : '+ '}`}</span><>Watchlist</></>}
+            {!loading && <><span>{isAdded ? 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="watch-list-btn-added" viewBox="0 0 24 24" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M9 16.2l-3.5-3.5a.984.984 0 0 0-1.4 0 .984.984 0 0 0 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7a.984.984 0 0 0 0-1.4.984.984 0 0 0-1.4 0L9 16.2z"></path></svg> : 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="watch-list-btn-add" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path></svg>}
+                </span><>Watchlist</></>}
               {loading && <RotatingLines
                 strokeColor="#5799ef"
                 strokeWidth="5"
@@ -150,10 +152,10 @@ const MovieCardCarousel: FC<MovieCardCarouselProps> = ({ topTitle, subTitle, typ
               />}
             </button>
             <div>
-              <button className='trailer-btn' onClick={() => navigate(`${type}/${id}/video/${mainTrailer}`)}>
+              <Link to={`/${type}/${id}/video/${mainTrailer}`} className='trailer-btn'>
                 <PlayIcon fill='#fff'></PlayIcon>
                 Trailer
-              </button>
+              </Link>
               <button className='movie-info-button'>
                 <span>i</span>
               </button>

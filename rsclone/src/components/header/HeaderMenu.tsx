@@ -41,7 +41,7 @@ export const HeaderMenu = () => {
               <Link to='/' className='header-menu-item-link'>What's on TV & Streaming</Link>
               <Link to="/chart/top250shows" className='header-menu-item-link' onClick={close}>Top 250 TV Shows</Link>
               <Link to="/chart/popularshows" className='header-menu-item-link' onClick={close}>Most Popular TV Shows</Link>
-              <Link to='/' className='header-menu-item-link'>Browse TV Shows by Genre</Link>
+              <Link to='/' className='header-menu-item-link' >Browse TV Shows by Genre</Link>
               <Link to='/' className='header-menu-item-link'>TV News</Link>
             </HeaderMenuItem>
             <HeaderMenuItem 

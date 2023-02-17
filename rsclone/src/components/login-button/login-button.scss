@@ -3,25 +3,18 @@
   align-items: center;
   gap: 3px;
   position: relative;
-  z-index: 1000;
-
-  .open {
-    transform: scaleY(-1);
-  }
-
-  @keyframes show {
-    from {
-      opacity: 0;
-      transform: scale(0.8);
-    } to {
-      opacity: 1;
-      transform: scale(1);
+  z-index: 5;
+  height: 100%;
+  &-icon{
+    transform: rotateX(0deg);
+    transition: transform 0.2s ease 0s;
+    &.active{
+      transform: rotateX(180deg);
     }
   }
-
   .sub-menu {
     position: absolute;
-    top: 33px;
+    top: 40px;
     right: -16px;
     padding: 8px 0;
     margin: 0;
@@ -29,7 +22,17 @@
     border-radius: 4px;
     font-size: 16px;
     transform-origin: top right;
-    animation: show 100ms ease-out;
+    transform: scale(.8);
+    visibility: hidden;
+    opacity: 0;
+    transition: none;
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    &.open{
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity .1s, transform .1s;
+    }
     li {
       padding: 16px;
       color: #fff;
@@ -43,7 +46,5 @@
     }
   }
 
-  &>* {
-    transition: all 100ms ease-out;
-  }
+ 
 }
