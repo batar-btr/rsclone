@@ -5,6 +5,7 @@ import { Spinner } from "../chart/spinner/Spinner";
 import React from "react";
 import { TransformDetails } from "../../models/title";
 import IMDBService from "../../services/IMDBService";
+import { Link } from "react-router-dom";
 
 import "./reviewsPage.scss";
 
@@ -21,6 +22,8 @@ export const ReviewsPage = () => {
   const type = useLocation().pathname.split("/")[1];
 
   useEffect(() => {
+
+    window.scrollTo(0, 0);
     onRequest();
     // eslint-disable-next-line
   }, []);
@@ -60,12 +63,12 @@ export const ReviewsPage = () => {
     const redirectTotitle = `/${type}/${params.id}`;
     return (
       <div className="fullcredit__header">
-        <a className="fullcredit__header_img" href={redirectTotitle}>
+        <Link className="fullcredit__header_img" to={redirectTotitle}>
           <img src={poster} alt={title} />
-        </a>
+        </Link>
         <div className="fullcredit__header_wrapper">
           <div className="fullcredit__header_title">
-            <a href={redirectTotitle}>{title}</a>
+            <Link to={redirectTotitle}>{title}</Link>
             <span>({releaseDate})</span>
           </div>
           <h1 className="review__header_subtitle">User Reviews</h1>
