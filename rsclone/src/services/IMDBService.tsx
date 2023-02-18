@@ -15,7 +15,9 @@ import {
   ITitleReviews, 
   ITitleSimilar, 
   ITitleVideos, 
-  ITvContentRatings 
+  ITvContentRatings,
+  TitleReviews,
+  ITitleObjectReviews
 } from "../models/title"
 
 const IMDBService = () => {
@@ -172,10 +174,7 @@ const IMDBService = () => {
     
     const res = (await request(
       `${_apiBase}${type}/${id}?${_apiKey3}&language=en-US`
-    )) as ITitle;  
-    
-    console.log(res);
-    
+    )) as ITitle; 
     
     return _transformTitleTV(res);    
     
@@ -187,6 +186,21 @@ const IMDBService = () => {
     )) as ITitleCast;    
     
     return res;
+  };
+
+  const getReviews = async (type: string, id: string) => {
+    const res = (await request(      
+      `${_apiBase}${type}/${id}/reviews?${_apiKey3}&language=en-US&page=1`      
+    )) as ITitleObjectReviews; 
+
+    let newArr = res.results.filter(
+      (
+        (el) => (f) =>
+          !el.has(f.author) && el.add(f.author)
+      )(new Set())
+    );
+    
+    return newArr.map(_transformReviews);
   };
 
   const _transformMovie = (movie: IPopular) => {
@@ -230,6 +244,20 @@ const IMDBService = () => {
       year: movie.first_air_date.split('-')[0] 
     };
   };
+
+  const _transformReviews = (movie: TitleReviews) => {
+    return {
+      id: movie.id,
+      name: movie.author,  
+      username:  movie.author_details.username,   
+      description: movie.content,
+      create: movie.created_at,
+      update: movie.updated_at,
+      rating: movie.author_details.rating,
+      avatar: null ? null : _image + movie.author_details.avatar_path
+    };
+  };
+
 
   // title requests
   const isTvShow = () => type === 'movie' ? false :  true
@@ -290,7 +318,8 @@ const IMDBService = () => {
     getCredits,
     getTitleTV,
     type,
-    _image
+    _image,
+    getReviews
   };
 };
 
