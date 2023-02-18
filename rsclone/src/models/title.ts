@@ -63,6 +63,38 @@ export interface ITitleVideos{
     type: string
   }[]
 }
+
+export type TitleReviews = {
+  author: string,
+  author_details: TitleReviewAutor,
+  content: string,
+  created_at: string,
+  id: string,
+  updated_at: string,
+}
+
+export type TransformDetails = {
+  id: string;
+  name: string;
+  username: string;
+  description: string;
+  create: string;
+  update: string;
+  rating: number | null;
+  avatar: string | null;
+}
+
+export type TitleReviewAutor = {
+"name": string,
+"username": string,
+"avatar_path": null | string,
+"rating": null | number
+}
+
+export type ReviewSort = { 
+item: TransformDetails[]; 
+func: (propsArray: TransformDetails[]) => void; 
+}
 export interface ITitleReviews{
   page: number,
   results: ITitleReview[],
@@ -79,6 +111,13 @@ export interface ITitleReview{
   created_at: string,
   id: string,
   updated_at: string
+}
+
+export interface ITitleObjectReviews{
+  page: number,
+  results: TitleReviews[],
+  total_pages: number,
+  total_results: number
 }
 export interface ITitleSimilar{
   page: number,
