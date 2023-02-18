@@ -21,6 +21,7 @@ export interface IMovie {
   name?: 'string';
   media_type?: MediaType;
   genres: {name: string, id: number}[]
+  profile_path: string | null;
 }
 
 export interface ITV {
@@ -42,6 +43,7 @@ export interface ITV {
   title?: string;
   genres: {name: string, id: number}[];
   media_type?: MediaType;
+  profile_path: string | null;
 }
 
 export interface IPersonSearch {

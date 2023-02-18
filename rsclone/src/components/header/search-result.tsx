@@ -10,6 +10,7 @@ interface SearchResultProps {
   searchType: SearchType;
   value: string;
   reset: (path: string) => void;
+  onMouseLeave: () => void;
 }
 
 export type MediaType = 'person' | 'tv' | 'movie';
@@ -27,7 +28,7 @@ const convertToResultItem = (searchItem: MultiSearch, type: SearchType): ResultI
   let result: ResultItem = {
     id: searchItem.id,
     title: `${searchItem?.title ? searchItem.title : searchItem.name}`,
-    img: searchItem.poster_path || null
+    img: searchItem.poster_path || searchItem.profile_path || null
   }
   if (type === 'multi') {
     result.media_type = searchItem?.media_type
@@ -47,35 +48,35 @@ interface ResultItemsProps {
 const ResultItem = ({ item, reset }: ResultItemsProps) => {
   const { id, title, media_type, img } = item;
 
-  const navigate = useNavigate();
-
   const imgPath = (img: string | null | undefined) => img ? `https://image.tmdb.org/t/p/w300${img}` : noImg
 
   return (
-    <div className='result-item'>
+    <div className='result-item' onClick={() => reset(`${media_type}/${id}`)}>
       <div className="img-wrap">
         <img src={imgPath(img)} alt="" />
       </div>
-      <h2 onClick={() => navigate(`${media_type}/${id}`)}>{title}</h2>
-      {/* <Link to={`${media_type}/${id}`} key={id} >{title}</Link> */}
+      <div>
+        <h2>{title}</h2>
+        <p>Search category :  <span>{`"${media_type}"`}</span></p>
+      </div>
     </div>
   )
 }
 
 const SearchResult = (props: SearchResultProps) => {
-  const { searchType, value, reset } = props;
+  const { searchType, value, reset, onMouseLeave } = props;
   const [result, setResult] = useState<ResultItem[]>([])
 
   useEffect(() => {
     (async () => {
       const res = await search(searchType, value);
       const data = res.map(item => convertToResultItem(item, searchType));
-      setResult(data);
+      setResult(data.filter(item => item.img));
     })()
   }, [value, searchType])
 
   return (
-    <div className='search-result-wrap'>
+    <div className='search-result-wrap' onMouseLeave={onMouseLeave}>
       {result.map(item => <ResultItem item={item} reset={reset} key={item.id} />)}
     </div>
   );
