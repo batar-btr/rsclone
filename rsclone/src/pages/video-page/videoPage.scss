@@ -1,0 +1,6 @@
+.video{
+  &-container{
+    display: grid;
+    height: calc(100vh - 56px);
+  }
+}

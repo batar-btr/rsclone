@@ -28,11 +28,11 @@ export const MainInfoSection = () => {
   const [title, setTitle] = useState<ITitle>()
   const [cast, setCast] = useState<ITitleCast>()
   const [videos, setVideos] = useState<ITitleVideos>()
-  const [certification, setCertification] = useState('')
-  const [certLoading, setCertLoading] = useState(true)
-  const [titleLoading, setTitleLoading] = useState(true)
-  const [titleVideoLoading, setTitleVideoLoading] = useState(true)
-  const [titleCastLoading, setTitleCastLoading] = useState(true)
+  const [certification, setCertification] = useState<string>('')
+  const [certLoading, setCertLoading] = useState<boolean>(true)
+  const [titleLoading, setTitleLoading] = useState<boolean>(true)
+  const [titleVideoLoading, setTitleVideoLoading] = useState<boolean>(true)
+  const [titleCastLoading, setTitleCastLoading] = useState<boolean>(true)
   
   useEffect(() => {
     setTimeout(() => window.scrollTo(0, 0))

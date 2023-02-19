@@ -286,6 +286,10 @@ const IMDBService = () => {
     `${_apiBase}/${type}/${id}/recommendations?${_apiKey3}&${_apiLang}&page=1`
   )) as ITitleSimilar;
 
+  const getTitleRecommendations = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}/similar?${_apiKey3}&${_apiLang}&page=1`
+  )) as ITitleSimilar;
+
   const getTitleCertification = async (id: number) => {
     if (type === 'movie') {
       return (await (
@@ -314,6 +318,7 @@ const IMDBService = () => {
     getTitleReviews,
     getTitleSimilar,
     getTitleCertification,
+    getTitleRecommendations,
     getTitleMovie,
     getCredits,
     getTitleTV,

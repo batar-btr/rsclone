@@ -56,6 +56,9 @@ export interface ITitleImages{
   logos: {file_path: string}[],
   posters: {file_path: string}[]
 }
+export interface ITitleImage{
+  file_path: string
+}
 export interface ITitleVideos{
   results: {
     key: string,
