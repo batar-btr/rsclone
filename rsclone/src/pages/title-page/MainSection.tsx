@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../title-page/mainSection.scss';
 import { Link, useParams } from 'react-router-dom';
 import AddFlag from '../../components/movie-card-carousel/AddFlag/AddFlag';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useModal from '../../hooks/useModal';
 import { RotatingLines } from 'react-loader-spinner';
 import Modal from '../../components/modal/Modal';
@@ -357,12 +357,12 @@ export const MainSection = () => {
             { images?.length !== 0 &&
               <div className='title-main-photos'>
                 <div className='title-main-title'>
-                  <div className='title-main-title-wrapper'>
+                  <Link to={`/${type}/${params}/photosgallery`} className='title-main-title-wrapper'>
                     <h3 className='title-main-title-text'>Photos
                       <span>{images?.length ? convertNumToShort(images.length) : ''}</span>
                       <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-title-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
                     </h3>
-                  </div>
+                  </Link>
                 </div>
                 <div className='title-main-photos-wrapper'>
                   {
@@ -381,11 +381,11 @@ export const MainSection = () => {
           <section className='title-main-cast-container'>
             <div className='title-main-cast-wrapper'>
               <div className='title-main-title'>
-                <div className='title-main-title-wrapper'>
+                <Link to={`/${type}/${params}/fullcredits`} className='title-main-title-wrapper'>
                   <h3 className='title-main-title-text'>Top cast
                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-title-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
                   </h3>
-                </div>
+                </Link>
               </div>
               {
                 titleCastLoading && <DotSpinner theme='light' size='big'/>

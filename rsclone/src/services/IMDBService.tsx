@@ -27,6 +27,8 @@ const IMDBService = () => {
   const _apiKey3 = "api_key=62050b72659b37dc215bf1de992857d4";
   // const _apiKey4 = "api_key=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MjA1MGI3MjY1OWIzN2RjMjE1YmYxZGU5OTI4NTdkNCIsInN1YiI6IjYzZGNmM2IxY2QyMDQ2MDA3OTcwMzRiNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XKKVY-ZqJB4run5AUDdIemKdlPeKhKRZIFU-aGOSzRk";
   const _image = "https://image.tmdb.org/t/p/w500";
+  const _imageMiddle = "https://image.tmdb.org/t/p/w154"
+  const _imageSmall = "https://image.tmdb.org/t/p/w92"
   const type = document.URL.split('/')[3]
 
   const getPopular = async () => {
@@ -324,6 +326,8 @@ const IMDBService = () => {
     getTitleTV,
     type,
     _image,
+    _imageMiddle,
+    _imageSmall,
     getReviews
   };
 };

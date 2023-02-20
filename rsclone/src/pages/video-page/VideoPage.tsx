@@ -15,7 +15,7 @@ export const VideoPage = () => {
   const key = params.key
   const type = IMDBService().type
   const isTvShow = IMDBService().isTvShow() 
-  const _imgBase = IMDBService()._image 
+  const _imgBase = IMDBService()._imageMiddle
   const [title, setTitle] = useState<ITitle>()
   const [videos, setVideos] = useState<ITitleVideos>()
   const [titleLoading, setTitleLoading] = useState<boolean>(true)
