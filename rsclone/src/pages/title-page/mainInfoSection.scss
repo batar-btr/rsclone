@@ -286,7 +286,7 @@
       height: 100%;
       user-select: none;
       position: relative;
-      cursor: pointer;
+      
       &:hover .title-main-overlay{
         opacity: .08;
       }
@@ -316,6 +316,7 @@
         display: block;
         height: 100%;
         width: 100%;
+        cursor: pointer;
       }
     }
     &-gallery-links{

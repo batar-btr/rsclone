@@ -4,7 +4,7 @@ import { MainInfoSection } from './MainInfoSection';
 import { MainSection } from './MainSection';
 
 export const TitlePage = () => {
-  
+
   window.scrollTo(0, 0)
 
   return (

@@ -615,37 +615,42 @@ export const MainSection = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='title-main-info-details-item'>
-                    <p className='title-main-info-details-item-title'>Country of origin</p>
-                    <div className='title-main-info-details-item-values'>
-                      <div className='title-main-info-details-item-val'>
-                      { !isTvShow &&
-                      title.production_countries[0].name}
-                      { isTvShow &&
-                      title.production_countries[0].name}
+                  { title.production_countries.length !== 0 &&
+                    <div className='title-main-info-details-item'>
+                      <p className='title-main-info-details-item-title'>Country of origin</p>
+                      <div className='title-main-info-details-item-values'>
+                        <div className='title-main-info-details-item-val'>
+                        
+                        {title.production_countries[0].name}
+                        
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className='title-main-info-details-item'>
-                    <p className='title-main-info-details-item-title'>{title.spoken_languages.length > 1 ? 'Languages' : 'Language'}</p>
-                    <div className='title-main-info-details-item-values'>
-                      {
-                        title.spoken_languages?.map((el, i) => 
-                          <div className='title-main-info-details-item-val' key={i}>{el.english_name}</div>
-                        )
-                      }
+                  }
+                  { title.spoken_languages.length !== 0 &&
+                    <div className='title-main-info-details-item'>
+                      <p className='title-main-info-details-item-title'>{title.spoken_languages.length > 1 ? 'Languages' : 'Language'}</p>
+                      <div className='title-main-info-details-item-values'>
+                        {
+                          title.spoken_languages?.map((el, i) => 
+                            <div className='title-main-info-details-item-val' key={i}>{el.english_name}</div>
+                          )
+                        }
+                      </div>
                     </div>
-                  </div>
-                  <div className='title-main-info-details-item'>
-                    <p className='title-main-info-details-item-title'>Production {title.production_companies.length > 1 ? 'companies' : 'company'}</p>
-                    <div className='title-main-info-details-item-values'>
-                      {
-                        title.production_companies?.map((el, i) => 
-                          <div className='title-main-info-details-item-val' key={i}>{el.name}</div>
-                        )
-                      }
+                  }
+                  { title.production_companies.length !== 0 &&
+                    <div className='title-main-info-details-item'>
+                      <p className='title-main-info-details-item-title'>Production {title.production_companies.length > 1 ? 'companies' : 'company'}</p>
+                      <div className='title-main-info-details-item-values'>
+                        {
+                          title.production_companies?.slice(0, 2).map((el, i) => 
+                            <div className='title-main-info-details-item-val' key={i}>{el.name}</div>
+                          )
+                        }
+                      </div>
                     </div>
-                  </div>
+                  }
                   <div className='title-main-info-details-imdb title-main-info-details-item'>
                     <a className="title-main-info-details-imdb-pro-link" href="https://pro.imdb.com/" target="_blank">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-details-item-link-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M16 16.667H8A.669.669 0 0 1 7.333 16V8c0-.367.3-.667.667-.667h3.333c.367 0 .667-.3.667-.666C12 6.3 11.7 6 11.333 6h-4C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.6 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667v-4c0-.367-.3-.667-.667-.667-.366 0-.666.3-.666.667V16c0 .367-.3.667-.667.667zm-2.667-10c0 .366.3.666.667.666h1.727L9.64 13.42a.664.664 0 1 0 .94.94l6.087-6.087V10c0 .367.3.667.666.667.367 0 .667-.3.667-.667V6h-4c-.367 0-.667.3-.667.667z"></path></svg>
