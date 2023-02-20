@@ -45,6 +45,8 @@ function App() {
             <Route path="/tv/:id/reviews" element={ <ReviewsPage/> }></Route>
             <Route path="/movie/:id/video/:key" element={ <VideoPage/> }></Route>
             <Route path="/tv/:id/video/:key" element={ <VideoPage/> }></Route>
+            <Route path="/movie/:id/video/" element={ <VideoPage/> }></Route>
+            <Route path="/tv/:id/video/" element={ <VideoPage/> }></Route>
             <Route path="/name/:id" element={ <NamePage/> }></Route>
           </Route>        
             <Route path="*" element={<Error404/>}/>

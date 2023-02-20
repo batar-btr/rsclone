@@ -38,11 +38,14 @@ export const VideoPage = () => {
       setTitleLoading(false)
     }
 
-    const video = await IMDBService().getTitleVideos(+id!)
-    setVideos(video)
-    if (video) {
-      setTitleVideoLoading(false)
+    if (key !== undefined) {
+      const video = await IMDBService().getTitleVideos(+id!)
+      setVideos(video)
+      if (video) {
+        setTitleVideoLoading(false)
+      }
     }
+    
 
     const certifications = await IMDBService().getTitleCertification(+id!)
     let certification = ''
@@ -57,15 +60,15 @@ export const VideoPage = () => {
     } else {
       const data = certifications as ITvContentRatings
       const filtered = data.results.filter(el => el.iso_3166_1 === 'US')[0]
-      certification = filtered ? filtered.rating : ''
+      certification = filtered ? filtered.rating : 'empty'
     }
     setCertification(certification)
     if (certification) {
       setCertLoading(false)
     }
   };
-  
-  const trailer = videos ? videos!.results.filter(el => el.key === key)[0].name : ''
+
+
 
   const { user, userData } = UserAuth()
 
@@ -102,7 +105,11 @@ export const VideoPage = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-top-link-share-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
             </div>
           </div>
-          <iframe className="video-player" src={`https://www.youtube.com/embed/${key}?autoplay=1&enablejsapi=1`} allow="accelerometer; fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+          {
+            key !== undefined ?    
+              <iframe className="video-player" src={`https://www.youtube.com/embed/${key}?autoplay=1&enablejsapi=1`} allow="accelerometer; fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+              : <div className="video-player">Sorry, no video is avaliable</div>
+            }
         </div>
         <div className="video-player-title-info-container">
           <div className="video-player-title-info-wrapper">
@@ -145,14 +152,18 @@ export const VideoPage = () => {
             </div>
           </div>
           <hr className="video-player-separator"/>
+          {
+            key !== undefined &&
+          
           <div className="video-player-type">
             {
               titleVideoLoading && <DotSpinner theme='dark' size='big'/>
             }
             {
-              !titleVideoLoading && trailer
+              !titleVideoLoading && videos!.results.filter(el => el.key === key)[0].name 
             }
           </div>
+}
         </div>
       </div>
       

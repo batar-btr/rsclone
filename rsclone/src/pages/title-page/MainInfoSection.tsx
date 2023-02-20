@@ -75,7 +75,7 @@ export const MainInfoSection = () => {
     } else {
       const data = certifications as ITvContentRatings
       const filtered = data.results.filter(el => el.iso_3166_1 === 'US')[0]
-      certification = filtered ? filtered.rating : ''
+      certification = filtered ? filtered.rating : 'empty'
     }
     setCertification(certification)
     if (certification) {
@@ -122,6 +122,7 @@ export const MainInfoSection = () => {
   }
 
   // title && setTimeout(() => setLoading(false), 1000)
+  console.log(certification)
   
   return (
     <section className='title-main-info-container'>
