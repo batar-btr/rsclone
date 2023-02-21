@@ -69,7 +69,6 @@ export const MainSection = () => {
 
   const randNum = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
   
-
   useEffect(() => {
     onRequest();
     setTitleLoading(true)
@@ -96,7 +95,7 @@ export const MainSection = () => {
     }
 
     const images: ITitleImages = await IMDBService().getTitleImages(+params!)
-    const allImages: ITitleImage[] = [...images.backdrops, ...images?.logos, ...images.posters]
+    const allImages: ITitleImage[] = [...images.backdrops, ...images.posters]
     setImages(allImages)
     if (allImages) {
       setTitleImagesLoading(false)
@@ -140,8 +139,12 @@ export const MainSection = () => {
     }
     return res;
   }
+
+  const trailers = videos ? [...videos.results.filter(el => el.type === 'Trailer')] : []
+  const orderVideos = videos ? [...trailers, 
+  ...[...videos.results.filter(el => el.type !== 'Trailer' && el.type !== 'Bloopers')]] : []
   
-  const videosChunkArr = videos ? spliceIntoChunks([...videos.results.filter(el => el.type !== 'Bloopers')].slice(0, 12), 2) : []
+  const videosChunkArr = videos ? spliceIntoChunks([...orderVideos].slice(0, 12), 2) : []
   const imagesChunksArr = images ? spliceIntoChunks(images.slice(0, 12), 4) : []
   const similarChunksArr = similar ? spliceIntoChunks([...similar.results].slice(0, 12), 4) : []
   const recommendationsChunksArr = recommendations ? spliceIntoChunks([...recommendations.results], 4) : []
@@ -332,12 +335,12 @@ export const MainSection = () => {
             { videos?.results.length !== 0 &&
               <div className='title-main-videos'>
                 <div className='title-main-title'>
-                  <div className='title-main-title-wrapper'>
+                  <Link to={`/${type}/${params}/videogallery`} className='title-main-title-wrapper'>
                     <h3 className='title-main-title-text'>Videos
-                      <span>{videos?.results.length ? convertNumToShort(videos.results.length) : ''}</span>
+                      <span>{videos?.results.length ? convertNumToShort(orderVideos.length) : ''}</span>
                       <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-title-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
                     </h3>
-                  </div>
+                  </Link>
                 </div>
                 <div className='title-main-videos-wrapper'>
                 {
@@ -357,7 +360,7 @@ export const MainSection = () => {
             { images?.length !== 0 &&
               <div className='title-main-photos'>
                 <div className='title-main-title'>
-                  <Link to={`/${type}/${params}/photosgallery`} className='title-main-title-wrapper'>
+                  <Link to={`/${type}/${params}/photogallery`} className='title-main-title-wrapper'>
                     <h3 className='title-main-title-text'>Photos
                       <span>{images?.length ? convertNumToShort(images.length) : ''}</span>
                       <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-title-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>

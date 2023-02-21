@@ -18,7 +18,8 @@ import { NamePage } from '../pages/name-page/NamePage';
 import { SingUpPage } from '../pages/sign-up/SignUpPage';
 import RegistrationPage from '../pages/registration/registration';
 import { AuthProvider } from '../context/AuthContext';
-import { PhotosGalleryPage } from '../pages/photos-gallery-page/PhotosGalleryPage';
+import { PhotoGalleryPage } from '../pages/photo-gallery-page/PhotoGalleryPage';
+import { VideoGalleryPage } from '../pages/video-gallery-page/VideoGalleryPage';
 
 function App() {
   return (
@@ -49,8 +50,10 @@ function App() {
             <Route path="/movie/:id/video/" element={ <VideoPage/> }></Route>
             <Route path="/tv/:id/video/" element={ <VideoPage/> }></Route>
             <Route path="/name/:id" element={ <NamePage/> }></Route>
-            <Route path="/movie/:id/photosgallery" element={ <PhotosGalleryPage/> }></Route>
-            <Route path="/tv/:id/photosgallery" element={ <PhotosGalleryPage/> }></Route>
+            <Route path="/movie/:id/photogallery" element={ <PhotoGalleryPage/> }></Route>
+            <Route path="/tv/:id/photogallery" element={ <PhotoGalleryPage/> }></Route>
+            <Route path="/movie/:id/videogallery" element={ <VideoGalleryPage/> }></Route>
+            <Route path="/tv/:id/videogallery" element={ <VideoGalleryPage/> }></Route>
           </Route>        
             <Route path="*" element={<Error404/>}/>
         </Routes>
