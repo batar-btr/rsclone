@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import '../video-page/videoPage.scss';
 import { useEffect, useState } from "react";
 import { IMovieReleaseDates, ITitle, ITitleVideos, ITvContentRatings } from "../../models/title";
@@ -22,6 +22,7 @@ export const VideoPage = () => {
   const [titleVideoLoading, setTitleVideoLoading] = useState<boolean>(true)
   const [certification, setCertification] = useState<string>('')
   const [certLoading, setCertLoading] = useState<boolean>(true)
+  const navigate = useNavigate();
   
   useEffect(() => {
     setTimeout(() => window.scrollTo(0, 0))
@@ -97,10 +98,10 @@ export const VideoPage = () => {
       <div className="video-container-wrapper">
         <div className="video-player-wrapper">
           <div className="video-player-top">
-            <Link to={`/${type}/${id}`} className="video-player-close-btn">
+            <div className="video-player-close-btn" onClick={() => navigate(-1)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="video-player-close-btn-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path></svg>
               <div className="video-player-close-btn-text">Close</div>
-            </Link>
+            </div>
             <div className='title-main-info-top-share'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-top-link-share-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
             </div>

@@ -17,7 +17,11 @@
     & a{
       color: #136cb2;
       user-select: none;
+      &:active{
+        color: var(--main-yellow) !important;
+      }
       &:hover{
+        color: #136cb2;
         text-decoration: underline;
       }
     }

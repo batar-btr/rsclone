@@ -16,14 +16,11 @@ export const PhotoGalleryPage = () => {
   const [videos, setVideos] = useState<ITitleVideos>()
   const [titleImagesLoading, setTitleImagesLoading] = useState<boolean>(true)
   const [titleLoading, setTitleLoading] = useState<boolean>(true)
-  const [titleVideosLoading, setTitleVideosLoading] = useState<boolean>(true)
   
   let currentPage = window.location.href.split('page=')[1] ? +window.location.href.split('page=')[1] : 1
   setTimeout(() => window.scrollTo(0, 0), 0)
   useEffect(() => {
     onRequest();
-    setTitleImagesLoading(true)
-
   }, [id, currentPage]);
 
   const onRequest = async () => {
@@ -42,9 +39,7 @@ export const PhotoGalleryPage = () => {
 
     const videos = await IMDBService().getTitleVideos(+id!)
     setVideos(videos)
-    if (videos) {
-      setTitleVideosLoading(false)
-    }
+
   }
 
   const trailers = videos ? [...videos.results.filter(el => el.type === 'Trailer')] : []
@@ -62,6 +57,11 @@ export const PhotoGalleryPage = () => {
 
   const imagesChunksArr = images ? spliceIntoChunks([...images], 48) : []
 
+  const currentChunk = currentPage <= imagesChunksArr.length
+  ? imagesChunksArr[currentPage - 1] : imagesChunksArr[0]
+
+  currentPage = currentPage > imagesChunksArr.length ? 1 : currentPage
+
   const numberWithCommas = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
   const GalleryPagination = () => (
@@ -73,18 +73,22 @@ export const PhotoGalleryPage = () => {
       <div className='photos-gallery-pagination-pages-wrapper'>
         {
           currentPage !== 1 && 
-          <Link to={`/${type}/${id}/photogallery?page=${+window.location.href.split('page=')[1]-1}`} 
+          <Link to={`/${type}/${id}/photogallery?page=${currentPage-1}`} 
             className="photos-gallery-pagination-prev">«&nbsp;Previous</Link>
         }
         <div className='photos-gallery-pagination-pages'>
-          {imagesChunksArr.map((el, i) => 
+        {
+            titleImagesLoading && <DotSpinner theme='light' size='small'/>
+          }
+          { !titleImagesLoading && 
+            imagesChunksArr.map((el, i) => 
             i+1 === currentPage ? <span key={i}>{i+1}</span> :
-            <Link to={`/${type}/${id}/photogallery?page=${i+1}`} key={i}>{i+1}</Link>
-          )}
+            <Link to={`/${type}/${id}/photogallery?page=${i+1}`} key={i}>{i+1}</Link>)
+          }
         </div>
         {
           currentPage !== imagesChunksArr.length &&
-          <Link to={`/${type}/${id}/photogallery?page=${+window.location.href.split('page=')[1]+1}`} 
+          <Link to={`/${type}/${id}/photogallery?page=${currentPage+1 || 2}`} 
           className="photos-gallery-pagination-next">Next&nbsp;»</Link>
         }
       </div>
@@ -136,7 +140,7 @@ export const PhotoGalleryPage = () => {
                 }
                 {
                   !titleImagesLoading && 
-                  imagesChunksArr[currentPage - 1].map((el, i) => 
+                  currentChunk.map((el, i) => 
                     <Link to={`/`} key={i} className='photos-gallery-item'>
                       <img src={_imgBaseMiddle + el.file_path} alt="gallery-image" />
                     </Link>
