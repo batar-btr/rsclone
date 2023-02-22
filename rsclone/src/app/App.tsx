@@ -14,7 +14,7 @@ import { FullCreditsPage } from '../pages/full-credits-page/FullCreditsPage';
 import { ReviewsPage } from '../pages/reviews-page/ReviewsPage';
 import { UpcomingMovie } from '../pages/chart/upcoming/upcoming';
 import { VideoPage } from '../pages/video-page/VideoPage';
-import { NamePage } from '../pages/name-page/NamePage';
+import { NamePage } from '../pages/name-page/NamePage'; 
 import { SingUpPage } from '../pages/sign-up/SignUpPage';
 import RegistrationPage from '../pages/registration/registration';
 import { AuthProvider } from '../context/AuthContext';

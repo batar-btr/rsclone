@@ -1,4 +1,4 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Cast, Crew } from "../../models/title";
 import { v4 as uuidv4 } from "uuid";
@@ -9,7 +9,7 @@ import IMDBService from "../../services/IMDBService";
 import "./fullCreditsPage.scss";
 
 export const FullCreditsPage = () => {
-  window.scrollTo(0, 0)
+  window.scrollTo(0, 0);
   
   const [releaseDate, setReleaseDate] = useState<string>();
   const [title, setTitle] = useState<string>();
@@ -63,6 +63,9 @@ export const FullCreditsPage = () => {
   };
 
   const HeaderContent = () => {
+
+    const link =`/${type}/${params.id}`;
+
     return (
       <div className="fullcredit__header">
         <a className="fullcredit__header_img">
@@ -70,7 +73,7 @@ export const FullCreditsPage = () => {
         </a>
         <div className="fullcredit__header_wrapper">
           <div className="fullcredit__header_title">
-            <a href="">{title}</a>
+            <a href={link}>{title}</a>
             <span>({releaseDate})</span>
           </div>
           <h1 className="fullcredit__header_subtitle">Full Cast & Crew</h1>
@@ -103,7 +106,7 @@ export const FullCreditsPage = () => {
             />
           </div>
           <div className="fullcredit__content_list-name">
-            <a href="">{item.name}</a>
+            <Link to={`/name/${item.id}`}>{item.name}</Link>
           </div>
           <div className="fullcredit__content_list-dotted">...</div>
           <div className="fullcredit__content_list-character">
@@ -161,10 +164,19 @@ export const FullCreditsPage = () => {
       }
     }
 
-    return (
+    const directedContent = (
       <>
+        {" "}
         <h4 className="fullcredit__content_crew-title">Directed by &nbsp;</h4>
         <ul className="fullcredit__content_crew-list">{directedArray}</ul>
+      </>
+    );
+
+    const direct = directedArray.length === 0 ? null : directedContent;
+
+    return (
+      <>
+        {direct}
       </>
     );
   };
