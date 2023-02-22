@@ -18,6 +18,7 @@ export const PhotoGalleryPage = () => {
   const [titleLoading, setTitleLoading] = useState<boolean>(true)
   
   let currentPage = window.location.href.split('page=')[1] ? +window.location.href.split('page=')[1] : 1
+  
   setTimeout(() => window.scrollTo(0, 0), 0)
   useEffect(() => {
     onRequest();
@@ -141,7 +142,7 @@ export const PhotoGalleryPage = () => {
                 {
                   !titleImagesLoading && 
                   currentChunk.map((el, i) => 
-                    <Link to={`/`} key={i} className='photos-gallery-item'>
+                    <Link to={`/${type}/${id}/mediaviewer/item=${i+1 + ((imagesChunksArr[0].length * currentPage) - imagesChunksArr[0].length)}`} key={i} className='photos-gallery-item'>
                       <img src={_imgBaseMiddle + el.file_path} alt="gallery-image" />
                     </Link>
                   )

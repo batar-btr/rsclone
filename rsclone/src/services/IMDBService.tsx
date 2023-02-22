@@ -29,6 +29,7 @@ const IMDBService = () => {
   const _image = "https://image.tmdb.org/t/p/w500";
   const _imageMiddle = "https://image.tmdb.org/t/p/w154"
   const _imageSmall = "https://image.tmdb.org/t/p/w92"
+  const _imageOriginal = "https://image.tmdb.org/t/p/original"
   const type = document.URL.split('/')[3]
 
   const getPopular = async () => {
@@ -328,6 +329,7 @@ const IMDBService = () => {
     _image,
     _imageMiddle,
     _imageSmall,
+    _imageOriginal,
     getReviews
   };
 };

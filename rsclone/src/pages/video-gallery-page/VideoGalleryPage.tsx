@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { ITitle, ITitleImage, ITitleImages, ITitleVideos } from '../../models/title';
+import { ITitle, ITitleVideos } from '../../models/title';
 import IMDBService from '../../services/IMDBService';
 import './videoGalleryPage.scss';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,6 @@ export const VideoGalleryPage = () => {
   const id = useParams().id
   const type = IMDBService().type 
   const _imgBaseSmall = IMDBService()._imageSmall 
-  const _imgBaseMiddle = IMDBService()._imageMiddle
   const isTvShow = IMDBService().isTvShow()
   const [title, setTitle] = useState<ITitle>()
   const [videos, setVideos] = useState<ITitleVideos>()

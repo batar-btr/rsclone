@@ -178,7 +178,7 @@ export const MainSection = () => {
       <div className='title-main-slider-photo-items'>
         {props.item.map((el, i) => 
         <div className='title-main-slider-photo-item' key={i}>
-          <Link to={`/`}>
+          <Link to={`/${type}/${params}/mediaviewer/item=${images!.indexOf(el)+1}`}>
             <div className='title-main-slider-photo-item-preview-wrapper'>
               <img src={_imgBase + el.file_path} 
                 alt="trailer-preview" className='title-main-slider-photo-item-preview'>
