@@ -1,4 +1,4 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Cast, Crew } from "../../models/title";
 import { v4 as uuidv4 } from "uuid";
@@ -103,7 +103,9 @@ export const FullCreditsPage = () => {
             />
           </div>
           <div className="fullcredit__content_list-name">
-            <a href="">{item.name}</a>
+            <Link to={`/name/${item.id}`}>
+              {item.name}
+            </Link>
           </div>
           <div className="fullcredit__content_list-dotted">...</div>
           <div className="fullcredit__content_list-character">

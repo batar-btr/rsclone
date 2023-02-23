@@ -676,6 +676,37 @@
     width: 100%;
     padding: 1.5rem 0;
     margin-bottom: .5rem;
+    &-wrapper{
+      display: grid;
+      grid-auto-columns: calc(12.5% - ((7 / 8) * 1.5rem) - 0rem);
+      grid-auto-flow: column;
+      padding: 0.25rem 1.5rem;
+      justify-items: stretch;
+      grid-gap: 1.5rem;
+    }
+    &-item{
+      grid-column: span 4;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      border-radius: 4px;
+      padding: 1rem;
+      width: auto;
+      min-width: auto;
+      margin-right: 0;
+      background-color: #ffffff;
+      box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    }
+    &-header{
+      &-date{
+        font-size: 0.875rem;
+        font-weight: 400;
+        letter-spacing: 0.01786em;
+        line-height: 1.25rem;
+        color: rgba(0,0,0,0.54);
+        margin-top: 0.5rem;
+      }
+    }
   }
   &-sidebar{
     padding-top: 24px;
