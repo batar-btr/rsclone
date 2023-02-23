@@ -17,7 +17,14 @@ import {
   ITitleVideos, 
   ITvContentRatings,
   TitleReviews,
-  ITitleObjectReviews
+  ITitleObjectReviews,
+  ITvSeason,
+  IActor,
+  IActorTaggedImages,
+  IActorImages,
+  IActorCredits,
+  ICombinedActorCredits,
+  IVideos
 } from "../models/title"
 
 const IMDBService = () => {
@@ -206,6 +213,57 @@ const IMDBService = () => {
     return newArr.map(_transformReviews);
   };
 
+  const getActor = async (id: string) => {
+    
+    const res = (await request(      
+      `${_apiBase}person/${id}?${_apiKey3}&language=en-US`      
+    )) as IActor; 
+    
+    return res    
+    
+  };
+
+  const getActorTaggedImages = async (id: string) => {
+    const res = (await request( 
+      `${_apiBase}person/${id}/tagged_images?${_apiKey3}`      
+    )) as IActorTaggedImages; 
+    
+    return res
+  };
+
+  const getActorImages = async (id: string) => {
+    const res = (await request( 
+      `${_apiBase}person/${id}/images?${_apiKey3}`      
+    )) as IActorImages; 
+    
+    return res
+  };
+
+  const getActorCredits = async (id: string) => {
+    const res = (await request( 
+      
+      `${_apiBase}person/${id}/movie_credits?${_apiKey3}`      
+    )) as IActorCredits; 
+    
+    return res
+  };
+
+  const getCombinedActorCredits = async (id: string) => {
+    const res = (await request(       
+      `${_apiBase}person/${id}/movie_credits?${_apiKey3}`      
+    )) as ICombinedActorCredits; 
+    
+    return res
+  };
+
+  const getVideos = async (id: number) => {
+    const res = (await request(      
+      `${_apiBase}movie/${id}/videos?${_apiKey3}`      
+    )) as IVideos; 
+    
+    return res
+  };
+
   const _transformMovie = (movie: IPopular) => {
     return {
       id: movie.id,
@@ -305,6 +363,10 @@ const IMDBService = () => {
     }
   }
 
+  const getTvSeasons = async (id: number, season: number) => (await request(
+    `${_apiBase}/tv/${id}/season/${season}?${_apiKey3}&${_apiLang}`
+  )) as ITvSeason;
+
   return {
     getPopular,
     getTop250,
@@ -325,12 +387,19 @@ const IMDBService = () => {
     getTitleMovie,
     getCredits,
     getTitleTV,
+    getTvSeasons,
     type,
     _image,
     _imageMiddle,
     _imageSmall,
     _imageOriginal,
-    getReviews
+    getReviews,
+    getActor,
+    getActorTaggedImages,
+    getActorImages,
+    getActorCredits,
+    getCombinedActorCredits,
+    getVideos,
   };
 };
 

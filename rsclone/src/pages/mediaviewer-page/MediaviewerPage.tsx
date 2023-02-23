@@ -29,9 +29,6 @@ export const MediaviewerPage = () => {
   const onRequest = async () => {
     const title = await IMDBService().getTitle(+id!)
     setTitle(title)
-    // if (title) {
-    //   setTitleLoading(false)
-    // }
 
     const images: ITitleImages = await IMDBService().getTitleImages(+id!)
     const allImages: ITitleImage[] = [...images.backdrops, ...images.posters]
@@ -71,7 +68,7 @@ export const MediaviewerPage = () => {
         <div className='mediaviewer-carousel'>
           {
             images && 
-            <Carousel showThumbs={false} showStatus={false} transitionTime={0} showIndicators={false} autoPlay={false} selectedItem={+itemNum! - 1}
+            <Carousel showThumbs={false} showStatus={false} transitionTime={0} showIndicators={false} autoPlay={false} infiniteLoop={true} selectedItem={+itemNum! - 1}
               onChange={(index) => {
                 navigate(`/${type}/${id}/mediaviewer/item=${index + 1}`)
                 setCounter(counter+=1)

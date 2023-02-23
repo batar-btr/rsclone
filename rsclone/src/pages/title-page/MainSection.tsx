@@ -10,11 +10,12 @@ import Modal from '../../components/modal/Modal';
 import { RateBox } from '../../components/rate-box/rate-box';
 import { convertNumToShort } from './MainInfoSection';
 import IMDBService from '../../services/IMDBService';
-import { ITitle, ITitleCast, ITitleImage, ITitleImages, ITitleReview, ITitleReviews, ITitleSimilar, ITitleVideos } from '../../models/title';
+import { ITitle, ITitleCast, ITitleImage, ITitleImages, ITitleReview, ITitleReviews, ITitleSimilar, ITitleVideos, ITvEpisode, ITvSeason } from '../../models/title';
 import { DotSpinner } from '../../components/dots-spinner/DotSpinner';
 import { UserAuth } from '../../context/AuthContext';
 import { deleteFavorite } from '../../User/delete-favorite';
 import { addFavorite } from '../../User/add-favorite';
+import { NameAside } from '../name-page/nameAside';
 
 interface TitleVideoProps {
   item: TitleVideo[]
@@ -56,6 +57,7 @@ export const MainSection = () => {
   const [similar, setSimilar] = useState<ITitleSimilar>()
   const [reviews, setReviews] = useState<ITitleReviews>()
   const [randReview, setRandReview] = useState<ITitleReview>()
+  const [episodes, setEpisodes] = useState<ITvEpisode[]>()
   const [titleVideosLoading, setTitleVideosLoading] = useState<boolean>(true)
   const [titleImagesLoading, setTitleImagesLoading] = useState<boolean>(true)
   const [titleCastLoading, setTitleCastLoading] = useState<boolean>(true)
@@ -126,6 +128,14 @@ export const MainSection = () => {
     if (similar) {
       settitleRecommendationsLoading(false)
     }
+
+    const seasonsNum = title && isTvShow ? title.number_of_seasons : null
+    const episodes: ITvEpisode[] = []
+    for (let i = 1; i <= seasonsNum!; i++) {
+      const season = await IMDBService().getTvSeasons(+params!, i)
+      season.episodes.map(el => episodes.push(el))
+    }
+    setEpisodes(episodes)
   };
   
   const directors = cast ? cast.crew.filter(el => el.job === 'Director') : []
@@ -327,10 +337,47 @@ export const MainSection = () => {
   ];  
   const numberWithCommas = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
+  const twoTopRatedEpisodes = episodes ? episodes.sort((a, b) => b.vote_average - a.vote_average).slice(0, 2) : []
+  console.log(twoTopRatedEpisodes)
   return (
     <section className='title-main-container'>
       <div className='title-main title-section'>
         <div className='title-main-wrapper'>
+        <section className='title-main-episodes-container'>
+            { episodes?.length !== 0 &&
+              <div className='title-main-episodes'>
+                <div className='title-main-title'>
+                  <Link to={`/${type}/${params}/episodes`} className='title-main-title-wrapper'>
+                    <h3 className='title-main-title-text'>Episodes
+                      <span>{episodes?.length ? convertNumToShort(episodes.length) : ''}</span>
+                      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-title-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
+                    </h3>
+                  </Link>
+                </div>
+                <div className='title-main-episodes-wrapper'>
+                {
+                  titleVideosLoading && <DotSpinner theme='light' size='big'/>
+                }
+                {
+                  !titleVideosLoading && 
+                  twoTopRatedEpisodes.map(el => 
+                  <div className='title-main-episodes-item'>
+                    <div className='title-main-episodes-header'>
+                      <div className='title-main-reviews-featured-header-text'>
+                        <span>Top-rated</span> 
+                      </div>
+                      <div>
+                        {`${new Date(el.air_date as string).toLocaleDateString('us', { weekday: 'short' })},
+                        ${transformDate(new Date(el.air_date as string).toISOString().split("T")[0])}`}
+                      </div>
+                    </div>
+                  </div>
+                  )
+                }
+                </div>
+              </div>
+            }
+          </section>
           <section className='title-main-videos-container'>
             { videos?.results.length !== 0 &&
               <div className='title-main-videos'>
@@ -555,7 +602,7 @@ export const MainSection = () => {
                         {randReview?.author_details.username}
                       </span>
                       <span className="title-main-reviews-featured-date">
-                        {transformDate(new Date(randReview?.created_at as '').toISOString().split("T")[0])}
+                        {transformDate(new Date(randReview?.created_at as string).toISOString().split("T")[0])}
                       </span>
                     </div>
                   </div>
@@ -707,7 +754,7 @@ export const MainSection = () => {
         </div>
         
         <section className='title-main-sidebar'>
-          
+          <NameAside general={undefined}></NameAside>
         </section>
       </div>
       

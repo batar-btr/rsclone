@@ -672,6 +672,14 @@
       
     }
   }
+  &-episodes{
+    width: 100%;
+    padding: 1.5rem 0;
+    margin-bottom: .5rem;
+  }
+  &-sidebar{
+    padding-top: 24px;
+  }
   & .carousel-root{
     .slider-wrapper.axis-horizontal{
       padding-left: 1.5rem;
