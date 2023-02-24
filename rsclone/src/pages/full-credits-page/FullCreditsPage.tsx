@@ -70,7 +70,7 @@ export const FullCreditsPage = () => {
         </a>
         <div className="fullcredit__header_wrapper">
           <div className="fullcredit__header_title">
-            <a href="">{title}</a>
+            <Link to={`/${type}/${params.id!}`}>{title}</Link>
             <span>({releaseDate})</span>
           </div>
           <h1 className="fullcredit__header_subtitle">Full Cast & Crew</h1>
@@ -149,7 +149,7 @@ export const FullCreditsPage = () => {
           return (
             <li className="fullcredit__content_crew-item" key={uuidv4()}>
               <div className="fullcredit__content_crew-item-name">
-                <a href="">{item.name}</a>
+                <Link to={`/name/${item.id}`}>{item.name}</Link>
               </div>
               <div>...</div>
               <div className="fullcredit__content_crew-item-job">
@@ -163,12 +163,21 @@ export const FullCreditsPage = () => {
       }
     }
 
-    return (
+    const directedContent = (
       <>
-        <h4 className="fullcredit__content_crew-title">Directed by &nbsp;</h4>
-        <ul className="fullcredit__content_crew-list">{directedArray}</ul>
+        {" "}
+        <h4 className="fullcreditcontent_crew-title">Directed by &nbsp;</h4>
+        <ul className="fullcreditcontent_crew-list">{directedArray}</ul>
       </>
     );
+
+    const direct = directedArray.length === 0 ? null : directedContent;
+
+    return (
+      <>
+        {direct}
+      </>
+    )
   };
 
   const renderCrewList = (str: string) => {

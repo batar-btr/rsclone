@@ -515,7 +515,7 @@ export const NamePage = () => {
   };
 
   const Works = (arr: CombinedActorCreditsCast[]) => {
-    const sortedCast = [...arr].sort((x, y) => {
+    const sortedCast = [...arr].filter(el => el.release_date).sort((x, y) => {
       const first = new Date(x.release_date);
       const second = new Date(y.release_date);
 
