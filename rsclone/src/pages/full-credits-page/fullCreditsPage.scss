@@ -108,7 +108,8 @@
               max-height: 44px;
               img {
                   width: 100%;
-                  height: auto;
+                  height: 44px;
+                  object-fit: cover;
               }
           }
           &-name {

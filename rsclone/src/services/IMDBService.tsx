@@ -15,7 +15,16 @@ import {
   ITitleReviews, 
   ITitleSimilar, 
   ITitleVideos, 
-  ITvContentRatings 
+  ITvContentRatings,
+  TitleReviews,
+  ITitleObjectReviews,
+  ITvSeason,
+  IActor,
+  IActorTaggedImages,
+  IActorImages,
+  IActorCredits,
+  ICombinedActorCredits,
+  IVideos
 } from "../models/title"
 
 const IMDBService = () => {
@@ -25,6 +34,9 @@ const IMDBService = () => {
   const _apiKey3 = "api_key=62050b72659b37dc215bf1de992857d4";
   // const _apiKey4 = "api_key=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MjA1MGI3MjY1OWIzN2RjMjE1YmYxZGU5OTI4NTdkNCIsInN1YiI6IjYzZGNmM2IxY2QyMDQ2MDA3OTcwMzRiNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XKKVY-ZqJB4run5AUDdIemKdlPeKhKRZIFU-aGOSzRk";
   const _image = "https://image.tmdb.org/t/p/w500";
+  const _imageMiddle = "https://image.tmdb.org/t/p/w154"
+  const _imageSmall = "https://image.tmdb.org/t/p/w92"
+  const _imageOriginal = "https://image.tmdb.org/t/p/original"
   const type = document.URL.split('/')[3]
 
   const getPopular = async () => {
@@ -172,10 +184,7 @@ const IMDBService = () => {
     
     const res = (await request(
       `${_apiBase}${type}/${id}?${_apiKey3}&language=en-US`
-    )) as ITitle;  
-    
-    console.log(res);
-    
+    )) as ITitle; 
     
     return _transformTitleTV(res);    
     
@@ -187,6 +196,72 @@ const IMDBService = () => {
     )) as ITitleCast;    
     
     return res;
+  };
+
+  const getReviews = async (type: string, id: string) => {
+    const res = (await request(      
+      `${_apiBase}${type}/${id}/reviews?${_apiKey3}&language=en-US&page=1`      
+    )) as ITitleObjectReviews; 
+
+    let newArr = res.results.filter(
+      (
+        (el) => (f) =>
+          !el.has(f.author) && el.add(f.author)
+      )(new Set())
+    );
+    
+    return newArr.map(_transformReviews);
+  };
+
+  const getActor = async (id: string) => {
+    
+    const res = (await request(      
+      `${_apiBase}person/${id}?${_apiKey3}&language=en-US`      
+    )) as IActor; 
+    
+    return res    
+    
+  };
+
+  const getActorTaggedImages = async (id: string) => {
+    const res = (await request( 
+      `${_apiBase}person/${id}/tagged_images?${_apiKey3}`      
+    )) as IActorTaggedImages; 
+    
+    return res
+  };
+
+  const getActorImages = async (id: string) => {
+    const res = (await request( 
+      `${_apiBase}person/${id}/images?${_apiKey3}`      
+    )) as IActorImages; 
+    
+    return res
+  };
+
+  const getActorCredits = async (id: string) => {
+    const res = (await request( 
+      
+      `${_apiBase}person/${id}/movie_credits?${_apiKey3}`      
+    )) as IActorCredits; 
+    
+    return res
+  };
+
+  const getCombinedActorCredits = async (id: string) => {
+    const res = (await request(       
+      `${_apiBase}person/${id}/movie_credits?${_apiKey3}`      
+    )) as ICombinedActorCredits; 
+    
+    return res
+  };
+
+  const getVideos = async (id: number) => {
+    const res = (await request(      
+      `${_apiBase}movie/${id}/videos?${_apiKey3}`      
+    )) as IVideos; 
+    
+    return res
   };
 
   const _transformMovie = (movie: IPopular) => {
@@ -231,6 +306,20 @@ const IMDBService = () => {
     };
   };
 
+  const _transformReviews = (movie: TitleReviews) => {
+    return {
+      id: movie.id,
+      name: movie.author,  
+      username:  movie.author_details.username,   
+      description: movie.content,
+      create: movie.created_at,
+      update: movie.updated_at,
+      rating: movie.author_details.rating,
+      avatar: null ? null : _image + movie.author_details.avatar_path
+    };
+  };
+
+
   // title requests
   const isTvShow = () => type === 'movie' ? false :  true
 
@@ -258,6 +347,10 @@ const IMDBService = () => {
     `${_apiBase}/${type}/${id}/recommendations?${_apiKey3}&${_apiLang}&page=1`
   )) as ITitleSimilar;
 
+  const getTitleRecommendations = async (id: number) => (await request(
+    `${_apiBase}/${type}/${id}/similar?${_apiKey3}&${_apiLang}&page=1`
+  )) as ITitleSimilar;
+
   const getTitleCertification = async (id: number) => {
     if (type === 'movie') {
       return (await (
@@ -269,6 +362,10 @@ const IMDBService = () => {
       )) as ITvContentRatings
     }
   }
+
+  const getTvSeasons = async (id: number, season: number) => (await request(
+    `${_apiBase}/tv/${id}/season/${season}?${_apiKey3}&${_apiLang}`
+  )) as ITvSeason;
 
   return {
     getPopular,
@@ -286,11 +383,23 @@ const IMDBService = () => {
     getTitleReviews,
     getTitleSimilar,
     getTitleCertification,
+    getTitleRecommendations,
     getTitleMovie,
     getCredits,
     getTitleTV,
+    getTvSeasons,
     type,
-    _image
+    _image,
+    _imageMiddle,
+    _imageSmall,
+    _imageOriginal,
+    getReviews,
+    getActor,
+    getActorTaggedImages,
+    getActorImages,
+    getActorCredits,
+    getCombinedActorCredits,
+    getVideos,
   };
 };
 

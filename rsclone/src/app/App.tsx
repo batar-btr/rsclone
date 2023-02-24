@@ -18,6 +18,10 @@ import { NamePage } from '../pages/name-page/NamePage';
 import { SingUpPage } from '../pages/sign-up/SignUpPage';
 import RegistrationPage from '../pages/registration/registration';
 import { AuthProvider } from '../context/AuthContext';
+import { PhotoGalleryPage } from '../pages/photo-gallery-page/PhotoGalleryPage';
+import { VideoGalleryPage } from '../pages/video-gallery-page/VideoGalleryPage';
+import { MediaviewerPage } from '../pages/mediaviewer-page/MediaviewerPage';
+import { EpisodesPage } from '../pages/episodes-page/EpisodesPage';
 
 function App() {
   return (
@@ -45,7 +49,16 @@ function App() {
             <Route path="/tv/:id/reviews" element={ <ReviewsPage/> }></Route>
             <Route path="/movie/:id/video/:key" element={ <VideoPage/> }></Route>
             <Route path="/tv/:id/video/:key" element={ <VideoPage/> }></Route>
+            <Route path="/movie/:id/video/" element={ <VideoPage/> }></Route>
+            <Route path="/tv/:id/video/" element={ <VideoPage/> }></Route>
             <Route path="/name/:id" element={ <NamePage/> }></Route>
+            <Route path="/movie/:id/photogallery" element={ <PhotoGalleryPage/> }></Route>
+            <Route path="/tv/:id/photogallery" element={ <PhotoGalleryPage/> }></Route>
+            <Route path="/movie/:id/videogallery" element={ <VideoGalleryPage/> }></Route>
+            <Route path="/tv/:id/videogallery" element={ <VideoGalleryPage/> }></Route>
+            <Route path="/movie/:id/mediaviewer/:item" element={ <MediaviewerPage/> }></Route>
+            <Route path="/tv/:id/mediaviewer/:item" element={ <MediaviewerPage/> }></Route>
+            <Route path="/tv/:id/episodes" element={ <EpisodesPage/> }></Route>
           </Route>        
             <Route path="*" element={<Error404/>}/>
         </Routes>

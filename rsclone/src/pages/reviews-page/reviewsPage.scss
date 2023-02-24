@@ -1,0 +1,80 @@
+.review {
+    &__header {
+        &_subtitle {
+            margin: 0;
+            padding: 0;
+            color: #333333;
+            font-size: 21px;
+            line-height: 110%;
+            border-bottom: medium none;
+            font-weight: bold;
+            font-family: Verdana, Arial, sans-serif;
+        }
+    }
+
+    &__wrapper {
+        padding: 20px;
+        padding-top: 0;
+        &_list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        &_item {
+            padding: 0 20px;
+            padding-top: 15px;
+            margin-bottom: 5px;
+            padding-bottom: 10px;
+            &-rate {
+                margin-bottom: 15px;
+                min-height: 10px;                
+                &-bar {
+                   svg {
+                    fill: #c39400;
+                    margin-top: -3px;
+                    vertical-align: top;
+                    margin-right: 5px;
+                   }  
+                   &-other {                    
+                      font-size: 13px;
+                      vertical-align: top;
+
+                   } 
+                   
+                   &-pointscale {
+                    font-size: 10px;
+                   }
+                }
+            }
+            &-date {
+                font-size: 11px;
+                margin-bottom: 15px;
+                cursor: default;
+                font-family: Verdana, Arial, sans-serif;
+                &-user {
+                    color: #136CB2;
+                    margin-right: 10px;
+                }                
+            }
+            &-description {
+                margin-bottom: 5px;
+                padding-bottom: 10px;                
+                padding-right: 15px;                
+                cursor: default;
+                border-bottom: 1px solid #d1d1d1;
+                line-height: 18px;  
+                font-family: Verdana, Arial, sans-serif;
+                color: #333;
+                font-size: 13px;
+            }            
+        }
+    }
+    &__outOfReview {
+        max-width: 1080px;
+        margin: 30px;
+        font-size: calc(25px + (40 + 40 * 0.7) *(100vw - 320px) / 1080);
+        text-align: center;
+        font-family: Verdana, Arial, sans-serif;
+        font-weight: bold;
+        line-height:normal;
+    }
+}

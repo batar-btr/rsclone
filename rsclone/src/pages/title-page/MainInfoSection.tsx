@@ -28,11 +28,11 @@ export const MainInfoSection = () => {
   const [title, setTitle] = useState<ITitle>()
   const [cast, setCast] = useState<ITitleCast>()
   const [videos, setVideos] = useState<ITitleVideos>()
-  const [certification, setCertification] = useState('')
-  const [certLoading, setCertLoading] = useState(true)
-  const [titleLoading, setTitleLoading] = useState(true)
-  const [titleVideoLoading, setTitleVideoLoading] = useState(true)
-  const [titleCastLoading, setTitleCastLoading] = useState(true)
+  const [certification, setCertification] = useState<string>('')
+  const [certLoading, setCertLoading] = useState<boolean>(true)
+  const [titleLoading, setTitleLoading] = useState<boolean>(true)
+  const [titleVideoLoading, setTitleVideoLoading] = useState<boolean>(true)
+  const [titleCastLoading, setTitleCastLoading] = useState<boolean>(true)
   
   useEffect(() => {
     setTimeout(() => window.scrollTo(0, 0))
@@ -75,7 +75,7 @@ export const MainInfoSection = () => {
     } else {
       const data = certifications as ITvContentRatings
       const filtered = data.results.filter(el => el.iso_3166_1 === 'US')[0]
-      certification = filtered ? filtered.rating : ''
+      certification = filtered ? filtered.rating : 'empty'
     }
     setCertification(certification)
     if (certification) {
@@ -127,14 +127,26 @@ export const MainInfoSection = () => {
     <section className='title-main-info-container'>
       <div className='title-main-info title-section'>
         <div className='title-main-info-top'>
-          <Link to={`/${type}/${title?.id}/fullcredits`} className='title-main-info-top-link'>Cast & Crew</Link>
-          <Link to={`/${type}/${title?.id}/reviews`} className='title-main-info-top-link'>User reviews</Link>
-          <div className='title-main-info-top-link'>
-            <a href='https://pro.imdb.com/'>IMDB Pro</a>
+          <div className='title-main-info-top-left'>
+            {
+              isTvShow && <Link to={`/tv/${title?.id}/episodes`}>
+                <span className='title-main-info-top-left-text'>Episode guide</span>
+                <span className='title-main-info-top-left-num'>{title?.number_of_episodes}</span>
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-info-top-left-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
+              </Link>
+            }
           </div>
-          <div className='title-main-info-top-share'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-top-link-share-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
+          <div className='title-main-info-top-right'>
+            <Link to={`/${type}/${title?.id}/fullcredits`} className='title-main-info-top-link'>Cast & Crew</Link>
+            <Link to={`/${type}/${title?.id}/reviews`} className='title-main-info-top-link'>User reviews</Link>
+            <div className='title-main-info-top-link'>
+              <a href='https://pro.imdb.com/'>IMDB Pro</a>
+            </div>
+            <div className='title-main-info-top-share'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="title-main-info-top-link-share-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"></path></svg>
+            </div>
           </div>
+          
         </div>
         <div className='title-main-info-name-rating'>
           {
@@ -265,16 +277,18 @@ export const MainInfoSection = () => {
               }
               </div> 
               <div className='title-main-info-madia-gallery-links'>
-                <div className='title-main-info-madia-gallery'>
+                <Link to={`/${type}/${params}/videogallery`} className='title-main-info-madia-gallery'>
                   <div className="title-main-info-madia-gallery-info">
                     <svg xmlns="http://www.w3.org/2000/svg" className='title-main-info-madia-gallery-icon' width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1zm17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l5.47 4.1c.27.2.27.6 0 .8L12 14.5z"></path></svg>
-                    <div className="title-main-info-madia-gallery-text">99+ Videos</div></div>
-                </div>
-                <div className='title-main-info-madia-gallery'>
+                    <div className="title-main-info-madia-gallery-text">99+ Videos</div>
+                  </div>
+                </Link>
+                <Link to={`/${type}/${params}/photogallery`} className='title-main-info-madia-gallery'>
                   <div className="title-main-info-madia-gallery-info">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className='title-main-info-madia-gallery-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-10.6-3.47l1.63 2.18 2.58-3.22a.5.5 0 0 1 .78 0l2.96 3.7c.26.33.03.81-.39.81H9a.5.5 0 0 1-.4-.8l2-2.67c.2-.26.6-.26.8 0zM2 7v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1s-1 .45-1 1z"></path></svg>
-                    <div className="title-main-info-madia-gallery-text">99+ Photos</div></div>
-                </div>
+                    <div className="title-main-info-madia-gallery-text">99+ Photos</div>
+                  </div>
+                </Link>
               </div>         
             </div>
           </div>
