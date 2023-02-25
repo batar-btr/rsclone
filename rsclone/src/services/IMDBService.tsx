@@ -24,7 +24,8 @@ import {
   IActorImages,
   IActorCredits,
   ICombinedActorCredits,
-  IVideos
+  IVideos,
+  IPopularActor
 } from "../models/title"
 
 const IMDBService = () => {
@@ -264,6 +265,15 @@ const IMDBService = () => {
     return res
   };
 
+  const getPopularActor = async (start: number) => {
+
+    const res = (await request(            
+      `${_apiBase}person/popular?${_apiKey3}&language=en-US&page=${start}`      
+    )) as IPopularActor;     
+    
+    return res;
+  };
+
   const _transformMovie = (movie: IPopular) => {
     return {
       id: movie.id,
@@ -400,6 +410,7 @@ const IMDBService = () => {
     getActorCredits,
     getCombinedActorCredits,
     getVideos,
+    getPopularActor
   };
 };
 

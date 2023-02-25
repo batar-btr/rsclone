@@ -22,6 +22,7 @@ import { PhotoGalleryPage } from '../pages/photo-gallery-page/PhotoGalleryPage';
 import { VideoGalleryPage } from '../pages/video-gallery-page/VideoGalleryPage';
 import { MediaviewerPage } from '../pages/mediaviewer-page/MediaviewerPage';
 import { EpisodesPage } from '../pages/episodes-page/EpisodesPage';
+import { MostPopularCelebs } from '../pages/celebs/mostPopularCelebs/mostPopularCelebs';
 
 function App() {
   return (
@@ -59,8 +60,10 @@ function App() {
             <Route path="/movie/:id/mediaviewer/:item" element={ <MediaviewerPage/> }></Route>
             <Route path="/tv/:id/mediaviewer/:item" element={ <MediaviewerPage/> }></Route>
             <Route path="/tv/:id/episodes" element={ <EpisodesPage/> }></Route>
+            <Route path="/celebs" element={<MostPopularCelebs/>} />
           </Route>        
             <Route path="*" element={<Error404/>}/>
+            <Route path="/error" element={<Error404/>}/>
         </Routes>
       </AuthProvider>  
     </>
