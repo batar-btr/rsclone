@@ -4,6 +4,7 @@ import { Spinner } from "../spinner/Spinner";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { useState, useEffect } from "react";
 import IMDBService from "../../../services/IMDBService";
+import { uuidv4 } from "@firebase/util";
 
 import "./lowesRated.scss";
 import { Link } from "react-router-dom";
@@ -66,7 +67,7 @@ const LowestRated = () => {
         className={`${
           evenOrOdd ? "mostPopular__item odd" : "mostPopular__item even"
         }`}
-        key={props.item.title}
+        key={uuidv4()}
       >
         <div className="mostPopular__item_img">
           <img src={props.item.thumbnail} alt={props.item.title} />
@@ -99,7 +100,7 @@ const LowestRated = () => {
 
   const renderItems = (arr: ITransformMovie[]) => {
     const items = arr.map((item, id) => {
-      return <Item item={item} id={id}></Item>
+      return <Item key={uuidv4()} item={item} id={id}></Item>
     });
 
     return (
