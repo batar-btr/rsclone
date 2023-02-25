@@ -166,8 +166,8 @@ export const FullCreditsPage = () => {
     const directedContent = (
       <>
         {" "}
-        <h4 className="fullcreditcontent_crew-title">Directed by &nbsp;</h4>
-        <ul className="fullcreditcontent_crew-list">{directedArray}</ul>
+        <h4 className="fullcredit__content_crew-title">Directed by &nbsp;</h4>
+        <ul className="fullcredit__content_crew-list">{directedArray}</ul>
       </>
     );
 
