@@ -269,6 +269,12 @@
   }
 }
 
+.movie-card-carousel:nth-child(4) .carousel .slider-wrapper.axis-horizontal .slider .slide {
+  flex-direction: column;
+  flex-flow: column;
+  padding-bottom: 20px;
+}
+
 @media screen and (max-width:1000px) {
   .movie-card-carousel {
     padding: 0 12px;

@@ -207,7 +207,7 @@ export const EpisodesPage = () => {
                         <div className='episodes-item-info-name-date'>
                           <div className='episodes-item-info-name'>{el.name}</div>
                           <div className='episodes-item-info-date'>{
-                            `${new Date(el.air_date).getDate()} ${new Date(el.air_date).toLocaleDateString('us', { month: 'short' })}.
+                            `${new Date(el.air_date).getDate()} ${new Date(el.air_date).toLocaleDateString('en-Us', { month: 'short' })}.
                             ${new Date(el.air_date).getFullYear()}`
                           }</div>
                         </div>

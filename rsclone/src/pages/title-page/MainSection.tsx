@@ -372,7 +372,7 @@ export const MainSection = () => {
                         <span>Top-rated</span> 
                       </div>
                       <div className='title-main-episodes-header-date'>
-                        {`${new Date(el.air_date as string).toLocaleDateString('us', { weekday: 'short' })},
+                        {`${new Date(el.air_date as string).toLocaleDateString('en-Us', { weekday: 'short' })},
                         ${transformDate(new Date(el.air_date as string).toISOString().split("T")[0])}`}
                       </div>
                     </div>

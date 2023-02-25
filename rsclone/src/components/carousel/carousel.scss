@@ -2,7 +2,7 @@
   max-width: 1280px;
   height: 567.14px;
   margin: 0px auto;
-  padding: 8px 0px;
+  padding: 8px 0px 55px 0px;
   display: grid;
   grid-template-columns: 2fr 1fr;
   z-index: -1;
@@ -165,16 +165,17 @@
     color: rgb(245, 197, 24);
     padding: 4px 0;
     font-size: 20px;
-    margin: 0 0 15px 0;
+    margin: 0 0 20px 0;
   }
 
   &-items {
     background: linear-gradient(0deg, transparent 0%, transparent 50%, rgba(18, 18, 18, 0.7) 78%, rgba(18, 18, 18, 1) 100%);
-    // background-color: #ffffff21;
     padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-height: 499px;
+    position: relative;
   }
 
   &-item {
@@ -235,6 +236,8 @@
   & .browse-link {
     font-size: 20px;
     font-weight: bold;
+    position: absolute;
+    bottom: 35px;
 
     &:hover {
       color: #e6bc2a;

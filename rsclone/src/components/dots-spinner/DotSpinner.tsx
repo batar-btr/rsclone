@@ -1,8 +1,8 @@
 import '../dots-spinner/dotsSpinner.scss';
 
 interface IDotsSpinnerParams {
-  theme: string,
-  size: string
+  theme: 'dark' | 'light',
+  size: 'big' | 'small'
 }
 
 export const DotSpinner = (params: IDotsSpinnerParams) => {

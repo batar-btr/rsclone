@@ -1,0 +1,88 @@
+.footer{
+  max-width: 1024px;
+  &-container{
+    padding: 16px 0;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+  }
+  &-socials{
+    display: flex;
+    justify-content: center;
+    margin: 16px 0px;
+    &-link{
+      display: flex;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color .2s cubic-bezier(.175,.885,.32,1);
+      &-icon{
+        padding: 0.75rem;
+      }
+      &:hover{
+        background-color: rgb(255, 255, 255, .08);
+      }
+      &:active{
+        background-color: rgb(255, 255, 255, .24);
+      }
+    }
+  }
+  &-links{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-container{
+      display: flex;
+    }
+  }
+  &-link{
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+    line-height: 24px;
+    &-icon{
+      fill: currentColor;
+      margin-left: 0.4em;
+      width: 10px;
+      height: 10px;
+    }
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+  &-logo{
+    display: flex;
+    justify-content: center;
+    margin: 16px;
+    min-height: 40px;
+    align-items: center;
+  }
+  &-legal{
+    color: #ffffff;
+    font-size: 0.75rem;
+    letter-spacing: 0.03333em;
+    margin: 0.5em 0px;
+    color: rgb(255, 255, 255, .7);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-item{
+      width: 145px;
+      display: flex;
+      justify-content: space-between;
+      & a{
+        display: flex;
+      }
+      & svg{
+        height: 35px;
+      }
+    }
+    &-rsschool{
+      & svg{
+        height: 35px;
+        width: 89.25px;
+      }
+    }
+  }
+}
