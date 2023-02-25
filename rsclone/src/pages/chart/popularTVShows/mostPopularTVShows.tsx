@@ -5,6 +5,7 @@ import AsideChart from "../aside/aside";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { Spinner } from "../spinner/Spinner";
 import { MostPopularSort } from "../popularMovies/mostPopularSort";
+import { uuidv4 } from "@firebase/util";
 
 import '../popularMovies/mostPopularMovies.scss';
 import { Link } from "react-router-dom";
@@ -66,7 +67,7 @@ const MostPopularTVShows = () => {
         className={`${
           evenOrOdd ? "mostPopular__item odd" : "mostPopular__item even"
         }`}
-        key={props.item.title}
+        key={uuidv4()}
       >
         <div className="mostPopular__item_img">
           <img src={props.item.thumbnail} alt={props.item.title} />
@@ -99,7 +100,7 @@ const MostPopularTVShows = () => {
 
   const renderItems = (arr: ITransformMovie[]) => {
     const items = arr.map((item, id) => {
-      return <Item item={item} id={id}></Item>
+      return <Item key={uuidv4()} item={item} id={id}></Item>
     });
 
     return (

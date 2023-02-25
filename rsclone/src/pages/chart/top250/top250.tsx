@@ -5,6 +5,7 @@ import IMDBService from "../../../services/IMDBService";
 import { Spinner } from "../spinner/Spinner";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { SortTop250 } from "./top250Sort";
+import { uuidv4 } from "@firebase/util";
 
 import "./top250.scss";
 import { Link } from "react-router-dom";
@@ -66,7 +67,7 @@ export const Top250 = () => {
         className={`${
           evenOrOdd ? "mostPopular__item odd" : "mostPopular__item even"
         }`}
-        key={props.item.title}
+        key={uuidv4()}
       >
         <div className="mostPopular__item_img">
           <img src={props.item.thumbnail} alt={props.item.title} />
@@ -99,7 +100,7 @@ export const Top250 = () => {
 
   const renderItems = (arr: ITransformMovie[]) => {
     const items = arr.map((item, id) => {
-      return <Item item={item} id={id}></Item>
+      return <Item key={uuidv4()} item={item} id={id}></Item>
     });
 
     return (

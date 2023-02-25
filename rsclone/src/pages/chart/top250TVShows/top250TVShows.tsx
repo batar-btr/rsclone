@@ -5,6 +5,7 @@ import IMDBService from "../../../services/IMDBService";
 import { Spinner } from "../spinner/Spinner";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { SortTop250 } from "../top250/top250Sort";
+import { uuidv4 } from "@firebase/util";
 
 import "../top250/top250.scss";
 import { Link } from "react-router-dom";
@@ -66,7 +67,7 @@ export const Top250TVShows = () => {
         className={`${
           evenOrOdd ? "mostPopular__item odd" : "mostPopular__item even"
         }`}
-        key={props.item.title}
+        key={uuidv4()}
       >
         <div className="mostPopular__item_img">
           <img src={props.item.thumbnail} alt={props.item.title} />
@@ -85,7 +86,7 @@ export const Top250TVShows = () => {
             rating && <p className="mostPopular__item_seen-val">{rating}</p>
           }
         </div>
-        <Modal isShowing={isShowing} hide={toggle}>
+        <Modal  isShowing={isShowing} hide={toggle}>
           <RateBox title={props.item.title as string} hide={toggle} id={props.item.id} type={'tv'}></RateBox>
         </Modal>
         <div className={`mostPopular__item_watch ${loading ? 'loading' : ''}`}>
@@ -99,12 +100,12 @@ export const Top250TVShows = () => {
 
   const renderItems = (arr: ITransformMovie[]) => {
     const items = arr.map((item, id) => {
-      return <Item item={item} id={id}></Item>
+      return <Item key={uuidv4()} item={item} id={id}></Item>
     });
 
     return (
       <ul className="mostPopular__wrapper">
-        <li className="mostPopular__item">
+        <li key={uuidv4()} className="mostPopular__item">
           <div className="mostPopular__item_img"></div>
           <div className="mostPopular__item_title">Rank & Title</div>
           <div className="mostPopular__item_weekend">IMDb Rating</div>
