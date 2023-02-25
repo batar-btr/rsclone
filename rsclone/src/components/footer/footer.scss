@@ -41,6 +41,9 @@
     margin-right: 0.5rem;
     padding: 0.5rem;
     line-height: 24px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
     &-icon{
       fill: currentColor;
       margin-left: 0.4em;
