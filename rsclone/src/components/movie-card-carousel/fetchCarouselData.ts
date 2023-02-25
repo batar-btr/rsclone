@@ -5,7 +5,7 @@ import fetchTrending from "../../API/fetchTrending";
 import fetchTopRatedMovies from "../../API/fetchTopRatedMovies";
 import fetchTopRatedTVs from "../../API/fetchTopRatedTVs";
 
-function addType<T>(arr: T[], type: 'tv' | 'movie'): T[] {
+export function addType<T>(arr: T[], type: 'tv' | 'movie'): T[] {
   return arr.map(item => ({ ...item, type }));
 }
 

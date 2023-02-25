@@ -45,13 +45,21 @@ interface ResultItemsProps {
   reset: (path: string) => void;
 }
 
+const convertMediaType = (type: MediaType) => {
+  if(type === 'person') {
+    return 'name'
+  } else {
+    return type;
+  }
+}
+
 const ResultItem = ({ item, reset }: ResultItemsProps) => {
   const { id, title, media_type, img } = item;
 
   const imgPath = (img: string | null | undefined) => img ? `https://image.tmdb.org/t/p/w300${img}` : noImg
 
   return (
-    <div className='result-item' onClick={() => reset(`${media_type}/${id}`)}>
+    <div className='result-item' onClick={() => reset(`${convertMediaType(media_type as MediaType)}/${id}`)}>
       <div className="img-wrap">
         <img src={imgPath(img)} alt="" />
       </div>

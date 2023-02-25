@@ -20,6 +20,35 @@ interface InfoBoxProps {
   openRate: () => void;
 }
 
+const getYear = (date: string) => date.split('-')[0];
+
+const getTime = (minutes: number): string => {
+  const MPH = 60;
+  let h = Math.floor(minutes / MPH);
+  let m = minutes % MPH;
+  return `${h ? `${h}h` : ''} ${m}min`
+}
+
+const year = (type: 'tv' | 'movie', info: IMovie | ITV) => {
+  if (type === 'tv') {
+    const data = info as ITV;
+    return (getYear(data.first_air_date))
+  } else {
+    const data = info as IMovie;
+    return (getYear(data.release_date))
+  }
+}
+
+const time = (type: 'tv' | 'movie', info: IMovie | ITV) => {
+  if (type === 'tv') {
+    const data = info as ITV;
+    return (getTime(data.episode_run_time[0]))
+  } else {
+    const data = info as IMovie;
+    return (getTime(data.runtime))
+  }
+}
+
 const InfoBox: FC<InfoBoxProps> = (props) => {
   const { loading, toWatchlist, openRate, hide } = props;
   const { title, img, rate, type, id } = props.info;
@@ -44,34 +73,6 @@ const InfoBox: FC<InfoBoxProps> = (props) => {
     })()
   }, [])
 
-  const getYear = (date: string) => date.split('-')[0];
-
-  const getTime = (minutes: number): string => {
-    const MPH = 60;
-    let h = Math.floor(minutes / MPH);
-    let m = minutes % MPH;
-    return `${h ? `${h}h` : ''} ${m}min`
-  }
-
-  const year = (type: 'tv' | 'movie') => {
-    if (type === 'tv') {
-      const data = info as ITV;
-      return (getYear(data.first_air_date))
-    } else {
-      const data = info as IMovie;
-      return (getYear(data.release_date))
-    }
-  }
-
-  const time = (type: 'tv' | 'movie') => {
-    if (type === 'tv') {
-      const data = info as ITV;
-      return (getTime(data.episode_run_time[0]))
-    } else {
-      const data = info as IMovie;
-      return (getTime(data.runtime))
-    }
-  }
 
   const navigateTo = (path: string) => {
     hide();
@@ -87,9 +88,9 @@ const InfoBox: FC<InfoBoxProps> = (props) => {
         <div className="info">
           <h2 onClick={() => navigateTo(`${type}/${id}`)}>{title}</h2>
           <p>
-            <span>{info && year(type)}</span>
+            <span>{info && year(type, info)}</span>
             <span className='dot'>.</span>
-            <span>{info && time(type)}</span>
+            <span>{info && time(type, info)}</span>
           </p>
           <p className='genres'>
             {info && info.genres.map((item, idx) => <span key={idx}>{item.name}</span>).flatMap((e, idx) => [e, <span key={idx + 10} className='dot'>.</span>]).slice(0, -1)}
@@ -139,4 +140,4 @@ const InfoBox: FC<InfoBoxProps> = (props) => {
   );
 }
 
-export { InfoBox }
+export { InfoBox, year, time, getYear, getTime }
