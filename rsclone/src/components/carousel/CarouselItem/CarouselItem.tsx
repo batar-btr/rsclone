@@ -4,6 +4,10 @@ import { IMovie } from '../../../types';
 import cross from '../cross.svg';
 import { useState, useEffect } from "react"
 import AddFlag from '../../movie-card-carousel/AddFlag/AddFlag';
+import { User } from 'firebase/auth';
+import { UserAuth } from '../../../context/AuthContext';
+import { deleteFavorite } from '../../../User/delete-favorite';
+import { addFavorite } from '../../../User/add-favorite';
 
 type CarouselItemProps = {
   movie: IMovie
@@ -13,7 +17,8 @@ const CarouselItem = ({ movie }: CarouselItemProps) => {
   const { backdrop_path: bg, poster_path: poster, title, id } = movie;
   const bgPath = `https://image.tmdb.org/t/p/original${bg}`;
   const posterPath = `https://image.tmdb.org/t/p/w300${poster}`;
-
+  const { user, userData } = UserAuth();
+  const isAdded = userData?.['favorite']['movie'].some((item: number) => item === id) as boolean;
   const [select, setSelect] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -31,14 +36,21 @@ const CarouselItem = ({ movie }: CarouselItemProps) => {
     getVideos()
   }, [])
 
-  const addMovieHandler = () => {
-    setLoading(prev => !prev);
-    setTimeout(() => {
-      return setSelect(prev => {
+ 
+
+  const addMovieHandler = async (user: User | null, type: 'tv' | 'movie', id: number) => {
+
+    if (user) {
+      setLoading(prev => !prev);
+      setTimeout(async () => {
+        if (isAdded) {
+          await deleteFavorite(user.uid, type, id)
+        } else {
+          await addFavorite(user.uid, type, id);
+        }
         setLoading(prev => !prev);
-        return !prev;
-      })
-    }, 1000);
+      }, 1000);
+    }
   }
 
   return (
@@ -54,7 +66,7 @@ const CarouselItem = ({ movie }: CarouselItemProps) => {
         }}>
           <img src={posterPath} alt="poster" />
           <div onClick={(e) => e.stopPropagation()}>
-            <AddFlag checked={select} loading={loading} onClick={addMovieHandler}></AddFlag>
+            <AddFlag checked={isAdded} loading={loading} onClick={() => addMovieHandler(user, 'movie', id)}></AddFlag>
           </div>
         </div>
         <div className="slide-info">

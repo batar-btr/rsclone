@@ -57,11 +57,11 @@ const UserPage = (props: UserPageProps) => {
           }))
         let result = [...addType(movieData, 'movie'), ...addType(tvData, 'tv')]
 
-        if(result.length !== 0) {
+        if (result.length !== 0) {
           setFavorites(result as Array<IMovie | ITV>);
         } else {
           setFavorites(null);
-        }  
+        }
       })()
     }
   }, [userData, pageType])
@@ -150,7 +150,7 @@ const UserPage = (props: UserPageProps) => {
   return (
     <div className='watchlist-wrap'>
       <div className="watchlist-container">
-        <h2>Your Watchlist</h2>
+        <h2>{`Your ${pageType === 'favorite' ? 'Favorites' : 'Ratings'}`}</h2>
         <div className='private'>
           <span className='lock'></span>
           <span> PRIVATE</span>
