@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import IMDBService from "../../../services/IMDBService";
 import { MostPopularHeader } from "./mostPopularHeader";
-import { Recently } from "../recently/recentley";
 import AsideChart from "../aside/aside";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { Spinner } from "../spinner/Spinner";
@@ -137,8 +136,7 @@ const MostPopularTVShows = () => {
           </div>
           <div className="sidebar">
             <AsideChart />
-          </div>
-          <Recently />
+          </div>          
         </div>
       </div>
     </>

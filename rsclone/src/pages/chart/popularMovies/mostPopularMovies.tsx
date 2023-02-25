@@ -136,8 +136,7 @@ const MostPopularMovies = () => {
           </div>
           <div className="sidebar">
             <AsideChart />
-          </div>
-          <Recently />
+          </div>          
         </div>
       </div>
     </>

@@ -1,6 +1,5 @@
 
 import BoxOffice from "../boxOffice/boxOffice";
-import { Recently } from "../recently/recentley";
 import AsideChart from "../aside/aside";
 
 import "./mainpage.scss";
@@ -15,8 +14,7 @@ const MainChartPage = () => {
           </div>
           <div className="sidebar">
               <AsideChart />
-          </div>
-          <Recently/>
+          </div>          
         </div>
       </div>
     </>

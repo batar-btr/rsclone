@@ -269,7 +269,7 @@ const IMDBService = () => {
 
     const res = (await request(            
       `${_apiBase}person/popular?${_apiKey3}&language=en-US&page=${start}`      
-    )) as IPopularActor;     
+    )) as IPopularActor;
     
     return res;
   };

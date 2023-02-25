@@ -1,6 +1,4 @@
 import { LowestRatedHeader } from "./lowestRatedHeader";
-import { YouHaveSeenLowest } from "./youHaveSeenLowest";
-import { Recently } from "../recently/recentley";
 import AsideChart from "../aside/aside";
 import { Spinner } from "../spinner/Spinner";
 import { ITransformMovie } from "../../../models/IMDBModels";
@@ -131,11 +129,9 @@ const LowestRated = () => {
             {items}
             {spinner}            
           </div>
-          <div className="sidebar">
-            <YouHaveSeenLowest/>
+          <div className="sidebar">           
             <AsideChart />
-          </div>
-          <Recently/>
+          </div>          
         </div>
       </div>
     </>
