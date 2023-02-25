@@ -2,6 +2,7 @@ import { IMovie } from "../../../types";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { ITitleVideos } from "../../../models/title";
+import { DotSpinner } from "../../dots-spinner/DotSpinner";
 
 type UpNextItemProps = {
   id: number,
@@ -16,6 +17,7 @@ const UpNextItem = (props: UpNextItemProps) => {
   const trimTitle = title.length > 30 ? `${title.slice(0,30)}...` : title;
 
   const [mainTrailer, setMainTrailer] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getVideos = async () => {
@@ -24,6 +26,7 @@ const UpNextItem = (props: UpNextItemProps) => {
       ).json()
       const mainTr = videos.results.filter(el => el.type === 'Trailer')[0]
       setMainTrailer(mainTr ? mainTr.key : '')
+      
     }
     getVideos()
   }, [])

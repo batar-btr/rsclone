@@ -65,7 +65,7 @@ export const HollywoodIcons = () => {
             </div>
 
             <div className="hollywoodIcons__imageSet">
-                <a href="" className="hollywoodIcons__imageSet_image-galleryLink">
+                <a href="https://www.imdb.com/gallery/rg1738382080/mediaviewer/rm567452672?ref_=nm_eds_center-3_sw_gal_icons_c_i" className="hollywoodIcons__imageSet_image-galleryLink">
                     <div className="hollywoodIcons__imageSet_image">
                         <img src="https://m.media-amazon.com/images/M/MV5BZTUyZTRiMWQtMmViMy00M2M0LTk5MjEtNTBkM2QwMzNkNWQ0XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_QL75_UX500_CR0,0,500,281_.jpg" alt="" />
                         <div className="hollywoodIcons__imageSet_gradient"></div>

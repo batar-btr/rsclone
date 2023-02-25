@@ -2,6 +2,7 @@
     min-height: 500px;
     color: aliceblue;
     max-width: 1280px;
+    min-width: 1280px;
     margin: 0 auto;
     padding-bottom: 10px;
     position: relative;
@@ -199,6 +200,7 @@
         margin-right: 30px;   
         margin-top: 30px;   
         gap: 75px;
+        min-width: 90%;
         &_biography {            
             width: 80%;
             &-mainText {   

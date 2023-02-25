@@ -23,21 +23,12 @@ import "./namePage.scss";
 export const NamePage = () => {
   window.scrollTo(0, 0);
 
-  // const initialTaggedImages = [] as IActorTaggedImagesResults[];
-  // const initialImages = [] as IActorImagesProfiles[];
-  // const initialCreditsImages = [] as IActorCreditsCast[];
-  const initialFilteredImages = [] as string[];
   const initialCombinedCast = [] as CombinedActorCreditsCast[];
   const initialCombinedCrew = [] as CombinedActorCreditsCrew[];
 
   const initialYoutubeKey = "dQw4w9WgXcQ";
 
   const initialObj = {} as IActor;
-  // const [taggedImages, setTaggedImages] = useState(initialTaggedImages);
-  // const [creditImages, setCreditImages] = useState(initialCreditsImages);
-  // const [images, setImages] = useState(initialImages);
-
-  const [allContent, setAllContent] = useState(false);
 
   const [movieLoading, setMovieLoading] = useState(false);
   const [videoLoading, setVideoLoading] = useState(false);
@@ -45,12 +36,7 @@ export const NamePage = () => {
   const [general, setGeneral] = useState(initialObj);
   const [combinedCast, setCombinedCast] = useState(initialCombinedCast);
   const [combinedCrew, setCombinedCrew] = useState(initialCombinedCrew);
-
-  const [filteredImages, setFilteredImages] = useState(initialFilteredImages);
-
   const { id } = useParams();
-
-  let imageArray: string[] = [];
 
   const img = "https://image.tmdb.org/t/p/w500";
 
@@ -62,30 +48,10 @@ export const NamePage = () => {
     if (id) {
       IMDBService()
         .getActor(id)
-        .then((data) => setGeneral(data));
-      IMDBService()
-        .getActorImages(id)
-        .then((data) => {
-          data.profiles.map((item) => imageArray.push(item.file_path));
-        })
+        .then((data) => setGeneral(data))
         .then(() =>
           IMDBService()
-            .getActorTaggedImages(id)
-            .then((data) => {
-              data.results.map((item) => imageArray.push(item.file_path));
-            })
-        )
-        .then(() =>
-          IMDBService()
-            .getCombinedActorCredits(id)
-            .then((data) => {
-              data.cast.map((item) => {
-                imageArray.push(item.backdrop_path);
-                imageArray.push(item.poster_path);
-              });
-              return data;
-            })
-        )
+            .getCombinedActorCredits(id))
         .then((data) => {
           if (data.cast.length === 0) {
             let sortAr = [...data.crew].sort((x, y) => {
@@ -158,10 +124,7 @@ export const NamePage = () => {
               }
             }
           }
-
-          imageArray = imageArray.filter((item) => item !== null);
         })
-        .then(() => setFilteredImages(imageArray))
         .then(() => setMovieLoading(true));
     }
   };
@@ -198,10 +161,7 @@ export const NamePage = () => {
 
   const Interactive = () => {
     const image = img + general.profile_path;
-    const imageCount =
-      filteredImages.length > 99
-        ? `99+ Photos`
-        : `${filteredImages.length}+ Photos`;
+    const imageCount = `99+ Photos`;
 
     return (
       <>
@@ -241,7 +201,7 @@ export const NamePage = () => {
             </div>
           </a>
 
-          <a href="" className="namePage__interactive_images">
+          <a href={`https://www.imdb.com/name/${general.imdb_id}/mediaindex?ref_=nm_ov_mi_sm`} className="namePage__interactive_images">
             <div className="namePage__interactive_videos-wrapper">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -515,7 +475,7 @@ export const NamePage = () => {
   };
 
   const Works = (arr: CombinedActorCreditsCast[]) => {
-    const sortedCast = [...arr].sort((x, y) => {
+    const sortedCast = [...arr].filter(el => el.release_date).sort((x, y) => {
       const first = new Date(x.release_date);
       const second = new Date(y.release_date);
 
@@ -719,8 +679,8 @@ export const NamePage = () => {
 
   return (
     <>
-      <div className="namePage__container" style={{backgroundImage: `url(${img + general.profile_path})`}}>{spinner}</div>
-      
+      <div className="namePage__container" style={{ backgroundImage: `url(${img + general.profile_path})` }}>{spinner}</div>
+
       <div className="namePage__container_wrapper">
         <div className="namePage__container_about">
           <div className="namePage__container_about-left">{leftSide}</div>
