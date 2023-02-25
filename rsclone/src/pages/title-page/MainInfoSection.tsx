@@ -21,7 +21,7 @@ export const convertNumToShort = (num: number) => {
 export const MainInfoSection = () => {
   
   
-  const params = useParams().id
+  const id = useParams().id
   const isTvShow = IMDBService().isTvShow() 
   const _imgBase = IMDBService()._image 
   const type = IMDBService().type 
@@ -41,28 +41,28 @@ export const MainInfoSection = () => {
     setTitleLoading(true)
     setTitleVideoLoading(true)
     setTitleCastLoading(true)
-  }, [params]);
+  }, [id]);
   
   const onRequest = async () => {
-    const title = await IMDBService().getTitle(+params!)
+    const title = await IMDBService().getTitle(+id!)
     setTitle(title)
     if (title) {
       setTitleLoading(false)
     }
 
-    const video = await IMDBService().getTitleVideos(+params!)
+    const video = await IMDBService().getTitleVideos(+id!)
     setVideos(video)
     if (video) {
       setTitleVideoLoading(false)
     }
 
-    const cast = await IMDBService().getTitleCast(+params!)
+    const cast = await IMDBService().getTitleCast(+id!)
     setCast(cast)
     if (cast) {
       setTitleCastLoading(false)
     }
 
-    const certifications = await IMDBService().getTitleCertification(+params!)
+    const certifications = await IMDBService().getTitleCertification(+id!)
     let certification = ''
     if (!isTvShow) {
       const data = certifications as IMovieReleaseDates
@@ -104,17 +104,17 @@ export const MainInfoSection = () => {
 
   const { user, userData } = UserAuth()
 
-  const isAdded = userData?.['favorite'][type as 'movie' | 'tv'].some((item: number) => item === +params!) as boolean;
-  const rating = userData?.rate[type as 'movie' | 'tv'][+params!];
+  const isAdded = userData?.['favorite'][type as 'movie' | 'tv'].some((item: number) => item === +id!) as boolean;
+  const rating = userData?.rate[type as 'movie' | 'tv'][+id!];
   
   const addMovieHandler = async () => {
     if (user) {
       setLoading(prev => !prev);
       setTimeout(async () => {
         if (isAdded) {
-          await deleteFavorite(user.uid, type as 'tv' | 'movie', +params!)
+          await deleteFavorite(user.uid, type as 'tv' | 'movie', +id!)
         } else {
-          await addFavorite(user.uid, type as 'tv' | 'movie', +params!);
+          await addFavorite(user.uid, type as 'tv' | 'movie', +id!);
         }
         setLoading(prev => !prev);
       }, 1000);
@@ -130,9 +130,16 @@ export const MainInfoSection = () => {
           <div className='title-main-info-top-left'>
             {
               isTvShow && <Link to={`/tv/${title?.id}/episodes`}>
-                <span className='title-main-info-top-left-text'>Episode guide</span>
-                <span className='title-main-info-top-left-num'>{title?.number_of_episodes}</span>
-                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-info-top-left-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
+                {
+                  titleLoading && <DotSpinner theme='dark' size='small'/>
+                }
+                {
+                  !titleLoading && <>
+                    <span className='title-main-info-top-left-text'>Episode guide</span>
+                    <span className='title-main-info-top-left-num'>{title?.number_of_episodes}</span>
+                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-info-top-left-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M5.622.631A2.153 2.153 0 0 0 5 2.147c0 .568.224 1.113.622 1.515l8.249 8.34-8.25 8.34a2.16 2.16 0 0 0-.548 2.07c.196.74.768 1.317 1.499 1.515a2.104 2.104 0 0 0 2.048-.555l9.758-9.866a2.153 2.153 0 0 0 0-3.03L8.62.61C7.812-.207 6.45-.207 5.622.63z"></path></svg>
+                  </>
+                }
               </Link>
             }
           </div>
@@ -223,7 +230,7 @@ export const MainInfoSection = () => {
                 </div>    
               </div>
               <Modal isShowing={isShowing} hide={toggle}>
-                <RateBox title={`${title?.title || title?.name}`} hide={toggle} id={+params!} type={type as 'tv' | 'movie'}></RateBox>
+                <RateBox title={`${title?.title || title?.name}`} hide={toggle} id={+id!} type={type as 'tv' | 'movie'}></RateBox>
               </Modal>
               <div className='title-main-info-rating-item'>
                 <div className='title-main-info-rating-title'>POPULARITY</div> 
@@ -246,7 +253,7 @@ export const MainInfoSection = () => {
               { !titleLoading && <>
                 <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
                 <div className="title-main-info-madia-poster-img">
-                  <Link to={`/`}>
+                  <Link to={`/${type}/${id}/photogallery`}>
                     <img src={_imgBase + title?.poster_path} alt="poster"/>
                     <div className='title-main-overlay'></div>
                   </Link>
@@ -277,13 +284,13 @@ export const MainInfoSection = () => {
               }
               </div> 
               <div className='title-main-info-madia-gallery-links'>
-                <Link to={`/${type}/${params}/videogallery`} className='title-main-info-madia-gallery'>
+                <Link to={`/${type}/${id}/videogallery`} className='title-main-info-madia-gallery'>
                   <div className="title-main-info-madia-gallery-info">
                     <svg xmlns="http://www.w3.org/2000/svg" className='title-main-info-madia-gallery-icon' width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1zm17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l5.47 4.1c.27.2.27.6 0 .8L12 14.5z"></path></svg>
                     <div className="title-main-info-madia-gallery-text">99+ Videos</div>
                   </div>
                 </Link>
-                <Link to={`/${type}/${params}/photogallery`} className='title-main-info-madia-gallery'>
+                <Link to={`/${type}/${id}/photogallery`} className='title-main-info-madia-gallery'>
                   <div className="title-main-info-madia-gallery-info">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className='title-main-info-madia-gallery-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-10.6-3.47l1.63 2.18 2.58-3.22a.5.5 0 0 1 .78 0l2.96 3.7c.26.33.03.81-.39.81H9a.5.5 0 0 1-.4-.8l2-2.67c.2-.26.6-.26.8 0zM2 7v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1s-1 .45-1 1z"></path></svg>
                     <div className="title-main-info-madia-gallery-text">99+ Photos</div>

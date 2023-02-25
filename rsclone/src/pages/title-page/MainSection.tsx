@@ -68,6 +68,7 @@ export const MainSection = () => {
   const [reviewOpen, setReviewOpen] = useState<boolean>(false)
   const [recommendations, setRecommendations] = useState<ITitleSimilar>()
   const [titleRecommendationsLoading, settitleRecommendationsLoading] = useState<boolean>(true)
+  const [episodesLoading, setEpisodesLoading] = useState<boolean>()
 
   const randNum = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
   
@@ -81,6 +82,7 @@ export const MainSection = () => {
     setTitleReviewsLoading(true)
     setReviewOpen(false)
     settitleRecommendationsLoading(true)
+    setEpisodesLoading(true)
   }, [params]);
 
   const onRequest = async () => {
@@ -136,6 +138,9 @@ export const MainSection = () => {
       season.episodes.map(el => episodes.push(el))
     }
     setEpisodes(episodes)
+    if (episodes) {
+      setEpisodesLoading(false)
+    }
   };
   
   const directors = cast ? cast.crew.filter(el => el.job === 'Director') : []
@@ -338,13 +343,13 @@ export const MainSection = () => {
   const numberWithCommas = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
   const twoTopRatedEpisodes = episodes ? episodes.sort((a, b) => b.vote_average - a.vote_average).slice(0, 2) : []
-  console.log(twoTopRatedEpisodes)
+ 
   return (
     <section className='title-main-container'>
       <div className='title-main title-section'>
         <div className='title-main-wrapper'>
         <section className='title-main-episodes-container'>
-            { episodes?.length !== 0 &&
+            { isTvShow &&
               <div className='title-main-episodes'>
                 <div className='title-main-title'>
                   <Link to={`/${type}/${params}/episodes`} className='title-main-title-wrapper'>
@@ -356,19 +361,36 @@ export const MainSection = () => {
                 </div>
                 <div className='title-main-episodes-wrapper'>
                 {
-                  titleVideosLoading && <DotSpinner theme='light' size='big'/>
+                  episodesLoading && <DotSpinner theme='light' size='big'/>
                 }
                 {
-                  !titleVideosLoading && 
-                  twoTopRatedEpisodes.map(el => 
-                  <div className='title-main-episodes-item'>
-                    <div className='title-main-episodes-header'>
+                  !episodesLoading && 
+                  twoTopRatedEpisodes.map((el, i) => 
+                  <div className='title-main-episodes-item' key={i}>
+                    <div className='title-main-episodes-header-wrapper'>
                       <div className='title-main-reviews-featured-header-text'>
                         <span>Top-rated</span> 
                       </div>
-                      <div>
-                        {`${new Date(el.air_date as string).toLocaleDateString('us', { weekday: 'short' })},
+                      <div className='title-main-episodes-header-date'>
+                        {`${new Date(el.air_date as string).toLocaleDateString('en-Us', { weekday: 'short' })},
                         ${transformDate(new Date(el.air_date as string).toISOString().split("T")[0])}`}
+                      </div>
+                    </div>
+                    <div className='title-main-episodes-info-wrapper'>
+                      <div className='title-main-episodes-info'>
+                        <span className='title-main-episodes-info-episode'>{`S${el.season_number}.E${el.episode_number}`}</span>
+                        <span className='title-main-episodes-info-name'>{el.name}</span>
+                      </div>
+                      <div className='title-main-episodes-info-overview'>{el.overview}</div>
+                      <div className='title-main-episodes-info-rating-wrapper'>
+                        {
+                          el.vote_average && 
+                          <div className='title-main-episodes-info-rating'>
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" className="title-main-episodes-info-rating-icon" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M12 20.1l5.82 3.682c1.066.675 2.37-.322 2.09-1.584l-1.543-6.926 5.146-4.667c.94-.85.435-2.465-.799-2.567l-6.773-.602L13.29.89a1.38 1.38 0 0 0-2.581 0l-2.65 6.53-6.774.602C.052 8.126-.453 9.74.486 10.59l5.147 4.666-1.542 6.926c-.28 1.262 1.023 2.26 2.09 1.585L12 20.099z"></path></svg>
+                            <span className='title-main-episodes-info-rating-value'>{el.vote_average.toFixed(1)}</span>
+                            <span className='title-main-episodes-info-rating-default'>/10</span>
+                          </div>
+                        }
                       </div>
                     </div>
                   </div>

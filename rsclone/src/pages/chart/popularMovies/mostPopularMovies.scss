@@ -75,18 +75,71 @@
             &:hover {
                 background-position: 0px -20px;
             }
+            &-wrapper{
+                display: flex;
+                align-items: center;
+                color: #55d;  
+                font-weight: bolder;
+            }
+        }
+        &_seen{
+            background: url("https://m.media-amazon.com/images/S/sash/7n0KRCHny73GkBG.png") no-repeat;
+            width: 20px;            
+            height: 20px;
+            background-position: 0px -59px;
+            cursor: pointer;     
+            &-val{
+                margin-top: -3px;
+            }     
+            
         }
         &_watch {
             padding-right: 15px;
-            cursor: pointer;
-            justify-self: center;  
-            &-add {
-                background-image: url("https://m.media-amazon.com/images/S/sash/INbcM2-CU0AKIbe.png");
-                background-position: -30px 0px;
-                height: 30px;
+            justify-self: center;
+            position: relative;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            & .add-flag-wrap{
+                top: 21px;
+                opacity: 1;
                 width: 30px;
-                &:hover {
-                    background-position: -30px -30px;
+                height: 30px;
+                left: 12px;
+                background-image: url('https://m.media-amazon.com/images/S/sash/INbcM2-CU0AKIbe.png');
+                .add-flag{
+                    display: none;
+                }
+                .plus-icon{
+                    // display: none;
+                    background: none;
+                }
+                &.checked{
+                    &:hover{
+                        background-position: 0px -30px;
+                    }
+                }
+                &.unchecked{
+                    background-position: -30px 0px;
+                    &:hover{
+                        background-position: -30px -30px;
+                    }
+                }
+            }
+            &.loading{
+                & .add-flag-wrap{
+                    background-image: none;
+                }
+                .plus-icon{
+                    // display: none;
+                    background-image: url('https://m.media-amazon.com/images/S/sash/INbcM2-CU0AKIbe.png'),
+                    url('https://m.media-amazon.com/images/S/sash/VPO7nZEEVf68gfL.gif');
+                    background-position: -60px 0px, 7.5px 3px;
+                    background-repeat: no-repeat, no-repeat;
+                    background-blend-mode: multiply;
+                    & svg{
+                        display: none;
+                    }
                 }
             }
         }

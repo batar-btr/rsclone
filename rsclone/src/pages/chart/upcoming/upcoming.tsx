@@ -9,6 +9,11 @@ import {v4 as uuidv4} from 'uuid';
 
 
 import "./upcoming.scss";
+import AddFlag from "../../../components/movie-card-carousel/AddFlag/AddFlag";
+import useModal from "../../../hooks/useModal";
+import { UserAuth } from "../../../context/AuthContext";
+import { deleteFavorite } from "../../../User/delete-favorite";
+import { addFavorite } from "../../../User/add-favorite";
 
 export const UpcomingMovie = () => {
   const initial = [] as Array<ITransformMovie>;
@@ -17,7 +22,10 @@ export const UpcomingMovie = () => {
   const [movieLoading, setMovieLoading] = useState(true);
   const [genres, setGenres] = useState(initialGenreArray)
 
+  setTimeout(() => window.scrollTo(0, 0), 0)
+
   useEffect(() => {
+    
     onRequest();
   }, []);
 
@@ -117,91 +125,84 @@ export const UpcomingMovie = () => {
       else return obj1[1] - obj2[1];
     });    
 
-    const listItem = (arr: ITransformMovie[]) => {
+    interface props{
+      item: ITransformMovie
+    }
+
+    const Item = (props: props) => {
+      const [loading, setSimilar] = useState<boolean>(false);
       
-      const items = arr.map((item) => {
-        let poster =
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnko_ynQmPm0MSyZfvo45vvAuyEGW94FR9Cg&usqp=CAU";
+      const { user, userData } = UserAuth()
 
-        const length = arr.length;
-
-        return (
-          <li
-            key={uuidv4()}
-            className={
-              length === 1
-                ? "releases__item"
-                : "releases__item releases__item_under"
+      const isAdded = userData?.['favorite']['movie'].some((item: number) => item === props.item.id) as boolean;
+      const rating = userData?.rate['movie'][props.item.id];
+    
+      const addMovieHandler = async () => {
+        if (user) {
+          setSimilar(prev => !prev);
+          setTimeout(async () => {
+            if (isAdded) {
+              await deleteFavorite(user.uid, 'movie', props.item.id)
+            } else {
+              await addFavorite(user.uid, 'movie', props.item.id);
             }
-          >
-            <div className="releases__item_img">
-              <img
-                src={
-                  item.thumbnail === "https://image.tmdb.org/t/p/w500null"
-                    ? poster
-                    : item.thumbnail
-                }
-                alt=""
-              />
-            </div>
+            setSimilar(prev => !prev);
+          }, 1000);
+        }
+      }
 
+      let poster =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnko_ynQmPm0MSyZfvo45vvAuyEGW94FR9Cg&usqp=CAU";
 
-            <div className="releases__item_description">
-              <a href="#" className="releases__item_link">
-                {item.title}
-              </a>              
-              {renderGenres(item.genre)}              
-            </div>
-
-            <div className="releases__item_watchList">
-              <svg
-                className="releases__item_watchList-svg"
-                width="24px"
-                height="34px"
-                viewBox="0 0 24 34"
-                xmlns="http://www.w3.org/2000/svg"
-                role="presentation"
-              >
-                <polygon
-                  className="releases__item_watchList-svg-first"
-                  fill="#000000"
-                  points="24 0 0 0 0 32 12.2436611 26.2926049 24 31.7728343"
-                ></polygon>
-                <polygon
-                  className="releases__item_watchList-svg-second"
-                  points="24 0 0 0 0 32 12.2436611 26.2926049 24 31.7728343"
-                ></polygon>
-                <polygon
-                  className="releases__item_watchList-svg-third"
-                  points="24 31.7728343 24 33.7728343 12.2436611 28.2926049 0 34 0 32 12.2436611 26.2926049"
-                ></polygon>
-              </svg>
-              <div className="releases__item_watchList-svgPlus" role="presentation">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24px"
-                  height="24px"
-                  className="releases__item_watchList-svgPlus-first"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  role="presentation"
-                >
-                  <path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"></path>
-                </svg>
-              </div>
-            </div>
-          </li>
-        );
-      });
+      const length = arr.length;
 
       return (
-        <React.Fragment key={uuidv4()} >
-          <h3 className="releases__wrapper_header">
-            {transformDate(arr[0].year)}
-          </h3>
-          <ul className="releases__wrapper">{items}</ul>
-        </React.Fragment>
+        <li
+          key={uuidv4()}
+          className={
+            length === 1
+              ? "releases__item"
+              : "releases__item releases__item_under"
+          }
+        >
+          <div className="releases__item_img">
+            <img
+              src={
+                props.item.thumbnail === "https://image.tmdb.org/t/p/w500null"
+                  ? poster
+                  : props.item.thumbnail
+              }
+              alt=""
+            />
+          </div>
+
+
+          <div className="releases__item_description">
+            
+            <Link to={`/movie/${props.item.id}`} className="releases__item_link">{props.item.title}</Link>           
+            {renderGenres(props.item.genre)}              
+          </div>
+
+          <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
+          
+        </li>
       );
+    }
+    
+
+    const listItem = (arr: ITransformMovie[]) => {
+      const items = arr.map((el) => <Item item={el}></Item>)
+        
+        return (
+          <React.Fragment key={uuidv4()} >
+            <h3 className="releases__wrapper_header">
+              {transformDate(arr[0].year)}
+            </h3>
+            <ul className="releases__wrapper">{items}</ul>
+          </React.Fragment>
+        );
+        
+      
     };
 
     if (arr.length > 0) {

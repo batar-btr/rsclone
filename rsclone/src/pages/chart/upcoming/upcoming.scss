@@ -15,9 +15,9 @@
         margin-bottom: 0px;
         padding-top: 1rem;       
         font-family: Roboto,Helvetica,Arial,sans-serif;
-        font-size: 60px;
+        font-size: 48px;
         font-weight: normal;
-        line-height: 2.5rem;
+  
         letter-spacing: .00735em;
         text-transform: none;
         -webkit-font-smoothing: auto;
@@ -44,6 +44,48 @@
         flex-wrap: nowrap;  
         justify-content: space-between; 
         max-height: 74px;
+        position: relative;
+        & .add-flag-wrap{
+            position: relative;
+            height: 100%;
+            margin-top: 20px;
+            &.checked .add-flag polygon:first-child {
+                fill: var(--main-yellow);
+            }
+            &.checked .add-flag polygon:last-child {
+                fill: var(--main-yellow);
+            }
+            & .add-flag polygon:first-child {
+                fill: rgba(0,0,0,.10);
+            }
+            &.unchecked .plus-icon {
+                background: url(../../../components/carousel/crossBlack.svg) no-repeat 50% 30%;
+            }
+            &.checked{
+                & .add-flag{
+                    &:hover {
+                        polygon:nth-child(2) {
+                            fill: rgba(0,0,0,.18);
+                        }
+                        polygon:last-child {
+                            fill: #d8b442;
+                        }
+                    }
+                }
+            }
+            & .guDipu{
+                stroke: #000000;
+                scale: 0.9;
+            }
+            & .add-flag{
+                &:hover {
+                    polygon:nth-child(2) {
+                        fill: rgba(0,0,0,.10);
+                    }
+                }
+            }
+           
+        }
         &_description {
             display: flex;
             justify-content: center;            
