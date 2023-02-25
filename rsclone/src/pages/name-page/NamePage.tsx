@@ -201,7 +201,7 @@ export const NamePage = () => {
             </div>
           </a>
 
-          <a href="" className="namePage__interactive_images">
+          <a href={`https://www.imdb.com/name/${general.imdb_id}/mediaindex?ref_=nm_ov_mi_sm`} className="namePage__interactive_images">
             <div className="namePage__interactive_videos-wrapper">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,8 +1,5 @@
 import { Top250Header } from "./top250Header";
 import AsideChart from "../aside/aside";
-import { YouHaveSeenWidget } from "./youHaveSeenTop250";
-import { Top250RatedByGenre } from "./top250RatedByGenre";
-import { Recently } from "../recently/recentley";
 import { useState, useEffect } from "react";
 import IMDBService from "../../../services/IMDBService";
 import { Spinner } from "../spinner/Spinner";
@@ -137,12 +134,9 @@ export const Top250 = () => {
             {items}
             {spinner}
           </div>
-          <div className="sidebar">
-            <YouHaveSeenWidget />
-            <AsideChart />
-            <Top250RatedByGenre />
-          </div>
-          <Recently />
+          <div className="sidebar">            
+            <AsideChart />            
+          </div>          
         </div>
       </div>
     </>
