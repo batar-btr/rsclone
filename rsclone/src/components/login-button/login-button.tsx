@@ -4,6 +4,7 @@ import { ReactComponent as ArrowIcon } from './arrow.svg';
 import { useState } from 'react';
 import './login-button.scss'
 import { UserAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 interface LoginButtonProps {
   user: User | null
@@ -30,9 +31,9 @@ const LoginButton = ({ user }: LoginButtonProps) => {
     {user.email?.split('@')[0]}
     <ArrowIcon className={`login-btn-icon ${isOpen ? 'active' : ''}`} />
     <ul className={`sub-menu ${isOpen ? 'open' : ''}`} onMouseLeave={closeSubMenu}>
-      <li>Your Watchlist</li>
-      <li>Your Ratings</li>
-      <li>Account settings</li>
+      <li><Link to='watchlist'>Your Watchlist</Link></li>
+      <li><Link to='ratings'>Your Ratings</Link></li>
+      <li><Link to='account'>Account settings</Link></li>
       <li onClick={() => logOut()}>Sign Out</li>
     </ul>
   </>;

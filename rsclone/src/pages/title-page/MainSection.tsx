@@ -16,6 +16,7 @@ import { UserAuth } from '../../context/AuthContext';
 import { deleteFavorite } from '../../User/delete-favorite';
 import { addFavorite } from '../../User/add-favorite';
 import { NameAside } from '../name-page/nameAside';
+import { InfoBox } from '../../components/info-box/info-box';
 
 interface TitleVideoProps {
   item: TitleVideo[]
@@ -210,6 +211,8 @@ export const MainSection = () => {
   const TitleSliderSimilarBlockItem = (props: TitleSimilarItemProps) => {
     const [loadingSimilar, setLoadingSimilar] = useState<boolean>(false);
     const {isShowing, toggle} = useModal();
+    const { isShowing: isInfoShowing, toggle: toggleInfo } = useModal();
+    const [loading, setLoading] = useState<boolean>(false);
 
     const { user, userData } = UserAuth()
 
@@ -283,9 +286,19 @@ export const MainSection = () => {
               />}
             </button>
             <div>
-              <button className='movie-info-button'>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className='movie-info-button-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
+              <button className='movie-info-button' onClick={toggleInfo}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className='movie-info-button-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
               </button>
+              <Modal isShowing={isInfoShowing} hide={toggleInfo}>
+                <InfoBox openRate={toggle} info={{
+                  id: props.item.id, 
+                  title: props.item.title ? props.item.title as string : props.item.name as string,
+                  img: props.item.poster_path,
+                  rate : props.item.vote_average,
+                  type: type as 'tv' | 'movie'
+                }
+                  } hide={toggleInfo} toWatchlist={() => addMovieHandler()} loading={loading} />
+              </Modal>
             </div>
           </div>
         </div>

@@ -678,7 +678,7 @@ export const NamePage = () => {
     );
 
   return (
-    <>
+    <div className="namePage__wrapper">
       <div className="namePage__container" style={{ backgroundImage: `url(${img + general.profile_path})` }}>{spinner}</div>
 
       <div className="namePage__container_wrapper">
@@ -688,6 +688,6 @@ export const NamePage = () => {
           <div className="namePage__container_about-right">{rightSide}</div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

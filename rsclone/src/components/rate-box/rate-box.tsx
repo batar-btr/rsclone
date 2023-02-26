@@ -50,6 +50,7 @@ const RateBox = ({ title, hide, id, type }: RateBoxProps) => {
       await deleteRate(user.uid, type, id);
       setRate(null);
       setSelectStar(0);
+      hide();
     }
   }
 

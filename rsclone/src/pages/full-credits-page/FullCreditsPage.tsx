@@ -144,7 +144,7 @@ export const FullCreditsPage = () => {
     let directedArray: JSX.Element[] = [];
 
     if (directed) {
-      for (let i = 0; i < directed.length; i++) {
+      
         let directedItem = directed.map((item) => {
           return (
             <li className="fullcredit__content_crew-item" key={uuidv4()}>
@@ -160,7 +160,7 @@ export const FullCreditsPage = () => {
         });
 
         directedArray.push(...directedItem);
-      }
+      
     }
 
     const directedContent = (

@@ -2,7 +2,6 @@
     min-height: 500px;
     color: aliceblue;
     max-width: 1280px;
-    min-width: 1280px;
     margin: 0 auto;
     padding-bottom: 10px;
     position: relative;
@@ -10,7 +9,11 @@
     flex-direction: column;
     align-items: center;
     z-index: 5;
+    min-width: 100%;
     background: linear-gradient( 90deg, rgb(var(--ipt-baseAlt-shade1-rgb,31,31,31)), 20%, rgba(var(--ipt-baseAlt-shade1-rgb,31,31,31),0.6), 80%, rgb(var(--ipt-baseAlt-shade1-rgb,31,31,31)) );
+    &__wrapper{
+        background-color: rgb(31,31,31);
+    }
     &__blur_bg{
         z-index: 2;
         position: absolute;
@@ -27,6 +30,8 @@
         position: relative;
         min-height: 40rem; 
         display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
         & .spinner{
             height: auto;
             width: 100%;
@@ -196,11 +201,9 @@
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
-        margin-left: 30px;
-        margin-right: 30px;   
-        margin-top: 30px;   
+        margin-top: 30px; 
+        width: 1220px;  
         gap: 75px;
-        min-width: 90%;
         &_biography {            
             width: 80%;
             &-mainText {   
@@ -371,6 +374,7 @@
                 color: #000;
                 cursor: pointer;                
                 border-radius: 4px;
+                border: none;
                 width: 100%;
                 padding: 0 1rem;
                 margin: 0;

@@ -5,6 +5,7 @@ import {
   UserCredential,
   Auth,
   User,
+  deleteUser
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
@@ -45,6 +46,7 @@ export const AuthProvider = ({ children }: ProviderProps): React.ReactElement =>
   function logOut(): Promise<void> {
     return signOut(auth);
   }
+
 
   useEffect(() => {
     const unsubsribe = onAuthStateChanged(auth, async (user) => {
