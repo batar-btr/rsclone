@@ -5,6 +5,7 @@ import { ITransformMovie } from "../../../models/IMDBModels";
 import { useState, useEffect } from "react";
 import IMDBService from "../../../services/IMDBService";
 import { uuidv4 } from "@firebase/util";
+import { MostPopularSort } from "../popularMovies/mostPopularSort";
 
 import "./lowesRated.scss";
 import { Link } from "react-router-dom";
@@ -117,9 +118,13 @@ const LowestRated = () => {
     );
   };
 
+  const sortedStateArray = (propsArray: Array<ITransformMovie>) => {    
+    setMovieList(propsArray)   
+  }
+
   const items = renderItems(movieList);
   const spinner = movieLoading ? <Spinner/> : null;
-
+  const sort = movieLoading ? null : <MostPopularSort item={movieList} func={sortedStateArray}/>;
 
   return (
     <>      
@@ -127,6 +132,7 @@ const LowestRated = () => {
         <div className="wideContent">
           <div className="article">
             <LowestRatedHeader />
+            {sort}
             {items}
             {spinner}            
           </div>

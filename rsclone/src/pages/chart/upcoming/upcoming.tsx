@@ -190,7 +190,7 @@ export const UpcomingMovie = () => {
     
 
     const listItem = (arr: ITransformMovie[]) => {
-      const items = arr.map((el) => <Item item={el}></Item>)
+      const items = arr.map((el) => <Item key={uuidv4()} item={el}></Item>)
         
         return (
           <React.Fragment key={uuidv4()} >

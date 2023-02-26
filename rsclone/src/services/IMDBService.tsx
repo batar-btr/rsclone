@@ -41,7 +41,7 @@ const IMDBService = () => {
   const type = document.URL.split('/')[3]
 
   const getPopular = async () => {
-    const requestLength = 5;
+    const requestLength = 6;
 
     const arr: ITransformMovie[] = [];
 
@@ -53,7 +53,15 @@ const IMDBService = () => {
       arr.push(...res.results.map(_transformMovie));
     }
 
-    return arr;
+    let newArr = arr.filter(
+      (
+        (el) => (f) =>
+          !el.has(f.title) && el.add(f.title)
+      )(new Set())
+    );
+
+    newArr.length = 100;
+    return newArr;
   };
 
   const getPopularTVShow = async () => {

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import IMDBService from "../../../services/IMDBService";
 import { MostPopularHeader } from "./mostPopularHeader";
-import { Recently } from "../recently/recentley";
 import AsideChart from "../aside/aside";
 import { ITransformMovie } from "../../../models/IMDBModels";
 import { Spinner } from "../spinner/Spinner";
@@ -62,6 +61,46 @@ const MostPopularMovies = () => {
     }
 
     const evenOrOdd = props.id % 2 === 0;
+
+    const NotYetReleased = () => {
+
+      return (
+        <>
+          <div className="mostPopular__item_rating">
+          <div className="mostPopular__item_notYet"></div>
+          <div className="mostPopular__item_rating-next"></div>
+        </div>
+        <div className="mostPopular__item_unseen-wrapper">
+          <div className="mostPopular__item_notYet">Not Yet Released</div>
+          {
+            rating && <p className="mostPopular__item_seen-val">{rating}</p>
+          }
+        </div>
+        </>
+      )
+
+    }
+
+    const Released = () => {
+
+      return (
+        <>
+            <div className="mostPopular__item_rating">
+          <div className="mostPopular__item_rating-star"></div>
+          <div className="mostPopular__item_rating-next">{props.item.vote}</div>
+        </div>
+        <div className="mostPopular__item_unseen-wrapper">
+          <div className={`mostPopular__item_${rating ? 'seen' : 'unseen'}`} onClick={toggle}></div>
+          {
+            rating && <p className="mostPopular__item_seen-val">{rating}</p>
+          }
+        </div>
+        </>
+      )
+    }
+
+    const release = props.item.vote === 0 ? <NotYetReleased/> : <Released/>;
+
     return (
       <li
         className={`${
@@ -76,16 +115,9 @@ const MostPopularMovies = () => {
           <div className="mostPopular__item_title-rate">{props.id + 1}. </div>
           <Link to={`/movie/${props.item.id}`}>{props.item.title} ({props.item.year.split('-')[0]})</Link>
         </div>
-        <div className="mostPopular__item_rating">
-          <div className="mostPopular__item_rating-star"></div>
-          <div className="mostPopular__item_rating-next">{props.item.vote}</div>
-        </div>
-        <div className="mostPopular__item_unseen-wrapper">
-          <div className={`mostPopular__item_${rating ? 'seen' : 'unseen'}`} onClick={toggle}></div>
-          {
-            rating && <p className="mostPopular__item_seen-val">{rating}</p>
-          }
-        </div>
+
+          {release}
+
         <Modal isShowing={isShowing} hide={toggle}>
           <RateBox title={props.item.title as string} hide={toggle} id={props.item.id} type={'movie'}></RateBox>
         </Modal>
