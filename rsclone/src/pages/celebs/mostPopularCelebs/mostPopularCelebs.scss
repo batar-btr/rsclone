@@ -31,7 +31,13 @@
         width: auto;
         background-color: #FFFFFF;
         min-height: 100rem;
-        
+        & .dots-spinner-wrapper{
+            height: 17px;
+            margin-top: 16px;
+            justify-content: flex-start;
+            margin-left: 16px;
+            width: calc(100% - 16px);
+        }
     }
     &__title {
         position: relative;
