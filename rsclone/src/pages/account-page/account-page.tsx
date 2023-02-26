@@ -24,6 +24,8 @@ const AccountPage = () => {
     const user = auth.currentUser;
     if (user) {
       await deleteUser(user).catch(err => setError(true));
+    }
+    if(!user) {
       navigate('/');
     }
   }
