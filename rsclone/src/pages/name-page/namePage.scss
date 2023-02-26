@@ -9,6 +9,7 @@
     flex-direction: column;
     align-items: center;
     z-index: 5;
+    min-width: 100%;
     background: linear-gradient( 90deg, rgb(var(--ipt-baseAlt-shade1-rgb,31,31,31)), 20%, rgba(var(--ipt-baseAlt-shade1-rgb,31,31,31),0.6), 80%, rgb(var(--ipt-baseAlt-shade1-rgb,31,31,31)) );
     &__wrapper{
         background-color: rgb(31,31,31);
@@ -200,9 +201,8 @@
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
-        margin-left: 30px;
-        margin-right: 30px;   
-        margin-top: 30px;   
+        margin-top: 30px; 
+        width: 1220px;  
         gap: 75px;
         &_biography {            
             width: 80%;
@@ -374,6 +374,7 @@
                 color: #000;
                 cursor: pointer;                
                 border-radius: 4px;
+                border: none;
                 width: 100%;
                 padding: 0 1rem;
                 margin: 0;
