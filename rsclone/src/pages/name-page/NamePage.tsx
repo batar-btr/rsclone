@@ -272,7 +272,7 @@ export const NamePage = () => {
       return (
         <>
           <div className="namePage__description_biography">
-            <a href="">
+            <a href={`https://www.imdb.com/name/${general.imdb_id}/bio?ref_=nm_ov_bio_sm`}>
               <div className="namePage__description_biography-mainText">
                 {general.biography}
                 <svg
