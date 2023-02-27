@@ -7,7 +7,7 @@ const BoxOffice = () => {
       <div className="header__boxOffice">
         <h2 className="header__boxOffice_title">Top Box Office (US)</h2>
         <h4 className="header__boxOffice_subtitle">
-        Weekend of February 17 - 19, 2023
+        Weekend of February 24 - 26, 2023
         </h4>
       </div>
       <BoxOfficeTitles />

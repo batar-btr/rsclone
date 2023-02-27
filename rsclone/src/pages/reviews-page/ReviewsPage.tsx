@@ -201,9 +201,6 @@ export const ReviewsPage = () => {
   const loaded = loading ? <HeaderContent /> : <Spinner />;
   const content = loading ? <Content /> : null;
 
-  console.log('Render');
-  
-
   return (
     <>
       <div className="fullcredit">
