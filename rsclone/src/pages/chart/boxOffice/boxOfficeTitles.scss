@@ -3,6 +3,8 @@
         list-style-type: none;
         margin-top: 20px;
         font-family: Verdana, Arial, sans-serif;
+        padding-left: 0;
+        margin-bottom: 0;
     }
     &__item {
         display: grid;
@@ -37,15 +39,51 @@
 
         &_watch {
             padding-right: 15px;
-            cursor: pointer;
-            justify-self: center;  
-            &-add {
-                background-image: url("https://m.media-amazon.com/images/S/sash/INbcM2-CU0AKIbe.png");
-                background-position: -30px 0px;
-                height: 30px;
+            justify-self: center;
+            position: relative;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            & .add-flag-wrap{
+                top: 21px;
+                opacity: 1;
                 width: 30px;
-                &:hover {
-                    background-position: -30px -30px;
+                height: 30px;
+                left: 12px;
+                background-image: url('https://m.media-amazon.com/images/S/sash/INbcM2-CU0AKIbe.png');
+                .add-flag{
+                    display: none;
+                }
+                .plus-icon{
+                    // display: none;
+                    background: none;
+                }
+                &.checked{
+                    &:hover{
+                        background-position: 0px -30px;
+                    }
+                }
+                &.unchecked{
+                    background-position: -30px 0px;
+                    &:hover{
+                        background-position: -30px -30px;
+                    }
+                }
+            }
+            &.loading{
+                & .add-flag-wrap{
+                    background-image: none;
+                }
+                .plus-icon{
+                    // display: none;
+                    background-image: url('https://m.media-amazon.com/images/S/sash/INbcM2-CU0AKIbe.png'),
+                    url('https://m.media-amazon.com/images/S/sash/VPO7nZEEVf68gfL.gif');
+                    background-position: -60px 0px, 7.5px 3px;
+                    background-repeat: no-repeat, no-repeat;
+                    background-blend-mode: multiply;
+                    & svg{
+                        display: none;
+                    }
                 }
             }
         }

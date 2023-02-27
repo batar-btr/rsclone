@@ -444,10 +444,12 @@
     & .title-main-title-wrapper{
       display: flex;
       justify-content: space-between;
+      width: 100%;
     }
     &-add-review{
       display: flex;
       align-items: center;
+      cursor: pointer;
       color: rgb(14, 99, 190);
       padding: 0 0.5rem;
       height: 36px;

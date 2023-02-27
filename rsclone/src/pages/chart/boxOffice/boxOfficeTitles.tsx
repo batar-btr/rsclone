@@ -1,7 +1,45 @@
 
+import { useState } from 'react';
 import './boxOfficeTitles.scss'
+import { UserAuth } from '../../../context/AuthContext';
+import { deleteFavorite } from '../../../User/delete-favorite';
+import { addFavorite } from '../../../User/add-favorite';
+import AddFlag from '../../../components/movie-card-carousel/AddFlag/AddFlag';
 
 export const BoxOfficeTitles = () => {
+
+    interface props{
+        id: number
+      } 
+
+    const ItemWatchlist = (props: props) =>{
+        const [loading, setLoading] = useState<boolean>(false);
+        
+        const { user, userData } = UserAuth()
+
+        const isAdded = userData?.['favorite']['movie'].some((item: number) => item === props.id) as boolean;
+        const rating = userData?.rate['movie'][props.id];
+    
+        const addMovieHandler = async () => {
+        if (user) {
+            setLoading(prev => !prev);
+            setTimeout(async () => {
+            if (isAdded) {
+                await deleteFavorite(user.uid, 'movie', props.id)
+            } else {
+                await addFavorite(user.uid, 'movie', props.id);
+            }
+            setLoading(prev => !prev);
+            }, 1000);
+        }
+        }
+
+        return <div className={`boxOffice__item_watch ${loading ? 'loading' : ''}`}>
+                    <div title={isAdded ? 'Click to remove from watchlist' : 'Click to add to watchlist'}>
+                        <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
+                    </div>
+                </div>
+    }
 
     return (
         <ul className="boxOffice__wrapper">
@@ -21,13 +59,37 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_title">
                 <a href="/movie/640146" title="Peyton Reed (dir.), Paul Rudd, Evangeline Lilly">Ant-Man and the Wasp: Quantumania</a>
                 </div>
-                <div className="boxOffice__item_weekend">$106.1M</div>
-                <div className="boxOffice__item_gross">$106.1M</div>
-                <div className="boxOffice__item_weeks">1</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <div className="boxOffice__item_weekend">$32.2M</div>
+                <div className="boxOffice__item_gross">$167.3M</div>
+                <div className="boxOffice__item_weeks">2</div>
+                <ItemWatchlist id={640146}/>
             </li>  
+
+            <li className="boxOffice__item even">
+                <div className="boxOffice__item_img">                    
+                <img src="https://m.media-amazon.com/images/M/MV5BODAwZDQ5ZjEtZDI1My00MTFiLTg0ZjUtOGE2YTBkOTdjODFhXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_UY67_CR0,0,45,67_AL_.jpg" alt="Cocaine Bear"/>
+                </div>
+                <div className="boxOffice__item_title">
+                <a href="/movie/804150" title="Elizabeth Banks (dir.), Keri Russell, Alden Ehrenreich">Cocaine Bear</a>
+                </div>
+                <div className="boxOffice__item_weekend">$23.1M</div>
+                <div className="boxOffice__item_gross">$23.1M</div>
+                <div className="boxOffice__item_weeks">1</div>
+                <ItemWatchlist id={804150}/>
+            </li>    
+
+            <li className="boxOffice__item odd">
+                <div className="boxOffice__item_img">
+                <img src="https://m.media-amazon.com/images/M/MV5BZjQ4M2JiMTEtNDhiMi00OWM1LTkwMWEtODdjYTQxNWQyOTFiXkEyXkFqcGdeQXVyMjMxOTE0ODA@._V1_UX45_CR0,0,45,67_AL_.jpg" alt="Jesus Revolution"/>
+                </div>
+                <div className="boxOffice__item_title">
+                <a href="/movie/719256" title="Jon Erwin (dir.), Joel Courtney, Jonathan Roumie">Jesus Revolution</a>
+                </div>
+                <div className="boxOffice__item_weekend">$15.5M</div>
+                <div className="boxOffice__item_gross">$15.5M</div>
+                <div className="boxOffice__item_weeks">1</div>
+                <ItemWatchlist id={719256}/>
+            </li>   
 
             <li className="boxOffice__item even">
                 <div className="boxOffice__item_img">                    
@@ -36,28 +98,11 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_title">
                 <a href="/movie/76600" title="James Cameron (dir.), Sam Worthington, Zoe Saldana">Avatar: The Way of Water</a>
                 </div>
-                <div className="boxOffice__item_weekend">$6.6M</div>
-                <div className="boxOffice__item_gross">$657.5M</div>
-                <div className="boxOffice__item_weeks">10</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
-            </li>     
-
-            <li className="boxOffice__item odd">
-                <div className="boxOffice__item_img">
-                <img src="https://m.media-amazon.com/images/M/MV5BMTg4ZWZhODQtNWVhNC00NjA1LWJhZjgtZTFkY2JmNWJlYzU0XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_UY67_CR0,0,45,67_AL_.jpg" alt="Magic Mike's Last Dance"/>
-                </div>
-                <div className="boxOffice__item_title">
-                <a href="/movie/906221" title="Steven Soderbergh (dir.), Jemelia George, Channing Tatum">Magic Mike's Last Dance</a>
-                </div>
-                <div className="boxOffice__item_weekend">$5.4M</div>
-                <div className="boxOffice__item_gross">$18.0M</div>
-                <div className="boxOffice__item_weeks">2</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
-            </li>       
+                <div className="boxOffice__item_weekend">$4.7M</div>
+                <div className="boxOffice__item_gross">$665.4M</div>
+                <div className="boxOffice__item_weeks">11</div>
+                <ItemWatchlist id={76600}/>
+            </li>  
 
             <li className="boxOffice__item even">
                 <div className="boxOffice__item_img">                    
@@ -66,13 +111,25 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_title">
                 <a href="/movie/315162" title="Joel Crawford (dir.), Antonio Banderas, Salma Hayek">Puss in Boots: The Last Wish</a>
                 </div>
-                <div className="boxOffice__item_weekend">$5.3M</div>
-                <div className="boxOffice__item_gross">$166.2M</div>
-                <div className="boxOffice__item_weeks">9</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <div className="boxOffice__item_weekend">$4.1M</div>
+                <div className="boxOffice__item_gross">$173.4M</div>
+                <div className="boxOffice__item_weeks">10</div>
+                <ItemWatchlist id={315162}/>
             </li>  
+
+            <li className="boxOffice__item odd">
+                <div className="boxOffice__item_img">
+                <img src="https://m.media-amazon.com/images/M/MV5BMTg4ZWZhODQtNWVhNC00NjA1LWJhZjgtZTFkY2JmNWJlYzU0XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_UY67_CR0,0,45,67_AL_.jpg" alt="Magic Mike's Last Dance"/>
+                </div>
+                <div className="boxOffice__item_title">
+                <a href="/movie/906221" title="Steven Soderbergh (dir.), Jemelia George, Channing Tatum">Magic Mike's Last Dance</a>
+                </div>
+                <div className="boxOffice__item_weekend">$1.9M</div>
+                <div className="boxOffice__item_gross">$22.2M</div>
+                <div className="boxOffice__item_weeks">3</div>
+                <ItemWatchlist id={906221}/>
+            </li>       
+
 
             <li className="boxOffice__item odd">
                 <div className="boxOffice__item_img">
@@ -81,12 +138,10 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_title">
                 <a href="/movie/631842" title="M. Night Shyamalan (dir.), Dave Bautista, Jonathan Groff">Knock at the Cabin</a>
                 </div>
-                <div className="boxOffice__item_weekend">$4.0M</div>
-                <div className="boxOffice__item_gross">$30.4M</div>
-                <div className="boxOffice__item_weeks">3</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <div className="boxOffice__item_weekend">$1.9M</div>
+                <div className="boxOffice__item_gross">$33.9M</div>
+                <div className="boxOffice__item_weeks">4</div>
+                <ItemWatchlist id={631842}/>
             </li>     
 
             <li className="boxOffice__item even">
@@ -96,43 +151,11 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_title">
                 <a href="/movie/942922" title="Kyle Marvin (dir.), Lily Tomlin, Jane Fonda">80 for Brady</a>
                 </div>
-                <div className="boxOffice__item_weekend">$3.8M</div>
-                <div className="boxOffice__item_gross">$32.4M</div>
-                <div className="boxOffice__item_weeks">3</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
-            </li>    
-
-            <li className="boxOffice__item odd">
-                <div className="boxOffice__item_img">
-                <img src="https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_UY67_CR0,0,45,67_AL_.jpg" alt="Titanic"/>
-                </div>
-                <div className="boxOffice__item_title">
-                <a href="/movie/597" title="James Cameron (dir.), Leonardo DiCaprio, Kate Winslet">Titanic</a>
-                </div>
-                <div className="boxOffice__item_weekend">$2.4M</div>
-                <div className="boxOffice__item_gross">$12.5M</div>
-                <div className="boxOffice__item_weeks">2</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
-            </li>   
-
-            <li className="boxOffice__item even">
-                <div className="boxOffice__item_img">                    
-                <img src="https://m.media-amazon.com/images/M/MV5BM2EzNWEwNmYtMGE2NC00Y2NiLTk5NGEtZmRlZDE0Y2M0Yzg5XkEyXkFqcGdeQXVyNTE1NjY5Mg@@._V1_UY67_CR0,0,45,67_AL_.jpg" alt="Marlowe"/>
-                </div>
-                <div className="boxOffice__item_title">
-                <a href="/movie/844417" title="Neil Jordan (dir.), Liam Neeson, Diane Kruger">Marlowe</a>
-                </div>
                 <div className="boxOffice__item_weekend">$1.8M</div>
-                <div className="boxOffice__item_gross">$2.6M</div>
-                <div className="boxOffice__item_weeks">1</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
-            </li>     
+                <div className="boxOffice__item_gross">$36.4M</div>
+                <div className="boxOffice__item_weeks">4</div>
+                <ItemWatchlist id={942922}/>
+            </li>  
 
             <li className="boxOffice__item odd">
                 <div className="boxOffice__item_img">
@@ -141,12 +164,10 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_title">
                 <a href="/movie/768362" title="Nicholas D. Johnson (dir.), Tim Griffin, Ava Zaria Lee">Missing</a>
                 </div>
-                <div className="boxOffice__item_weekend">$1.7M</div>
-                <div className="boxOffice__item_gross">$29.7M</div>
-                <div className="boxOffice__item_weeks">5</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <div className="boxOffice__item_weekend">$1.0M</div>
+                <div className="boxOffice__item_gross">$31.4M</div>
+                <div className="boxOffice__item_weeks">6</div>
+                <ItemWatchlist id={768362}/>
             </li>     
 
             <li className="boxOffice__item even">
@@ -156,12 +177,10 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_title">
                 <a href="/movie/937278" title="Marc Forster (dir.), Tom Hanks, Mariana Treviño">A Man Called Otto</a>
                 </div>
-                <div className="boxOffice__item_weekend">$1.6M</div>
-                <div className="boxOffice__item_gross">$60.6M</div>
-                <div className="boxOffice__item_weeks">8</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <div className="boxOffice__item_weekend">$850K</div>
+                <div className="boxOffice__item_gross">$62.3M</div>
+                <div className="boxOffice__item_weeks">9</div>
+                <ItemWatchlist id={937278}/>
             </li>            
         </ul>
         
