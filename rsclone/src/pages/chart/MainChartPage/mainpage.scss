@@ -1,0 +1,34 @@
+.article {
+    padding: 20px 21px 24px 20px;
+    background-color: #f2f2f2;  
+    min-height: 40rem;
+    h3 {
+        color: #424242;
+        font: 18px Arial,sans-serif;
+        font-weight: normal;
+        margin: 0 0 9px;
+    }
+    &__title {
+        font-size: 18px;
+        color: #424242;
+        font: 24px Arial,sans-serif;
+        font-weight: normal;
+    }
+}
+
+.wideContent {    
+    display: grid;    
+    width: 100%;
+    max-width: 1008px;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    column-gap: 3px;
+    height: auto;
+    background-color: #999;
+}
+
+.wideWrapper {
+    display: grid;    
+    justify-items: center;
+    background-color: #ffffff;
+}
