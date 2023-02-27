@@ -1,7 +1,45 @@
 
+import { useState } from 'react';
 import './boxOfficeTitles.scss'
+import { UserAuth } from '../../../context/AuthContext';
+import { deleteFavorite } from '../../../User/delete-favorite';
+import { addFavorite } from '../../../User/add-favorite';
+import AddFlag from '../../../components/movie-card-carousel/AddFlag/AddFlag';
 
 export const BoxOfficeTitles = () => {
+
+    interface props{
+        id: number
+      } 
+
+    const ItemWatchlist = (props: props) =>{
+        const [loading, setLoading] = useState<boolean>(false);
+        
+        const { user, userData } = UserAuth()
+
+        const isAdded = userData?.['favorite']['movie'].some((item: number) => item === props.id) as boolean;
+        const rating = userData?.rate['movie'][props.id];
+    
+        const addMovieHandler = async () => {
+        if (user) {
+            setLoading(prev => !prev);
+            setTimeout(async () => {
+            if (isAdded) {
+                await deleteFavorite(user.uid, 'movie', props.id)
+            } else {
+                await addFavorite(user.uid, 'movie', props.id);
+            }
+            setLoading(prev => !prev);
+            }, 1000);
+        }
+        }
+
+        return <div className={`boxOffice__item_watch ${loading ? 'loading' : ''}`}>
+                    <div title={isAdded ? 'Click to remove from watchlist' : 'Click to add to watchlist'}>
+                        <AddFlag checked={isAdded} loading={loading} onClick={addMovieHandler}></AddFlag>
+                    </div>
+                </div>
+    }
 
     return (
         <ul className="boxOffice__wrapper">
@@ -24,9 +62,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$32.2M</div>
                 <div className="boxOffice__item_gross">$167.3M</div>
                 <div className="boxOffice__item_weeks">2</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={640146}/>
             </li>  
 
             <li className="boxOffice__item even">
@@ -39,9 +75,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$23.1M</div>
                 <div className="boxOffice__item_gross">$23.1M</div>
                 <div className="boxOffice__item_weeks">1</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={804150}/>
             </li>    
 
             <li className="boxOffice__item odd">
@@ -54,9 +88,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$15.5M</div>
                 <div className="boxOffice__item_gross">$15.5M</div>
                 <div className="boxOffice__item_weeks">1</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={719256}/>
             </li>   
 
             <li className="boxOffice__item even">
@@ -69,9 +101,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$4.7M</div>
                 <div className="boxOffice__item_gross">$665.4M</div>
                 <div className="boxOffice__item_weeks">11</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={76600}/>
             </li>  
 
             <li className="boxOffice__item even">
@@ -84,9 +114,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$4.1M</div>
                 <div className="boxOffice__item_gross">$173.4M</div>
                 <div className="boxOffice__item_weeks">10</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={315162}/>
             </li>  
 
             <li className="boxOffice__item odd">
@@ -99,9 +127,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$1.9M</div>
                 <div className="boxOffice__item_gross">$22.2M</div>
                 <div className="boxOffice__item_weeks">3</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={906221}/>
             </li>       
 
 
@@ -115,9 +141,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$1.9M</div>
                 <div className="boxOffice__item_gross">$33.9M</div>
                 <div className="boxOffice__item_weeks">4</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={631842}/>
             </li>     
 
             <li className="boxOffice__item even">
@@ -130,9 +154,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$1.8M</div>
                 <div className="boxOffice__item_gross">$36.4M</div>
                 <div className="boxOffice__item_weeks">4</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={942922}/>
             </li>  
 
             <li className="boxOffice__item odd">
@@ -145,9 +167,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$1.0M</div>
                 <div className="boxOffice__item_gross">$31.4M</div>
                 <div className="boxOffice__item_weeks">6</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={768362}/>
             </li>     
 
             <li className="boxOffice__item even">
@@ -160,9 +180,7 @@ export const BoxOfficeTitles = () => {
                 <div className="boxOffice__item_weekend">$850K</div>
                 <div className="boxOffice__item_gross">$62.3M</div>
                 <div className="boxOffice__item_weeks">9</div>
-                <div className="boxOffice__item_watch">
-                    <div className="boxOffice__item_watch-add" title="Click to add to watchlist"></div>
-                </div>
+                <ItemWatchlist id={937278}/>
             </li>            
         </ul>
         
