@@ -7,7 +7,7 @@ import AddFlag from '../../components/movie-card-carousel/AddFlag/AddFlag';
 import { useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import IMDBService from '../../services/IMDBService';
-import { IMovieReleaseDates, ITitle, ITitleCast, ITitleVideos, ITvContentRatings } from '../../models/title';
+import { IMovieReleaseDates, ITitle, ITitleCast, ITitleImage, ITitleImages, ITitleVideos, ITvContentRatings } from '../../models/title';
 import { DotSpinner } from '../../components/dots-spinner/DotSpinner';
 import { UserAuth } from '../../context/AuthContext';
 import { deleteFavorite } from '../../User/delete-favorite';
@@ -28,9 +28,11 @@ export const MainInfoSection = () => {
   const [title, setTitle] = useState<ITitle>()
   const [cast, setCast] = useState<ITitleCast>()
   const [videos, setVideos] = useState<ITitleVideos>()
+  const [images, setImages] = useState<ITitleImage[]>()
   const [certification, setCertification] = useState<string>('')
   const [certLoading, setCertLoading] = useState<boolean>(true)
   const [titleLoading, setTitleLoading] = useState<boolean>(true)
+  const [titleImagesLoading, setTitleImagesLoading] = useState<boolean>(true)
   const [titleVideoLoading, setTitleVideoLoading] = useState<boolean>(true)
   const [titleCastLoading, setTitleCastLoading] = useState<boolean>(true)
   
@@ -41,6 +43,7 @@ export const MainInfoSection = () => {
     setTitleLoading(true)
     setTitleVideoLoading(true)
     setTitleCastLoading(true)
+    setTitleImagesLoading(true)
   }, [id]);
   
   const onRequest = async () => {
@@ -60,6 +63,13 @@ export const MainInfoSection = () => {
     setCast(cast)
     if (cast) {
       setTitleCastLoading(false)
+    }
+
+    const images: ITitleImages = await IMDBService().getTitleImages(+id!)
+    const allImages: ITitleImage[] = [...images.backdrops, ...images.posters]
+    setImages(allImages)
+    if (allImages) {
+      setTitleImagesLoading(false)
     }
 
     const certifications = await IMDBService().getTitleCertification(+id!)
@@ -287,13 +297,30 @@ export const MainInfoSection = () => {
                 <Link to={`/${type}/${id}/videogallery`} className='title-main-info-madia-gallery'>
                   <div className="title-main-info-madia-gallery-info">
                     <svg xmlns="http://www.w3.org/2000/svg" className='title-main-info-madia-gallery-icon' width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="presentation"><path d="M3 6c-.55 0-1 .45-1 1v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1zm17-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l5.47 4.1c.27.2.27.6 0 .8L12 14.5z"></path></svg>
-                    <div className="title-main-info-madia-gallery-text">99+ Videos</div>
+                    {
+                      titleVideoLoading && <DotSpinner theme='dark' size='big'/>
+                    }
+                    {
+                      !titleVideoLoading && 
+                        <div className="title-main-info-madia-gallery-text">{videos!.results.length < 100 ?
+                          videos?.results.length : `99+`
+                        } {videos?.results.length !== 1 ? 'Videos' : 'Video'}</div>
+                    }
+                    
                   </div>
                 </Link>
                 <Link to={`/${type}/${id}/photogallery`} className='title-main-info-madia-gallery'>
                   <div className="title-main-info-madia-gallery-info">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className='title-main-info-madia-gallery-icon' viewBox="0 0 24 24" fill="currentColor" role="presentation"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-10.6-3.47l1.63 2.18 2.58-3.22a.5.5 0 0 1 .78 0l2.96 3.7c.26.33.03.81-.39.81H9a.5.5 0 0 1-.4-.8l2-2.67c.2-.26.6-.26.8 0zM2 7v13c0 1.1.9 2 2 2h13c.55 0 1-.45 1-1s-.45-1-1-1H5c-.55 0-1-.45-1-1V7c0-.55-.45-1-1-1s-1 .45-1 1z"></path></svg>
-                    <div className="title-main-info-madia-gallery-text">99+ Photos</div>
+                  {
+                      titleImagesLoading && <DotSpinner theme='dark' size='big'/>
+                    }
+                    {
+                      !titleImagesLoading && 
+                        <div className="title-main-info-madia-gallery-text">{images!.length < 100 ?
+                          images!.length : `99+`
+                        } {images!.length !== 1 ? 'Images' : 'Image'}</div>
+                    }
                   </div>
                 </Link>
               </div>         
