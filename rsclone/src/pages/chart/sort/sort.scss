@@ -1,0 +1,23 @@
+.sort {
+    display: flex;    
+    justify-content: space-between;
+    &__options {
+        min-width: 140px;
+    }
+    &__btn {
+        cursor: pointer;
+        height: 20px;
+        vertical-align: top;
+        width: 22px;
+        background-image: url("https://m.media-amazon.com/images/S/sash/Lghmahow7r9CQqO.png");
+        background-repeat: no-repeat;
+        display: inline-block;
+        &.descending {
+            background-position: 0 -46px;
+        }
+        &.ascending {
+            background-position: 0 -22px;
+        }
+    }
+
+}

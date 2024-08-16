@@ -1,0 +1,41 @@
+.share {
+    height: 45px;
+    width: 45px;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    background-color: transparent;
+    border: 0;
+    border-radius: 3px;
+    color: #5a5a5a;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    outline: none;
+    padding: 0;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    align-self: center;
+    position: relative;
+    &:hover {
+        &::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            background-color: #0000001c;
+            top: -8px;
+            left: 4px;
+        }
+    }
+    &__button {  
+        max-height: 24px;
+        max-width: 24px;      
+        &_title {
+            display: block;
+            margin-top: 2px;
+            color: rgb(90, 90, 90);
+        }
+    }
+}

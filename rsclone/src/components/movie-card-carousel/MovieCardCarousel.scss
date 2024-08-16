@@ -1,0 +1,286 @@
+.movie-card-carousel {
+  max-width: 1280px;
+  margin: 0 auto;
+  color: aliceblue;
+  box-sizing: border-box;
+
+  h3.top-title {
+    color: rgb(245, 197, 24);
+    font-size: 32px;
+    font-weight: normal;
+    padding-left: 1.5rem;
+  }
+  &> h4 {
+    font-weight: normal;
+    color: #ffffffb3;
+    margin: 5px 0 10px;
+    padding-left: 1.5rem;
+  }
+  .movie-card-block {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    .img-wrap {
+      aspect-ratio: 1/1.5;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+      display: flex;
+      &:hover .movie-card-poster-overlay{
+        opacity: .08;
+      }
+      img {
+        transition: all 200ms ease-out;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .sub-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    padding-left: 1.5rem;
+    &__marker {
+      width: 4px;
+      height: 30px;
+      background-color: #f5c518;
+      border-radius: 2px;
+    }
+    .arrow-icon {
+      margin-top: 5px;
+
+    }
+  }
+
+  .slider.animated{
+    transition-duration: 500ms !important;
+  }
+  .carousel.carousel-slider .control-arrow {
+    background: rgba(18, 18, 18, .45);
+    border: 1px solid hsla(0, 0%, 100%, .7);
+    bottom: auto;
+    top: 22%;
+    padding: 20px 12px;
+    opacity: 0.9;
+    border-radius: 4px;
+    width: 50px;
+    height: 66px;
+    
+  }
+  .carousel.carousel-slider .control-arrow:hover {
+    background: rgba(18, 18, 18, .55);
+  }
+  .carousel.carousel-slider .control-next.control-arrow:hover::before, 
+  .carousel.carousel-slider .control-prev.control-arrow:hover::before{
+    background-color: var(--main-yellow);
+  }
+  
+  .carousel .control-next.control-arrow:before {
+    border: none;
+    margin: 0px;
+    background-color: #fff;
+    mask-image: url('../carousel/next.svg');
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    transition: background-color .15s ease-out;
+  }
+  .carousel .control-prev.control-arrow:before {
+    border: none;
+    margin: 0px;
+    background-color: #fff;
+    mask-image: url('../carousel/prev.svg');
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    margin-right: 5px;
+    transition: background-color .15s ease-out;
+  }
+  & .carousel .slider-wrapper {
+    padding-left: 1.5rem;
+  }
+}
+
+.movie-card {
+  background-color: #1a1a1a;
+  border-radius: 0 0 5px 5px;
+  position: relative;
+  margin-right: 1.5rem;
+  &__title {
+    font-size: 16px;
+    font-weight: normal;
+    height: 40px;
+    margin: 0;
+    letter-spacing: .03125em;
+    line-height: 1.25rem;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+  &-poster-overlay{
+    position: absolute;
+    background-color: #000000;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    opacity: 0;
+    transition: opacity .15s;
+  }
+
+  .info-block {
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &__bottom div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+    }
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #FFFFFFB3;
+    height: 36px;
+
+    span {
+      margin: 0 10px 0 5px;
+    }
+
+    .star-button {
+      width: 13px;
+      height: 13px;
+      padding: 5px 10px;
+      fill: transparent;
+      stroke: #5799ef;
+      stroke-width: 3;
+      box-sizing: content-box;
+      border-radius: 3px;
+    }
+    .rate-btn {
+      outline: none;
+      border: none;
+      border-radius: 3px;
+      background: transparent;
+      padding: 6px 16px;
+      transition: all 200ms ease-out;
+      color: #FFFFFFB3;
+      cursor: pointer;
+      &:hover {
+        background: #2c2c2c;
+        svg {
+          fill: #5799ef;
+        }
+      }
+    }
+  }
+  .watch-list-btn {
+    width: 100%;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2c2c2c;
+    color: #5799ef;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 12px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 200ms ease-out;
+    &:hover {
+      background-color: #30353c;
+    }
+    span {
+      display: inline-flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 24px;
+      height: 24px;
+      text-align: left;
+      margin-right: 0.25rem;
+      margin-left: -0.375rem;
+    }
+    &-added{
+      fill: #5799ef;
+    }
+  }
+  .trailer-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-weight: bold;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px 10px 5px 0;
+    height: 36px;
+    transition: all 200ms ease-out;
+    &:hover {
+      background-color: #2c2c2c;
+    }
+  }
+  .movie-info-button  {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 200ms ease-out;
+    &:hover {
+      background: #2c2c2c;
+    }
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      // font-weight: bold;
+      color: #fff;
+      font-size: 14px;
+    }
+  }
+}
+
+.movie-card-carousel:nth-child(4) .carousel .slider-wrapper.axis-horizontal .slider .slide {
+  flex-direction: column;
+  flex-flow: column;
+  padding-bottom: 20px;
+}
+
+@media screen and (max-width:1000px) {
+  .movie-card-carousel {
+    padding: 0 12px;
+  
+    .movie-card-block {
+      gap: 12px;
+    }
+  }
+} 

@@ -1,0 +1,19 @@
+.header {
+    &__boxOffice {
+        font-family: Verdana, Arial, sans-serif;
+        color: #333;
+        font-size: 13px;
+        &_title {
+            margin-bottom: 2px;
+            color: #424242;
+            font: 24px Arial,sans-serif;
+            font-weight: normal;
+        }
+        &_subtitle {
+            color: #666666;
+            font-size: 13px;
+            margin: 0.35em 0 0.25em;
+            padding: 0;
+        }
+    }
+}

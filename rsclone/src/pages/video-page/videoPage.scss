@@ -1,0 +1,151 @@
+.video{
+  &-container{
+    max-width: 1280px;
+    margin: 0 auto;
+    min-height: calc(100vh - 56px);
+    &-wrapper{
+      display: grid;
+      grid-template-columns: calc(33.3333333333% - ((2 / 3) * 1.5rem) + 2rem) calc(33.3333333333% - ((2 / 3) * 1.5rem) + 0.5rem) calc(33.3333333333% - ((2 / 3) * 1.5rem) + 0.5rem);
+      height: 532px;
+    }
+  }
+  &-player{
+    width: 100%;
+    height: 100%;
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    &-wrapper{
+      grid-column: span 2;
+      width: auto;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    &-top{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & .title-main-info-top-share{
+        margin-right: 0.75rem;
+        user-select: none;
+      }
+    }
+    &-close-btn{
+      display: flex;
+      height: 2.25rem;
+      padding: 0 1rem;
+      align-items: center;
+      border-radius: 4px;
+      transition: background-color .2s cubic-bezier(.175,.885,.32,1);
+      color: #ffffff;
+      cursor: pointer;
+      &:hover{
+        background-color: rgb(255, 255, 255, .08);
+      }
+      &:active{
+        background-color: rgb(255, 255, 255, .24);
+      }
+      &-icon{
+        margin-right: 0.25rem;
+        margin-left: -0.375rem;
+      }
+      &-text{
+        font-size: .875rem;
+        font-weight: 500;
+        line-height: 1.25rem;
+        letter-spacing: .02em;
+      }
+    }
+    &-title-info{
+      display: flex;
+      margin-left: 1rem;
+      width: calc(75.718% - 16px);
+      min-height: 2rem;
+      &-wrapper{
+        display: flex;
+        padding-bottom: 6.87px;
+        .title-main-info-madia-poster {
+          width: 24.282%;
+          aspect-ratio: 90/133;
+        }
+        .title-main-info-madia-poster .add-flag-wrap {
+          width: 32px;
+        }
+        .title-main-info-madia-poster .add-flag-wrap.unchecked .plus-icon {
+          background-size: 23px;
+        }
+        .title-main-info-madia-poster .add-flag-wrap.checked .plus-icon {
+          background-size: 20px;
+        }
+        .plus-icon > svg{
+          scale: 0.8;
+        }
+      }
+      &-container{
+        background-color: var(--header-bg-color);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+      }
+      &-title{
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 0px 0px 4px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1.25rem;
+      }
+      &-all{
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-size: 0.875rem;
+        font-size: 400;
+        letter-spacing: 0.01786em;
+        line-height: 1.25rem;
+        color: rgb(255, 255, 255, .5);
+      }
+      &-link{
+        height: fit-content;
+        &-icon{
+          padding: 0.75rem;
+          border-radius: 50%;
+          transition: background-color .2s cubic-bezier(.175,.885,.32,1);
+          & svg{
+            display: block;
+            width: 24px;
+            height: 24px;
+          }
+          &:hover{
+            background-color: rgba(255, 255, 255, 0.08);
+          }
+          &:active{
+            background-color: rgba(255, 255, 255, 0.16);
+          }
+        }
+      }
+    }
+    &-separator{
+      margin: 1rem 0;
+      border-color: rgb(255, 255, 255, .2);
+    }
+    &-type{
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+      color: #ffffff;
+    }
+  }
+}

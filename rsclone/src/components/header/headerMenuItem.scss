@@ -1,0 +1,42 @@
+.header-menu-item{
+  &:nth-child(5){
+    grid-column: 3;
+  }
+  &-top{
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    margin-top: 1.5rem;
+  }
+  &-image{
+    padding-right: 0.75rem;
+    color: var(--main-yellow);
+    height: 24px;
+  }
+  &-title{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.5rem;
+  }
+  &-expand{
+    display: none;
+  }
+  &-links{
+    display: flex;
+    flex-direction: column;
+  }
+  &-link{
+    padding-left: 3.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+    white-space: initial;
+    overflow-wrap: break-word;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}

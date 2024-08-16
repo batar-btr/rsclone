@@ -1,0 +1,71 @@
+.sidebar {
+    background-color: #EDEDEC;  
+    width: auto;
+    height: auto;
+    padding: 0 19px;
+    padding-bottom: 20px;
+    padding-top: 16px;
+    position: relative; 
+    &__seen {        
+        border-bottom: solid 1px #ccc;        
+        padding-top: 16px;
+        position: relative;
+        h3 {            
+            color: #333;
+            margin: 0 0 16px;
+            font: 18px Arial,sans-serif;
+            font-weight: normal;
+        }
+        &_score {
+            font-family: Verdana, Arial, sans-serif;
+            color: #333;
+            font-size: 18px;
+        }
+        &_count {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        &_pct {
+            margin-left: 10px;
+        }
+        &_hide {
+            &-seen {
+                margin-top: 10px;
+                margin-bottom: 5px;
+                font-size: 13px;
+                line-height: 1.15;
+                input {
+                    margin-right: 5px;
+                }
+            }
+        }
+    } 
+    &__quicklinks {
+        padding-bottom: 20px;
+        padding-top: 16px;
+        position: relative;
+        border-top: solid 1px #ccc;  
+        h3 {
+            font-size: 18px;
+            color: #333;
+            margin: 0 0 16px;
+            font-weight: normal;
+        }
+        &_wrapper {
+            margin-bottom: 5px;
+            padding-left: 0;
+            list-style-type: none;
+        }
+        &_item {
+            font-size: 13px;
+            padding: 1px 0 2px;
+            a {
+                color: #136CB2;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }   
+}
